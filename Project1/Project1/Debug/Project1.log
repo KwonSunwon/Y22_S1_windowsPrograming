@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\Administrator\Desktop\Project1\Project1\main.cpp(4,13): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
+C:\Users\Administrator\Desktop\Project1\Project1\main.cpp(6,7): warning C4101: 'order' :참조되지 않은 지역 변수입니다.
+  Project1.vcxproj -> C:\Users\Administrator\Desktop\Project1\Debug\Project1.exe
