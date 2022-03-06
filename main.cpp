@@ -26,9 +26,62 @@ int main()
         {
         case 'a':
         {
+            for (int i = 0; i < 20 - 1; ++i) // int arr[5][5]; 에서 arr[1][0] == arr[0][5]
+            {
+                for (int j = 0; j < (20 - 1 - i); ++j)
+                {
+                    if (matrix[0][j] > matrix[0][j + 1])
+                    {
+                        int temp = matrix[0][j];
+                        matrix[0][j] = matrix[0][j + 1];
+                        matrix[0][j + 1] = temp;
+                    }
+                }
+            }
+            showMatrix(matrix);
+            break;
         }
         case 'd':
         {
+            int tempArr[20];
+
+            int k = 0;
+
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 5; ++j)
+                {
+                    tempArr[k] = matrix[i][j];
+                    ++k;
+                }
+            }
+
+            for (int i = 0; i < 19; ++i)
+            {
+                for (int j = 0; j < 19 - i; ++j)
+                {
+                    if (tempArr[j] > tempArr[j + 1])
+                    {
+                        int temp = tempArr[j];
+                        tempArr[j] = tempArr[j + 1];
+                        tempArr[j + 1] = temp;
+                    }
+                }
+            }
+
+            k = 0;
+
+            for (int i = 0; i < 5; ++i)
+            {
+                for (int j = 3; j > -1; --j)
+                {
+                    matrix[j][i] = tempArr[k];
+                    k++;
+                }
+            }
+
+            showMatrix(matrix);
+            break;
         }
         case 'e':
         {
