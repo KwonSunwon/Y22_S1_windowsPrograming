@@ -14,27 +14,30 @@ typedef struct _STONE
 } STONE;
 
 void stoneInit(STONE *, STONE *);
-void drawField(STONE *, STONE *);
+void drawField(STONE *, STONE *, bool);
 void moveUp(STONE *);
 void moveDown(STONE *);
 void moveLeft(STONE *);
 void moveRight(STONE *);
 void changeState(STONE *);
+bool crashCheck(STONE *, STONE *);
 
 int main()
 {
     STONE player1;
     STONE player2;
-    STONE *turnPlayer = nullptr;
-    STONE *otherPlayer = nullptr;
+    STONE* turnPlayer = nullptr;
+    STONE* otherPlayer = nullptr;
+    bool isCrash = false;
 
     stoneInit(&player1, &player2);
-    drawField(&player1, &player2);
-
-    char order = 0;
 
     turnPlayer = &player1;
     otherPlayer = &player2;
+
+    drawField(turnPlayer, otherPlayer, isCrash);
+
+    char order = 0;
 
     while (order != 'q')
     {
@@ -46,171 +49,274 @@ int main()
             stoneInit(&player1, &player2);
             turnPlayer = &player1;
             otherPlayer = &player2;
-            drawField(&player1, &player2);
+            drawField(turnPlayer, otherPlayer, isCrash);
+            bool crashCheck = false;
             break;
         }
         case 'w':
         {
-            moveUp(turnPlayer);
-            drawField(&player1, &player2);
+            if (turnPlayer == &player1)
+            {
+                moveUp(turnPlayer);
+                isCrash = crashCheck(turnPlayer, otherPlayer);
+                drawField(turnPlayer, otherPlayer, isCrash);
+                turnPlayer = &player2;
+                otherPlayer = &player1;
+            }
+            else {
+                std::cout << "잘못된 플레이어 입니다.";
+            }
             break;
         }
         case 'a':
         {
-            moveLeft(turnPlayer);
-            drawField(&player1, &player2);
+            if (turnPlayer == &player1)
+            {
+                moveLeft(turnPlayer);
+                isCrash = crashCheck(turnPlayer, otherPlayer);
+                drawField(turnPlayer, otherPlayer, isCrash);
+                turnPlayer = &player2;
+                otherPlayer = &player1;
+            }
+            else {
+                std::cout << "잘못된 플레이어 입니다.";
+            }
             break;
         }
         case 's':
         {
-            moveDown(turnPlayer);
-            drawField(&player1, &player2);
+            if (turnPlayer == &player1)
+            {
+                moveDown(turnPlayer);
+                isCrash = crashCheck(turnPlayer, otherPlayer);
+                drawField(turnPlayer, otherPlayer, isCrash);
+                turnPlayer = &player2;
+                otherPlayer = &player1;
+            }
+            else {
+                std::cout << "잘못된 플레이어 입니다.";
+            }
             break;
         }
         case 'd':
         {
-            moveRight(turnPlayer);
-            drawField(&player1, &player2);
+            if (turnPlayer == &player1)
+            {
+                moveRight(turnPlayer);
+                isCrash = crashCheck(turnPlayer, otherPlayer);
+                drawField(turnPlayer, otherPlayer, isCrash);
+                turnPlayer = &player2;
+                otherPlayer = &player1;
+            }
+            else {
+                std::cout << "잘못된 플레이어 입니다.";
+            }
             break;
         }
         case 'i':
         {
-            moveUp(turnPlayer);
-            drawField(&player1, &player2);
+            if (turnPlayer == &player2)
+            {
+                moveUp(turnPlayer);
+                isCrash = crashCheck(turnPlayer, otherPlayer);
+                drawField(turnPlayer, otherPlayer, isCrash);
+                turnPlayer = &player1;
+                otherPlayer = &player2;
+            }
+            else {
+                std::cout << "잘못된 플레이어 입니다.";
+            }
             break;
         }
         case 'j':
         {
-            moveLeft(turnPlayer);
-            drawField(&player1, &player2);
+            if (turnPlayer == &player2)
+            {
+                moveLeft(turnPlayer);
+                isCrash = crashCheck(turnPlayer, otherPlayer);
+                drawField(turnPlayer, otherPlayer, isCrash);
+                turnPlayer = &player1;
+                otherPlayer = &player2;
+            }
+            else {
+                std::cout << "잘못된 플레이어 입니다.";
+            }
             break;
         }
         case 'k':
         {
-            moveDown(turnPlayer);
-            drawField(&player1, &player2);
+            if (turnPlayer == &player2)
+            {
+                moveDown(turnPlayer);
+                isCrash = crashCheck(turnPlayer, otherPlayer);
+                drawField(turnPlayer, otherPlayer, isCrash);
+                turnPlayer = &player1;
+                otherPlayer = &player2;
+            }
+            else {
+                std::cout << "잘못된 플레이어 입니다.";
+            }
             break;
         }
         case 'l':
         {
-            moveRight(turnPlayer);
-            drawField(&player1, &player2);
+            if (turnPlayer == &player2)
+            {
+                moveRight(turnPlayer);
+                isCrash = crashCheck(turnPlayer, otherPlayer);
+                drawField(turnPlayer, otherPlayer, isCrash);
+                turnPlayer = &player1;
+                otherPlayer = &player2;
+            }
+            else {
+                std::cout << "잘못된 플레이어 입니다.";
+            }
             break;
         }
         }
-        if (turnPlayer == &player1)
-            turnPlayer = &player2;
-        else
-            turnPlayer = &player1;
     }
 }
 
-void stoneInit(STONE *player1, STONE *player2)
-{
-    player1->state = 'o';
-    player2->state = 'x';
-
-    int randRow1, randRow2, randCol1, randCol2;
-    randRow1 = loc(gen);
-    randRow2 = loc(gen);
-    while (randRow1 == randRow2)
+    void stoneInit(STONE * player1, STONE * player2)
     {
+        player1->state = 'o';
+        player2->state = 'x';
+
+        int randRow1, randRow2, randCol1, randCol2;
         randRow1 = loc(gen);
-    }
-
-    randCol1 = loc(gen);
-    randCol2 = loc(gen);
-
-    player1->row = randRow1;
-    player1->column = randCol1;
-
-    player2->row = randRow2;
-    player2->column = randCol2;
-}
-
-void drawField(STONE *player1, STONE *player2)
-{
-    system("cls");
-    for (int i = 0; i < 10; ++i)
-    {
-        std::cout << "_____________________\n";
-        for (int j = 0; j < 10; ++j)
+        randRow2 = loc(gen);
+        while (randRow1 == randRow2)
         {
-            std::cout << "|";
-            if (player1->row == i && player1->column == j)
-            {
-                std::cout << player1->state;
-            }
-            if (player2->row == i && player2->column == j)
-            {
-                std::cout << player2->state;
-            }
-            std::cout << " ";
+            randRow1 = loc(gen);
         }
-        std::cout << "|\n";
-    }
-    std::cout << "_____________________\n";
-}
 
-void moveUp(STONE *stone)
-{
-    stone->row -= 1;
-    if (stone->row < 0)
-    {
-        stone->row = 9;
-        changeState(stone);
-    }
-}
+        randCol1 = loc(gen);
+        randCol2 = loc(gen);
 
-void moveDown(STONE *stone)
-{
-    stone->row += 1;
-    if (stone->row > 9)
-    {
-        stone->row = 0;
-        changeState(stone);
-    }
-}
+        player1->row = randRow1;
+        player1->column = randCol1;
 
-void moveLeft(STONE *stone)
-{
-    stone->column -= 1;
-    if (stone->column < 0)
-    {
-        stone->column = 9;
-        changeState(stone);
+        player2->row = randRow2;
+        player2->column = randCol2;
     }
-}
 
-void moveRight(STONE *stone)
-{
-    stone->column += 1;
-    if (stone->column > 9)
+    void drawField(STONE * turnPlayer, STONE * otherPlayer, bool isCrash)
     {
-        stone->column = 0;
-        changeState(stone);
+        system("cls");
+        if (isCrash == false)
+        {
+            for (int i = 0; i < 10; ++i)
+            {
+                std::cout << "_______________________________\n";
+                for (int j = 0; j < 10; ++j)
+                {
+                    std::cout << "|";
+                    if (turnPlayer->row == i && turnPlayer->column == j)
+                    {
+                        std::cout << turnPlayer->state;
+                    }
+                    else
+                        std::cout << " ";
+                    if (otherPlayer->row == i && otherPlayer->column == j)
+                    {
+                        std::cout << otherPlayer->state;
+                    }
+                    else
+                        std::cout << " ";
+                }
+                std::cout << "|\n";
+            }
+            std::cout << "_______________________________\n";
+        }
+        else
+        {
+            Beep(1000, 50);
+            for (int i = 0; i < 10; ++i)
+            {
+                std::cout << "_______________________________\n";
+                for (int j = 0; j < 10; ++j)
+                {
+                    std::cout << "| ";
+                    if (turnPlayer->row == i && turnPlayer->column == j)
+                    {
+                        std::cout << turnPlayer->state;
+                    }
+                    else
+                        std::cout << " ";
+                }
+                std::cout << "|\n";
+            }
+            std::cout << "_______________________________\n";
+        }
     }
-}
 
-void changeState(STONE *stone)
-{
-    int randState = sta(gen);
-    switch (randState)
+    void moveUp(STONE * stone)
     {
-    case 0:
-        stone->state = 'o';
-        break;
-    case 1:
-        stone->state = 'x';
-        break;
-    case 2:
-        stone->state = '#';
-        break;
-    case 3:
-        stone->state = '@';
-        break;
-    case 4:
-        stone->state = '*';
-        break;
+        stone->row -= 1;
+        if (stone->row < 0)
+        {
+            stone->row = 9;
+            changeState(stone);
+        }
     }
-}
+
+    void moveDown(STONE * stone)
+    {
+        stone->row += 1;
+        if (stone->row > 9)
+        {
+            stone->row = 0;
+            changeState(stone);
+        }
+    }
+
+    void moveLeft(STONE * stone)
+    {
+        stone->column -= 1;
+        if (stone->column < 0)
+        {
+            stone->column = 9;
+            changeState(stone);
+        }
+    }
+
+    void moveRight(STONE * stone)
+    {
+        stone->column += 1;
+        if (stone->column > 9)
+        {
+            stone->column = 0;
+            changeState(stone);
+        }
+    }
+
+    void changeState(STONE * stone)
+    {
+        int randState = sta(gen);
+        switch (randState)
+        {
+        case 0:
+            stone->state = 'o';
+            break;
+        case 1:
+            stone->state = 'x';
+            break;
+        case 2:
+            stone->state = '#';
+            break;
+        case 3:
+            stone->state = '@';
+            break;
+        case 4:
+            stone->state = '*';
+            break;
+        }
+    }
+
+    bool crashCheck(STONE * player1, STONE * player2)
+    {
+        if (player1->row == player2->row && player1->column == player2->column)
+            return true;
+        else
+            return false;
+    }
