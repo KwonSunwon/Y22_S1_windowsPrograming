@@ -1,9 +1,11 @@
 #include <iostream>
-#include <stack>
+
+using namespace std;
 
 int main(void)
 {
-    char input[9];
+    int num[5];
+    char oper[4];
 
-    scanf("%s", input);
+    scanf("%d%c%d%c%d%c%d%c%d", &num[0], &oper[0], &num[1], &oper[1], &num[2], &oper[2], &num[3], &oper[3], &num[4], &oper[4], &num[5]);
 }
