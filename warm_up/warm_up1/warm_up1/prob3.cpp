@@ -2,6 +2,8 @@
 #include <windows.h>
 #include <random>
 
+using namespace std;
+
 std::random_device re;
 std::mt19937 gen(re());
 std::uniform_int_distribution<int> loc(0, 9);
@@ -13,21 +15,21 @@ typedef struct _STONE
     char state;
 } STONE;
 
-void stoneInit(STONE*, STONE*);
-void drawField(STONE*, STONE*, bool);
-void moveUp(STONE*);
-void moveDown(STONE*);
-void moveLeft(STONE*);
-void moveRight(STONE*);
-void changeState(STONE*);
-bool crashCheck(STONE*, STONE*);
+void stoneInit(STONE *, STONE *);
+void drawField(STONE *, STONE *, bool);
+void moveUp(STONE *);
+void moveDown(STONE *);
+void moveLeft(STONE *);
+void moveRight(STONE *);
+void changeState(STONE *);
+bool crashCheck(STONE *, STONE *);
 
 int main()
 {
     STONE player1;
     STONE player2;
-    STONE* turnPlayer = nullptr;
-    STONE* otherPlayer = nullptr;
+    STONE *turnPlayer = nullptr;
+    STONE *otherPlayer = nullptr;
     bool isCrash = false;
 
     stoneInit(&player1, &player2);
@@ -63,8 +65,9 @@ int main()
                 turnPlayer = &player2;
                 otherPlayer = &player1;
             }
-            else {
-                std::cout << "Àß¸øµÈ ÇÃ·¹ÀÌ¾î ÀÔ´Ï´Ù.";
+            else
+            {
+                cout << "ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô´Ï´ï¿½.";
             }
             break;
         }
@@ -78,8 +81,9 @@ int main()
                 turnPlayer = &player2;
                 otherPlayer = &player1;
             }
-            else {
-                std::cout << "Àß¸øµÈ ÇÃ·¹ÀÌ¾î ÀÔ´Ï´Ù.";
+            else
+            {
+                cout << "ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô´Ï´ï¿½.";
             }
             break;
         }
@@ -93,8 +97,9 @@ int main()
                 turnPlayer = &player2;
                 otherPlayer = &player1;
             }
-            else {
-                std::cout << "Àß¸øµÈ ÇÃ·¹ÀÌ¾î ÀÔ´Ï´Ù.";
+            else
+            {
+                cout << "ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô´Ï´ï¿½.";
             }
             break;
         }
@@ -108,8 +113,9 @@ int main()
                 turnPlayer = &player2;
                 otherPlayer = &player1;
             }
-            else {
-                std::cout << "Àß¸øµÈ ÇÃ·¹ÀÌ¾î ÀÔ´Ï´Ù.";
+            else
+            {
+                cout << "ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô´Ï´ï¿½.";
             }
             break;
         }
@@ -123,8 +129,9 @@ int main()
                 turnPlayer = &player1;
                 otherPlayer = &player2;
             }
-            else {
-                std::cout << "Àß¸øµÈ ÇÃ·¹ÀÌ¾î ÀÔ´Ï´Ù.";
+            else
+            {
+                cout << "ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô´Ï´ï¿½.";
             }
             break;
         }
@@ -138,8 +145,9 @@ int main()
                 turnPlayer = &player1;
                 otherPlayer = &player2;
             }
-            else {
-                std::cout << "Àß¸øµÈ ÇÃ·¹ÀÌ¾î ÀÔ´Ï´Ù.";
+            else
+            {
+                cout << "ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô´Ï´ï¿½.";
             }
             break;
         }
@@ -153,8 +161,9 @@ int main()
                 turnPlayer = &player1;
                 otherPlayer = &player2;
             }
-            else {
-                std::cout << "Àß¸øµÈ ÇÃ·¹ÀÌ¾î ÀÔ´Ï´Ù.";
+            else
+            {
+                cout << "ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô´Ï´ï¿½.";
             }
             break;
         }
@@ -168,8 +177,9 @@ int main()
                 turnPlayer = &player1;
                 otherPlayer = &player2;
             }
-            else {
-                std::cout << "Àß¸øµÈ ÇÃ·¹ÀÌ¾î ÀÔ´Ï´Ù.";
+            else
+            {
+                cout << "ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ô´Ï´ï¿½.";
             }
             break;
         }
@@ -177,7 +187,7 @@ int main()
     }
 }
 
-void stoneInit(STONE* player1, STONE* player2)
+void stoneInit(STONE *player1, STONE *player2)
 {
     player1->state = 'o';
     player2->state = 'x';
@@ -200,57 +210,57 @@ void stoneInit(STONE* player1, STONE* player2)
     player2->column = randCol2;
 }
 
-void drawField(STONE* turnPlayer, STONE* otherPlayer, bool isCrash)
+void drawField(STONE *turnPlayer, STONE *otherPlayer, bool isCrash)
 {
     system("cls");
     if (isCrash == false)
     {
         for (int i = 0; i < 10; ++i)
         {
-            std::cout << "_______________________________\n";
+            cout << "_______________________________\n";
             for (int j = 0; j < 10; ++j)
             {
-                std::cout << "|";
+                cout << "|";
                 if (turnPlayer->row == i && turnPlayer->column == j)
                 {
-                    std::cout << turnPlayer->state;
+                    cout << turnPlayer->state;
                 }
                 else
-                    std::cout << " ";
+                    cout << " ";
                 if (otherPlayer->row == i && otherPlayer->column == j)
                 {
-                    std::cout << otherPlayer->state;
+                    cout << otherPlayer->state;
                 }
                 else
-                    std::cout << " ";
+                    cout << " ";
             }
-            std::cout << "|\n";
+            cout << "|\n";
         }
-        std::cout << "_______________________________\n";
+        cout << "_______________________________\n";
     }
     else
     {
         Beep(1000, 50);
         for (int i = 0; i < 10; ++i)
         {
-            std::cout << "_______________________________\n";
+            cout << "_______________________________\n";
             for (int j = 0; j < 10; ++j)
             {
-                std::cout << "| ";
+                cout << "| ";
                 if (turnPlayer->row == i && turnPlayer->column == j)
                 {
-                    std::cout << turnPlayer->state;
+                    cout << turnPlayer->state;
                 }
                 else
-                    std::cout << " ";
+                    cout << " ";
             }
-            std::cout << "|\n";
+            cout << "|\n";
         }
-        std::cout << "_______________________________\n";
+        cout << "_______________________________\n";
     }
 }
 
-void moveUp(STONE* stone)
+void moveUp(STONE *stone)
 {
     stone->row -= 1;
     if (stone->row < 0)
@@ -260,7 +270,7 @@ void moveUp(STONE* stone)
     }
 }
 
-void moveDown(STONE* stone)
+void moveDown(STONE *stone)
 {
     stone->row += 1;
     if (stone->row > 9)
@@ -270,7 +280,7 @@ void moveDown(STONE* stone)
     }
 }
 
-void moveLeft(STONE* stone)
+void moveLeft(STONE *stone)
 {
     stone->column -= 1;
     if (stone->column < 0)
@@ -280,7 +290,7 @@ void moveLeft(STONE* stone)
     }
 }
 
-void moveRight(STONE* stone)
+void moveRight(STONE *stone)
 {
     stone->column += 1;
     if (stone->column > 9)
@@ -290,7 +300,7 @@ void moveRight(STONE* stone)
     }
 }
 
-void changeState(STONE* stone)
+void changeState(STONE *stone)
 {
     int randState = sta(gen);
     switch (randState)
@@ -313,7 +323,7 @@ void changeState(STONE* stone)
     }
 }
 
-bool crashCheck(STONE* player1, STONE* player2)
+bool crashCheck(STONE *player1, STONE *player2)
 {
     if (player1->row == player2->row && player1->column == player2->column)
         return true;

@@ -1,5 +1,7 @@
 #include <iostream>
 
+using namespace std;
+
 const int monthDays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 const char *week[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Friday", "Saturday"};
 
@@ -53,9 +55,21 @@ void dateOfWeek(int year, int month, int day)
 
     dayNumber += day;
 
-    std::cout << week[dayNumber % 7];
+    cout << week[dayNumber % 7];
 }
 
 void showCalendar(int year, int month)
 {
+    int preYear = year - 1;
+    int dayNumber = preYear * 365 + (preYear / 4 - preYear / 100 + preYear / 400);
+
+    for (int i = 0; i < month - 1; ++i)
+    {
+        dayNumber += monthDays[i];
+    }
+
+    if (month > 2 && (year % 4 == 0 && year % 100 != 0 || year % 400 == 0))
+        ++dayNumber;
+
+    cout << year << "-" << month << "\n";
 }

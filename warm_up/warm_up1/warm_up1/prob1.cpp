@@ -1,18 +1,20 @@
 #include <iostream>
 
+using namespace std;
+
 int main()
 {
     char input[60];
     char order = 0;
 
-    std::cout << "Input sentenc : ";
+    cout << "Input sentenc : ";
     gets_s(input, sizeof(input));
 
     bool fFuncToggle = false;
 
     while (order != 'q')
     {
-        std::cin >> order;
+        cin >> order;
         switch (order)
         {
         case 'e':
@@ -50,7 +52,7 @@ int main()
                 }
                 ++i;
             }
-            std::cout << input << "\n";
+            cout << input << "\n";
             break;
         }
         case 'f':
@@ -78,7 +80,7 @@ int main()
                     ++i;
                 }
             }
-            std::cout << input << "\n";
+            cout << input << "\n";
             fFuncToggle = !fFuncToggle;
             break;
         }
@@ -95,7 +97,7 @@ int main()
                 }
                 ++i;
             }
-            std::cout << "Result : " << wordsNumber << " words\n";
+            cout << "Result : " << wordsNumber << " words\n";
             break;
         }
         case 'c':
@@ -113,7 +115,7 @@ int main()
                 }
                 ++i;
             }
-            std::cout << input << "\n";
+            cout << input << "\n";
             break;
         }
         case 'a':
@@ -126,7 +128,7 @@ int main()
                 ++i;
             }
             input[i] = temp;
-            std::cout << input << "\n";
+            cout << input << "\n";
             break;
         }
         }

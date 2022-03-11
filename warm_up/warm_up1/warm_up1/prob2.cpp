@@ -1,10 +1,12 @@
 #include <iostream>
 #include <random>
 
+using namespace std;
+
 std::random_device re;
 std::mt19937 gen(re());
 std::uniform_int_distribution<int> uid(1, 20);
-std::uniform_int_distribution<int> shuffle(0, 19);
+std::uniform_int_distribution<int> shuf(0, 19);
 
 void makeRandomMatrix(int random[4][5]);
 void showMatrix(int random[4][5]);
@@ -26,7 +28,7 @@ int main()
         {
         case 'a':
         {
-            for (int i = 0; i < 20 - 1; ++i) // int arr[5][5]; ¿¡¼­ arr[1][0] == arr[0][5]
+            for (int i = 0; i < 20 - 1; ++i) // int arr[5][5]; ï¿½ï¿½ï¿½ï¿½ arr[1][0] == arr[0][5]
             {
                 for (int j = 0; j < (20 - 1 - i); ++j)
                 {
@@ -174,8 +176,8 @@ int main()
 
             for (int i = 0; i < 50; ++i)
             {
-                int ranNum = shuffle(gen);
-                int ranNum2 = shuffle(gen);
+                int ranNum = shuf(gen);
+                int ranNum2 = shuf(gen);
 
                 int temp = numberShuffler[ranNum];
                 numberShuffler[ranNum] = numberShuffler[ranNum2];
@@ -280,7 +282,7 @@ void showMatrix(int random[4][5])
     for (int i = 0; i < 4; ++i)
     {
         for (int j = 0; j < 5; ++j)
-            std::cout << random[i][j] << "\t";
-        std::cout << "\n";
+            cout << random[i][j] << "\t";
+        cout << "\n";
     }
 }
