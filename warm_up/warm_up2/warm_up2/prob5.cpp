@@ -62,6 +62,8 @@ int main(void)
     }
 
     cout << input << " = " << num.top();
+
+    return 0;
 }
 
 float calculate(stack<float> *num, stack<OPER> *oper)
