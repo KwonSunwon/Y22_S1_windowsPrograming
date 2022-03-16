@@ -19,11 +19,11 @@ int main()
         {
         case 'e':
         {
-            bool checkE = false;
             int i = 0;
 
             while (input[i] != '.')
             {
+                bool checkE = false;
                 int letterCounter = 0;
                 if (input[i] == ' ')
                 {
@@ -34,10 +34,12 @@ int main()
                             checkE = true;
                         ++i;
                         ++letterCounter;
+                        if (input[i+1] == '.')
+                            break;
                     }
                     if (checkE == true)
                     {
-                        for (letterCounter; letterCounter < 0; --letterCounter)
+                        for (letterCounter; letterCounter > 0; --letterCounter)
                         {
                             if (input[i - letterCounter] >= 65 && input[i - letterCounter] <= 90)
                             {
@@ -50,7 +52,8 @@ int main()
                         }
                     }
                 }
-                ++i;
+                if(checkE == false)
+                    ++i;
             }
             cout << input << "\n";
             break;

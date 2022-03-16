@@ -67,7 +67,7 @@ int main()
             }
             else
             {
-                cout << "�߸��� �÷��̾� �Դϴ�.";
+                cout << "Wrong player.";
             }
             break;
         }
@@ -83,7 +83,7 @@ int main()
             }
             else
             {
-                cout << "�߸��� �÷��̾� �Դϴ�.";
+                cout << "Wrong player.";
             }
             break;
         }
@@ -99,7 +99,7 @@ int main()
             }
             else
             {
-                cout << "�߸��� �÷��̾� �Դϴ�.";
+                cout << "Wrong player.";
             }
             break;
         }
@@ -115,7 +115,7 @@ int main()
             }
             else
             {
-                cout << "�߸��� �÷��̾� �Դϴ�.";
+                cout << "Wrong player.";
             }
             break;
         }
@@ -131,7 +131,7 @@ int main()
             }
             else
             {
-                cout << "�߸��� �÷��̾� �Դϴ�.";
+                cout << "Wrong player.";
             }
             break;
         }
@@ -147,7 +147,7 @@ int main()
             }
             else
             {
-                cout << "�߸��� �÷��̾� �Դϴ�.";
+                cout << "Wrong player.";
             }
             break;
         }
@@ -163,7 +163,7 @@ int main()
             }
             else
             {
-                cout << "�߸��� �÷��̾� �Դϴ�.";
+                cout << "Wrong player.";
             }
             break;
         }
@@ -179,7 +179,7 @@ int main()
             }
             else
             {
-                cout << "�߸��� �÷��̾� �Դϴ�.";
+                cout << "Wrong player.";
             }
             break;
         }
@@ -325,8 +325,10 @@ void changeState(STONE *stone)
 
 bool crashCheck(STONE *player1, STONE *player2)
 {
-    if (player1->row == player2->row && player1->column == player2->column)
+    if (player1->row == player2->row && player1->column == player2->column) {
+        changeState(player2);
         return true;
+    }
     else
         return false;
 }
