@@ -5,7 +5,7 @@ using namespace std;
 
 std::random_device re;
 std::mt19937 gen(re());
-std::uniform_int_distribution<int> uid(1, 20);
+std::uniform_int_distribution<int> uid(1, 50);
 std::uniform_int_distribution<int> shuf(0, 19);
 
 void makeRandomMatrix(int random[4][5]);
@@ -28,7 +28,7 @@ int main()
         {
         case 'a':
         {
-            for (int i = 0; i < 20 - 1; ++i) // int arr[5][5]; ���� arr[1][0] == arr[0][5]
+            for (int i = 0; i < 20 - 1; ++i)
             {
                 for (int j = 0; j < (20 - 1 - i); ++j)
                 {
