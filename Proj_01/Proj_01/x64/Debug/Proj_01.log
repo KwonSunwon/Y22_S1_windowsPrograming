@@ -1,3 +1,8 @@
 ﻿  lab1_1.cpp
 C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Proj_01\Proj_01\lab1_1.cpp(40,16): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Proj_01\Proj_01\lab1_1.cpp(53,53): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Proj_01\Proj_01\lab1_1.cpp(54,57): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Proj_01\Proj_01\lab1_1.cpp(55,53): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Proj_01\Proj_01\lab1_1.cpp(56,61): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Proj_01\Proj_01\lab1_1.cpp(57,65): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Proj_01.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Proj_01\x64\Debug\Proj_01.exe

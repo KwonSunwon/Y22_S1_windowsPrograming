@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	WndClass.hInstance = hInstance;
 	WndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	WndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	WndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	WndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	WndClass.lpszMenuName = NULL;
 	WndClass.lpszClassName = lpszClass;
 	WndClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
@@ -43,16 +43,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
-	HDC hDC;
-	TCHAR temp[] = TEXT("Hello world");
-	int x = 0, y = 0;
+	HDC hDC;	//Device Context : 무언가를 출력하기 위해선 항상 필요
 
 	switch (iMessage)
 	{
+	case WM_CREATE: break;		//윈도우가 생성될 때 사용, 초기화 작업은 여기에서 해주는게 좋음
 	case WM_PAINT:
-		hDC = BeginPaint(hWnd, &ps);
-		TextOut(hDC, x, y, temp, lstrlen(temp));
-		EndPaint(hWnd, &ps);
+		hDC = BeginPaint(hWnd, &ps);	//DC의 호출 후에는 항상 해제해줘야함
+		TextOut(hDC, 0, 0, L"Left-top", strlen("Left_top"));
+		TextOut(hDC, 700, 0, L"Right-top", strlen("Right-top"));
+		TextOut(hDC, 350, 300, L"Center", strlen("Center"));
+		TextOut(hDC, 0, 520, L"Left-bottom", strlen("Left-bottom"));
+		TextOut(hDC, 700, 520, L"Right-bottom", strlen("Right-bottom"));
+		EndPaint(hWnd, &ps);			//DC 해제
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
