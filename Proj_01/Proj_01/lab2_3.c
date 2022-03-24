@@ -29,10 +29,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	WndClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 	RegisterClassEx(&WndClass);
 
+
+	hWnd = CreateWindow(
+		lpszClass,
+		lpszWindowName,
+		WS_OVERLAPPEDWINDOW | WS_VSCROLL,  // style
+		200,                               // x
+		200,                               // y
+		550,                               // width
+		300,                               // height
+		NULL,
+		NULL,
+		hInstance,
+		NULL
+	);
+
 	hWnd = CreateWindow(lpszClass, lpszWindowName, WS_OVERLAPPEDWINDOW, 0, 0, 800, 600,
 		NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
+
+	
 
 	while (GetMessage(&Message, 0, 0, 0)) {
 		TranslateMessage(&Message);
