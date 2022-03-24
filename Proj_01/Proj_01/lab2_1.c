@@ -53,8 +53,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		TextOut(hDC, 0, 0, L"Left-top", strlen("Left_top"));
 		TextOut(hDC, 700, 0, L"Right-top", strlen("Right-top"));
 		TextOut(hDC, 350, 300, L"Center", strlen("Center"));
-		TextOut(hDC, 0, 520, L"Left-bottom", strlen("Left-bottom"));
-		TextOut(hDC, 700, 520, L"Right-bottom", strlen("Right-bottom"));
+		TextOut(hDC, 0, 540, L"Left-bottom", strlen("Left-bottom"));
+		TextOut(hDC, 700, 540, L"Right-bottom", strlen("Right-bottom"));
 		EndPaint(hWnd, &ps);			//DC «ÿ¡¶
 		break;
 	case WM_DESTROY:
