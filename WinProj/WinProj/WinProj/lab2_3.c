@@ -49,17 +49,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
     static TCHAR str[80];
 
-    int x = rand(time) % 700;
-    int y = rand(time) % 500;
-    int n = rand(time) % 9;
-    int randCount = rand(time) % 80 + 20;
+    srand(time(NULL));
 
-    int colorCode1 = rand(time) % 255;
-    int colorCode2 = rand(time) & 255;
-    int colorCode3 = rand(time) & 255;
+    int x = rand() % 700;
+    int y = rand() % 500;
+    int n = rand() % 9;
+    int randCount = rand() % 80 + 20;
+
+    int colorCode1 = rand() % 255;
+    int colorCode2 = rand() % 255;
+    int colorCode3 = rand() % 255;
 
     for (int i = 0; i < randCount; ++i)
-        str[0] = n;
+        str[i] = n + 48;
+
+    RECT rect = {x, y, x + randCount, y + randCount * 2};
 
     switch (iMessage)
     {
@@ -67,6 +71,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         break;
     case WM_PAINT:
         hDC = BeginPaint(hWnd, &ps);
+
+        SetBkColor(hDC, RGB(colorCode1, colorCode2, colorCode3));
+        SetTextColor(hDC, RGB(colorCode3, colorCode1, colorCode2));
+        DrawText(hDC, str, _tcslen(str), &rect, DT_WORDBREAK | DT_EDITCONTROL);
 
         EndPaint(hWnd, &ps);
         break;
