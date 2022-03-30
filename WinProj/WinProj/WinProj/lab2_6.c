@@ -1,7 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+//#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 // debuging console
+
+// 배경 색 채우기
 
 #include <Windows.h>
 #include <tchar.h>
@@ -64,9 +66,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     static int row, col, x, y;
     static int colorCode[3];
 
-    static RECT rect[50];
+    static RECT* rect;
+    //static RECT rect[50];
 
-    // static TCHAR *str = L"1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n14\r\n15\r\n16\r\n17\r\n18\r\n19\r\n20";
+    static TCHAR *str = L"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ";
 
     // static TCHAR *strTest = L"This is passible?\r\nEnter";
 
@@ -75,22 +78,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     case WM_CREATE:
         srand(time(NULL));
         row = rand() % 4 + 2;
-        col = rand() % 4 + 2;
+        col = rand() % 4 + 3;
         // row = 5;
         // col = 5;
 
         x = 800 / col;
         y = 600 / row;
 
-        // rect = (RECT *)malloc(row * col); -이유는 파악하지 못 했는데 동적할당을 하면 출력할 때 이상한 값이 들어감
+        rect = (RECT *)malloc(sizeof(RECT) * row * col); // -이유는 파악하지 못 했는데 동적할당을 하면 출력할 때 이상한 값이 들어감
         //  + 동적할당 해제할 위치를 잘 모르겠음(아마 윈도우가 죽을 때나 출력이 끝나고 나면 free해주면 될거 같은데 계속 오류 발생함)
+        // 선언 개수 입력 받는 부분에서 sizeof(RECT) 를 안해줌...
 
         int idx = 0;
         for (int i = 0; i < col; ++i)
             for (int j = 0; j < row; ++j)
             {
                 rect[idx].left = x * i;
-                rect[idx].right = x * (i + 1);
+                rect[idx].right = x * (i + 1) - 5;
                 rect[idx].top = y * j;
                 rect[idx].bottom = y * (j + 1);
                 // printf("입력 rect[%d] (%d, %d, %d, %d)\n", idx, rect[idx].left, rect[idx].right, rect[idx].top, rect[idx].bottom);
@@ -132,17 +136,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             }
             for (int i = 0; i < 3; ++i)
                 colorCode[i] = rand() % 255;
+            SetBkColor(hDC, RGB(colorCode[2], colorCode[1], colorCode[0]));
+            DrawText(hDC, str, lstrlen(str), &rect[i], DT_WORDBREAK | DT_EDITCONTROL);
+            for (int i = 0; i < 3; ++i)
+                colorCode[i] = rand() % 255;
             SetBkColor(hDC, RGB(colorCode[0], colorCode[1], colorCode[2]));
-            SetTextColor(hDC, RGB(colorCode[1], colorCode[2], colorCode[1]));
+            SetTextColor(hDC, RGB(colorCode[0], colorCode[1], colorCode[2]));
             // SetTextColor(hDC, RGB(colorCode[0], colorCode[1], colorCode[2]));
             DrawText(hDC, drawStr, lstrlen(drawStr), &rect[i], DT_CENTER);
-            // printf("출력 rect[%d] (%d, %d, %d, %d)\n", i, rect[i].left, rect[i].right, rect[i].top, rect[i].bottom);
+            printf("출력 rect[%d] (%d, %d, %d, %d)\n", i, rect[i].left, rect[i].right, rect[i].top, rect[i].bottom);
         }
 
         EndPaint(hWnd, &ps);
         break;
 
     case WM_DESTROY:
+        free(rect);
         HideCaret(hWnd);
         DestroyCaret();
         PostQuitMessage(0);

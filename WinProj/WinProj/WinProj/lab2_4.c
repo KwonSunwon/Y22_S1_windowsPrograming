@@ -55,7 +55,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
     static TCHAR mul[50];
     static TCHAR mulOut[1000];
-    static RECT rect;
+    // static RECT rect;
 
     static int x, y, n = -1;
     static int spaceCnt, cnt = 0;
@@ -101,10 +101,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
             mulOut[0] = '\0';
 
-            rect.left = x;
-            rect.top = y;
-            rect.right = x + 270;
-            rect.bottom = y + 500;
+            // rect.left = x;
+            // rect.top = y;
+            // rect.right = x + 270;
+            // rect.bottom = y + 500;
         }
         else
         {
@@ -127,7 +127,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 wsprintf(mul, L"%d*%d = %d ", n, i + 1, n * (i + 1));
                 _tcscat(mulOut, mul);
             }
-            DrawText(hDC, mulOut, lstrlen(mulOut), &rect, DT_WORDBREAK | DT_EDITCONTROL);
+
+            int line = lstrlen(mulOut) / 40;
+            int lastLetter = lstrlen(mulOut) % 40;
+
+            for (int i = 0; i < line; ++i)
+                TextOut(hDC, x, y + 15 * i, &mulOut[40 * i], 40);
+            TextOut(hDC, x, y + 15 * line, &mulOut[40 * line], lastLetter);
+
+            // DrawText(hDC, mulOut, lstrlen(mulOut), &rect, DT_WORDBREAK | DT_EDITCONTROL);
             spaceCnt = 0;
         }
 

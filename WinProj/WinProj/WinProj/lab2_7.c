@@ -226,15 +226,44 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             }
             else if (wParam == VK_TAB)
             {
-                for (int i = 0; i < 4; ++i)
-                {
-                    if (count != MAX_COUNT_NUMBER)
-                        str[line][count++] = ' ';
-                    else
+                if (insertToggle == 0)
+                    for (int i = 0; i < 4; ++i)
                     {
-                        str[line++][count] = '\0';
-                        count = 0;
-                        break;
+                        if (count != MAX_COUNT_NUMBER)
+                            str[line][count++] = ' ';
+                        else
+                        {
+                            str[line++][count] = '\0';
+                            count = 0;
+                            break;
+                        }
+                    }
+                else 
+                {
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        int lineIdx = 0;
+                        int lastIdx = lstrlen(str[line]);
+                        while (str[line + lineIdx][lastIdx] != '\0')
+                        {
+                            if (lastIdx == (MAX_COUNT_NUMBER - 1))
+                            {
+                                ++lineIdx;
+                                ++lastIdx;
+                            }
+                            ++lastIdx;
+                        }
+                        for (int i = lastIdx; i > count + 1; --i)
+                        {
+                            str[line + lineIdx][i] = str[line + lineIdx][i - 1];
+                        }
+                        if (count != MAX_COUNT_NUMBER)
+                            str[line][count++] = ' ';
+                        if (count == MAX_COUNT_NUMBER - 1)
+                        {
+                            count = 0;
+                            ++line;
+                        }
                     }
                 }
             }
@@ -255,6 +284,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                             str[line][count++] = wParam;
                         break;
                     }
+
                     if (count == MAX_COUNT_NUMBER - 1)
                     {
                         count = 0;
