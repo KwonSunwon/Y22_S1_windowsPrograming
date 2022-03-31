@@ -85,9 +85,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         x = 800 / col;
         y = 600 / row;
 
+<<<<<<< Updated upstream
         rect = (RECT *)malloc(sizeof(RECT) * row * col); // -이유는 파악하지 못 했는데 동적할당을 하면 출력할 때 이상한 값이 들어감
         //  + 동적할당 해제할 위치를 잘 모르겠음(아마 윈도우가 죽을 때나 출력이 끝나고 나면 free해주면 될거 같은데 계속 오류 발생함)
         // 선언 개수 입력 받는 부분에서 sizeof(RECT) 를 안해줌...
+=======
+        // rect = (RECT *)malloc(sizeof(RECT) * row * col); -이유는 파악하지 못 했는데 동적할당을 하면 출력할 때 이상한 값이 들어감
+        //  + 동적할당 해제할 위치를 잘 모르겠음(아마 윈도우가 죽을 때나 출력이 끝나고 나면 free해주면 될거 같은데 계속 오류 발생함)
+        // + 동적할당 크기에 sizeof(RECT), 즉 구조체의 크기를 전달 안해줌;;
+>>>>>>> Stashed changes
 
         int idx = 0;
         for (int i = 0; i < col; ++i)
