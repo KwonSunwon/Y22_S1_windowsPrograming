@@ -1,0 +1,5 @@
+﻿  main.c
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(42,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(80,19): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(185,37): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
+  Prob07.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\x64\Debug\Prob07.exe
