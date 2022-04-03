@@ -1,5 +1,6 @@
 {
   "files.associations": {
     "*.rh": "c"
-  }
+  },
+  "todo-tree.tree.showBadges": true
 }

@@ -1,0 +1,11 @@
+﻿  main.c
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(46,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(100,19): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(132,20): warning C4244: '=': 'WPARAM'에서 'TCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(226,48): warning C4047: '함수': 'HBRUSH'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(226,37): warning C4024: 'FillRect': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(227,36): warning C4047: '함수': 'const POINT *'의 간접 참조 수준이 'POINT (*)[4]'과(와) 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(227,23): warning C4024: 'Polyline': 형식 및 실제 매개 변수 2의 형식이 서로 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(231,37): warning C4047: '함수': 'const POINT *'의 간접 참조 수준이 'POINT (*)[2]'과(와) 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob12\main.c(231,26): warning C4024: 'Polygon': 형식 및 실제 매개 변수 2의 형식이 서로 다릅니다.
+  Prob12.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\x64\Debug\Prob12.exe
