@@ -141,6 +141,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             }
         }
 
+        if (noCorrect == 0)
+            --gameLife;
+
         // 게임 승패 확인
         int check = 1;
         for (int i = 0; i < wordLength; ++i)
@@ -148,8 +151,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 check = 0;
         if (check)
             gameWin = 1;
-        else
-            --gameLife;
+        
 
         InvalidateRect(hWnd, NULL, TRUE);
 
