@@ -1,6 +1,8 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: 중간 디렉터리(x64\Debug\)에 다른 프로젝트(Prob07.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
   main.c
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(42,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(80,19): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(184,37): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
-  Prob07.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\x64\Debug\Prob08.exe
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(42,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(80,19): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_02\Prob07\main.c(184,37): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(700,5): warning MSB8015: 모든 소스 파일이 최신 상태가 아닙니다. 'C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_02\Prob07\x64\Debug\Prob08.tlog\CL.command.1.tlog'의 콘텐츠가 잘못되어 모든 소스를 강제로 다시 빌드합니다.
+LINK : warning LNK4076: 'x64\Debug\Prob08.ilk' 증분 상태 파일이 잘못되었습니다(삭제됨). 비증분 링크합니다.
+  Prob07.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_02\x64\Debug\Prob08.exe

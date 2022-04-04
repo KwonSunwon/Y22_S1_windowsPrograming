@@ -1,14 +1,1 @@
-﻿  main.c
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob10\main.c(55,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob10\main.c(228,40): warning C4244: '=': 'WPARAM'에서 'TCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob10\main.c(278,75): warning C4047: '함수': 'UINT'의 간접 참조 수준이 'void *'과(와) 다릅니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob10\main.c(278,71): warning C4024: 'DrawTextW': 형식 및 실제 매개 변수 5의 형식이 서로 다릅니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob10\main.c(282,73): warning C4047: '함수': 'UINT'의 간접 참조 수준이 'void *'과(와) 다릅니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob10\main.c(282,69): warning C4024: 'DrawTextW': 형식 및 실제 매개 변수 5의 형식이 서로 다릅니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob10\main.c(287,71): warning C4047: '함수': 'UINT'의 간접 참조 수준이 'void *'과(와) 다릅니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\Prob10\main.c(287,67): warning C4024: 'DrawTextW': 형식 및 실제 매개 변수 5의 형식이 서로 다릅니다.
-  코드를 생성하고 있습니다.
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 5 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  코드를 생성했습니다.
-  Prob10.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_02\x64\Debug\Prob10.exe
+﻿  Prob10.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_02\x64\Debug\Prob10.exe

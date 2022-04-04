@@ -93,6 +93,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         {625, 100},
     };
 
+    static RECT table = {50, 350, 90, 410};
+    static TCHAR alphabat[26] = {L"abcdefghijklmnopqrstuvwxyz"};
+    static int usedAlphabat[26] = {0};
+
     switch (iMessage)
     {
     case WM_CREATE:
@@ -141,6 +145,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             }
         }
 
+        for (int i = 0; i < 26; ++i)
+            if (wParam == alphabat[i])
+                usedAlphabat[i] = 1;
+
         if (noCorrect == 0)
             --gameLife;
 
@@ -151,7 +159,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 check = 0;
         if (check)
             gameWin = 1;
-        
 
         InvalidateRect(hWnd, NULL, TRUE);
 
@@ -168,14 +175,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         oldPen = SelectObject(hdc, hPen);
         if (noCorrect == 0)
         {
-            printf("회색 배경\n");
+            // printf("회색 배경\n");
             hBrush = CreateSolidBrush(0xd3d3d3);
             oldBrush = SelectObject(hdc, hBrush);
             SetBkColor(hdc, 0xd3d3d3);
         }
         else
         {
-            printf("흰색 배경\n");
+            // printf("흰색 배경\n");
             hBrush = CreateSolidBrush(0xffffff);
             oldBrush = SelectObject(hdc, hBrush);
         }
@@ -196,7 +203,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         {
             if (correct[i] == 1)
             {
-                printf("글자 입력\n");
+                // printf("글자 입력\n");
                 TextOut(hdc, answerBox.left + 10, answerBox.top + 11, answer + i, 1);
                 // DrawText(hdc, &answerBox, answer + i, 1, DT_CENTER);
             }
@@ -222,7 +229,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         }
         POINT temp[2] = {{100, 330}, {330, 330}};
         Polygon(hdc, temp, 2);
-        SelectObject(hdc, oldFont);
 
         // 행맨 그림
         FillRect(hdc, &hangmanBase, BLACK_BRUSH);
@@ -232,6 +238,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         {
             Polygon(hdc, &hangman[i], 2);
         }
+
+        // 아래 알파벳 표
+        int cnt = 0;
+        for (int i = 0; i < 3; ++i)
+            for (int j = 0; j < 9; ++j)
+            {
+                if (i == 2 && j == 8)
+                    break;
+                else
+                {
+                    hPen = CreatePen(PS_SOLID, 1, BLACK_PEN);
+                    oldPen = SelectObject(hdc, hPen);
+                    if (usedAlphabat[cnt] == 1)
+                    {
+                        // printf("회색 배경\n");
+                        hBrush = CreateSolidBrush(0xd3d3d3);
+                        oldBrush = SelectObject(hdc, hBrush);
+                        SetBkColor(hdc, 0xd3d3d3);
+                        SetTextColor(hdc, 0x888888);
+                    }
+                    Rectangle(hdc, table.left + 40 * j, table.top + 60 * i, table.right + 40 * j, table.bottom + 60 * i);
+                    TextOut(hdc, table.left + (j * 40) + 12, table.top + (i * 60) + 12, alphabat + cnt++, 1);
+                    SetTextColor(hdc, 0x000000);
+                    SetBkColor(hdc, 0xffffff);
+                    SelectObject(hdc, oldBrush);
+                    SelectObject(hdc, oldPen);
+                }
+            }
+        SelectObject(hdc, oldFont);
 
         DeleteObject(hPen);
         DeleteObject(hBrush);
