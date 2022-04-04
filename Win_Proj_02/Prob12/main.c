@@ -94,8 +94,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     };
 
     static RECT table = {50, 350, 90, 410};
-    static TCHAR alphabat[26] = {L"abcdefghijklmnopqrstuvwxyz"};
-    static int usedAlphabat[26] = {0};
+    static TCHAR alphabet[26] = {L"abcdefghijklmnopqrstuvwxyz"};
+    static int usedAlphabet[26] = {0};
 
     switch (iMessage)
     {
@@ -146,8 +146,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         }
 
         for (int i = 0; i < 26; ++i)
-            if (wParam == alphabat[i])
-                usedAlphabat[i] = 1;
+            if (wParam == alphabet[i])
+                usedAlphabet[i] = 1;
 
         if (noCorrect == 0)
             --gameLife;
@@ -250,7 +250,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 {
                     hPen = CreatePen(PS_SOLID, 1, BLACK_PEN);
                     oldPen = SelectObject(hdc, hPen);
-                    if (usedAlphabat[cnt] == 1)
+                    if (usedAlphabet[cnt] == 1)
                     {
                         // printf("회색 배경\n");
                         hBrush = CreateSolidBrush(0xd3d3d3);
@@ -259,7 +259,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                         SetTextColor(hdc, 0x888888);
                     }
                     Rectangle(hdc, table.left + 40 * j, table.top + 60 * i, table.right + 40 * j, table.bottom + 60 * i);
-                    TextOut(hdc, table.left + (j * 40) + 12, table.top + (i * 60) + 12, alphabat + cnt++, 1);
+                    TextOut(hdc, table.left + (j * 40) + 12, table.top + (i * 60) + 12, alphabet + cnt++, 1);
                     SetTextColor(hdc, 0x000000);
                     SetBkColor(hdc, 0xffffff);
                     SelectObject(hdc, oldBrush);
