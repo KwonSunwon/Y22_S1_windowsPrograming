@@ -1,12 +1,24 @@
-﻿  prob1.c
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(82,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(142,23): warning C4013: 'time'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(90,20): warning C4101: 'oldBrush' :참조되지 않은 지역 변수입니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(90,12): warning C4101: 'hBrush' :참조되지 않은 지역 변수입니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(223,31): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(226,33): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(227,31): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(228,43): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(229,42): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(222,45): warning C4244: '초기화 중': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Prob1.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\x64\Debug\Prob1.exe
+﻿  prob01.c
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(110,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(138,19): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(139,29): warning C4020: 'listInit': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(140,29): warning C4020: 'listInit': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(328,31): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(331,33): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(332,31): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(333,43): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(334,42): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(327,45): warning C4244: '초기화 중': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(357,1): warning C4029: 선언된 정식 매개 변수 목록이 정의와 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(389,28): warning C4133: '함수': 'LIST *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(390,34): warning C4133: '함수': 'NODE *'과(와) 'LIST *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(390,47): warning C4133: '함수': 'NODE *'과(와) 'LIST *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(396,47): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(412,35): warning C4133: '함수': 'NODE *'과(와) 'LIST *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(412,48): warning C4133: '함수': 'NODE *'과(와) 'LIST *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(418,55): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(435,27): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(571,27): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(571,39): warning C4028: 정식 매개 변수 2이(가) 선언과 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob1\prob01.c(601,43): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
+  Prob1.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\x64\Debug\Prob1.exe

@@ -39,7 +39,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 void drawGrid(HDC, RECT, int);
 void drawCircle(HDC, Circle);
-void moveTailCircle(Circle *, int); // 따라가는 원이 불려서 앞의 원의 prevLocation 을 받아옴, moveType에 따라 이동함
+void moveTailCircle(Circle *, int, RECT); // 따라가는 원이 불려서 앞의 원의 prevLocation 을 받아옴, moveType에 따라 이동함
 void intersectCircle(Circle *, Circle *, int, int);
 
 void moveHeadCircle(Circle *);
@@ -109,7 +109,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             GRID_LOCATION,
             GRID_LOCATION + (GRID_SIZE / SQUARE_COUNT),
             GRID_LOCATION + (GRID_SIZE / SQUARE_COUNT)};
-        RECT rcHead2 = {0, 0, 0, 0};
+        RECT rcHeadPrev = {0, 0, 0, 0};
         headCircle.followFlag = FALSE;
         headCircle.followCircleIdx = -1;
         headCircle.moveType = -1;
@@ -130,12 +130,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         {
         case 1:
             moveHeadCircle(&headCircle);
+            printf("head : %d, %d, %d, %d\n", headCircle.location.left, headCircle.location.top, headCircle.location.right, headCircle.location.bottom);
             for (int i = 0; i < countTailCircle; ++i)
             {
-                intersectCircle(&headCircle, &arrTailCircle[i], 0, i);
+                intersectCircle(&headCircle, &arrTailCircle[i], -1, i);
             }
             for (int i = 0; i < countTailCircle; ++i)
-                moveTailCircle(&arrTailCircle[i], arrTailCircle->followCircleIdx);
+                moveTailCircle(arrTailCircle, i, headCircle.prevLocation);
             InvalidateRect(hWnd, NULL, TRUE);
             break;
         case 2:
@@ -246,76 +247,88 @@ void drawCircle(HDC hdc, Circle circle)
     SelectObject(hdc, oldBrush);
 }
 
-void moveTailCircle(Circle *circle, int followIdx)
+void moveTailCircle(Circle *circle, int idx, RECT head)
 {
-    if (circle->followFlag)
+    if (circle[idx].followFlag)
     {
-        circle->prevLocation = circle->location;
-        circle->location = circle[followIdx].prevLocation;
+        circle[idx].prevLocation = circle[idx].location;
+        if (circle[idx].followCircleIdx == -1)
+        {
+            circle[idx].location = head;
+        }
+        if (idx > circle[idx].followCircleIdx)
+        {
+            circle[idx].location = circle[circle[idx].followCircleIdx].prevLocation;
+        }
+        else if (idx < circle[idx].followCircleIdx)
+        {
+            circle[idx].location = circle[circle[idx].followCircleIdx].location;
+        }
+        printf("tail : %d, %d, %d, %d\n", circle[idx].location.left, circle[idx].location.top, circle[idx].location.right, circle[idx].location.bottom);
     }
     else
     {
-        switch (circle->moveType)
+        switch (circle[idx].moveType)
         {
         case 0:
-            switch (circle->direction)
+            switch (circle[idx].direction)
             {
             case LEFT:
-                moveLeft(circle);
+                moveLeft(&circle[idx]);
                 break;
             case TOP:
-                moveTop(circle);
+                moveTop(&circle[idx]);
                 break;
             case RIGHT:
-                moveRight(circle);
+                moveRight(&circle[idx]);
                 break;
             case BOTTOM:
-                moveBottom(circle);
+                moveBottom(&circle[idx]);
                 break;
             }
             break;
         case 1:
-            if (circle->squareMove == 0)
+            if (circle[idx].squareMove == 0)
             {
-                switch (circle->direction)
+                switch (circle[idx].direction)
                 {
                 case LEFT:
-                    circle->direction = TOP;
-                    moveTop(circle);
+                    circle[idx].direction = TOP;
+                    moveTop(&circle[idx]);
                     break;
                 case TOP:
-                    circle->direction = RIGHT;
-                    moveRight(circle);
+                    circle[idx].direction = RIGHT;
+                    moveRight(&circle[idx]);
                     break;
                 case RIGHT:
-                    circle->direction = BOTTOM;
-                    moveBottom(circle);
+                    circle[idx].direction = BOTTOM;
+                    moveBottom(&circle[idx]);
                     break;
                 case BOTTOM:
-                    circle->direction = LEFT;
-                    moveLeft(circle);
+                    circle[idx].direction = LEFT;
+                    moveLeft(&circle[idx]);
                     break;
                 }
-                circle->squareMove = 5;
+                circle[idx].squareMove = 5;
             }
             else
             {
-                switch (circle->direction)
+                switch (circle[idx].direction)
                 {
                 case LEFT:
-                    moveLeft(circle);
+                    moveLeft(&circle[idx]);
                     break;
                 case TOP:
-                    moveTop(circle);
+                    moveTop(&circle[idx]);
                     break;
                 case RIGHT:
-                    moveRight(circle);
+                    moveRight(&circle[idx]);
                     break;
                 case BOTTOM:
-                    moveBottom(circle);
+                    moveBottom(&circle[idx]);
                     break;
                 }
-                --circle->squareMove;
+                --circle[idx].squareMove;
             }
             break;
         }
