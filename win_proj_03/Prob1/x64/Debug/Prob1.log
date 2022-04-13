@@ -1,11 +1,12 @@
 ﻿  prob1.c
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(81,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(89,20): warning C4101: 'oldBrush' :참조되지 않은 지역 변수입니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(89,12): warning C4101: 'hBrush' :참조되지 않은 지역 변수입니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(176,31): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(179,33): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(180,31): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(181,43): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(182,42): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(175,45): warning C4244: '초기화 중': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Prob1.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\win_proj_03\x64\Debug\Prob1.exe
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(82,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(142,23): warning C4013: 'time'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(90,20): warning C4101: 'oldBrush' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(90,12): warning C4101: 'hBrush' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(223,31): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(226,33): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(227,31): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(228,43): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(229,42): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob1\prob1.c(222,45): warning C4244: '초기화 중': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Prob1.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\x64\Debug\Prob1.exe

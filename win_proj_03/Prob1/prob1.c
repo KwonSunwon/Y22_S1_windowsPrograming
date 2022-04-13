@@ -24,9 +24,10 @@ typedef struct _Circle
 
     RECT location;
     RECT prevLocation;
-    int moveType; // 0 이면 headCircle
+    int moveType; // -1 이면 headCircle
 
     int direction;
+    int squareMove;
     BOOL rowOrCol;
 } Circle;
 
@@ -39,7 +40,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 void drawGrid(HDC, RECT, int);
 void drawCircle(HDC, Circle);
 void moveTailCircle(Circle *, int); // 따라가는 원이 불려서 앞의 원의 prevLocation 을 받아옴, moveType에 따라 이동함
-void intersectCircle(Circle *, Circle *);
+void intersectCircle(Circle *, Circle *, int, int);
 
 void moveHeadCircle(Circle *);
 
@@ -103,39 +104,83 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     switch (iMessage)
     {
     case WM_CREATE:
-        RECT temp = {100, 100, 120, 120};
-        arrTailCircle[0].prevLocation = temp;
-        arrTailCircle[0].nextCircleIdx = 50;
-
-        arrTailCircle[40].followFlag = TRUE;
-        arrTailCircle[40].followCircleIdx = 0;
-        RECT temp2 = {200, 200, 220, 220};
-        arrTailCircle[40].location = temp2;
-
-        RECT rcTemp = {
+        RECT rcHead = {
             GRID_LOCATION,
             GRID_LOCATION,
             GRID_LOCATION + (GRID_SIZE / SQUARE_COUNT),
             GRID_LOCATION + (GRID_SIZE / SQUARE_COUNT)};
-        RECT rcTemp2 = {0, 0, 0, 0};
+        RECT rcHead2 = {0, 0, 0, 0};
         headCircle.followFlag = FALSE;
         headCircle.followCircleIdx = -1;
         headCircle.moveType = -1;
         headCircle.nextCircleIdx = -1;
-        headCircle.rowOrCol = FALSE;
+        headCircle.rowOrCol = TRUE;
         headCircle.direction = RIGHT | BOTTOM;
-        headCircle.location = rcTemp;
-        headCircle.prevLocation = rcTemp2;
+        headCircle.location = rcHead;
+        headCircle.prevLocation = rcHead2;
 
         SetTimer(hWnd, 1, 100, NULL);
-
-        printf("%d, %d\n", headCircle.direction, RIGHT | BOTTOM);
+        SetTimer(hWnd, 2, 1000, NULL);
+        // printf("%d, %d\n", headCircle.direction, RIGHT | BOTTOM);
 
         break;
 
     case WM_TIMER:
-        moveHeadCircle(&headCircle);
-        InvalidateRect(hWnd, NULL, TRUE);
+        switch (wParam)
+        {
+        case 1:
+            moveHeadCircle(&headCircle);
+            for (int i = 0; i < countTailCircle; ++i)
+            {
+                intersectCircle(&headCircle, &arrTailCircle[i], 0, i);
+            }
+            for (int i = 0; i < countTailCircle; ++i)
+                moveTailCircle(&arrTailCircle[i], arrTailCircle->followCircleIdx);
+            InvalidateRect(hWnd, NULL, TRUE);
+            break;
+        case 2:
+            srand(time(NULL));
+            BOOL intersect = FALSE;
+            do
+            {
+                arrTailCircle[countTailCircle].location.left = grid.left + (SQUARE_SIZE * (rand() % SQUARE_COUNT));
+                arrTailCircle[countTailCircle].location.top = grid.top + (SQUARE_SIZE * (rand() % SQUARE_COUNT));
+                arrTailCircle[countTailCircle].location.right = arrTailCircle[countTailCircle].location.left + SQUARE_SIZE;
+                arrTailCircle[countTailCircle].location.bottom = arrTailCircle[countTailCircle].location.top + SQUARE_SIZE;
+                if (countTailCircle > 0)
+                {
+                    RECT rcTemp;
+                    for (int i = 0; i < countTailCircle; ++i)
+                        if (IntersectRect(&rcTemp, &arrTailCircle[countTailCircle].location, &arrTailCircle[i].location) != 0)
+                        {
+                            // printf("겹침\n");
+                            intersect = TRUE;
+                        }
+                }
+            } while (intersect);
+            arrTailCircle[countTailCircle].followFlag = FALSE;
+            arrTailCircle[countTailCircle].followCircleIdx = -1;
+            arrTailCircle[countTailCircle].nextCircleIdx = -1;
+            arrTailCircle[countTailCircle].moveType = rand() % 2;
+            switch (rand() % 4)
+            {
+            case 0:
+                arrTailCircle[countTailCircle].direction = LEFT;
+                break;
+            case 1:
+                arrTailCircle[countTailCircle].direction = TOP;
+                break;
+            case 2:
+                arrTailCircle[countTailCircle].direction = RIGHT;
+                break;
+            case 3:
+                arrTailCircle[countTailCircle].direction = BOTTOM;
+                break;
+            }
+            arrTailCircle[countTailCircle].squareMove = 5;
+            ++countTailCircle;
+            break;
+        }
         break;
 
     case WM_KEYDOWN:
@@ -156,8 +201,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         // arrTailCircle[40].location = arrTailCircle[arrTailCircle->followCircleIdx].prevLocation;
         // printf("%d\n", arrTailCircle[40].location.left);
 
-        moveTailCircle(arrTailCircle, 40);
-        // printf("%d\n", arrTailCircle[40].location.left);
+        for (int i = 0; i < countTailCircle; ++i)
+        {
+            drawCircle(hdc, arrTailCircle[i]);
+        }
 
         EndPaint(hWnd, &ps);
         break;
@@ -199,19 +246,18 @@ void drawCircle(HDC hdc, Circle circle)
     SelectObject(hdc, oldBrush);
 }
 
-void moveTailCircle(Circle *circle, int idx)
+void moveTailCircle(Circle *circle, int followIdx)
 {
-    if (circle[idx].followFlag)
+    if (circle->followFlag)
     {
-        // printf("%d\n", circle[idx].location.left);
-        circle[idx].location = circle[circle[idx].followCircleIdx].prevLocation;
-        // printf("%d\n", circle[idx].location.left);
+        circle->prevLocation = circle->location;
+        circle->location = circle[followIdx].prevLocation;
     }
     else
     {
         switch (circle->moveType)
         {
-        case 1:
+        case 0:
             switch (circle->direction)
             {
             case LEFT:
@@ -228,9 +274,49 @@ void moveTailCircle(Circle *circle, int idx)
                 break;
             }
             break;
-        case 2:
-            break;
-        case 3: // 제자리 그대로
+        case 1:
+            if (circle->squareMove == 0)
+            {
+                switch (circle->direction)
+                {
+                case LEFT:
+                    circle->direction = TOP;
+                    moveTop(circle);
+                    break;
+                case TOP:
+                    circle->direction = RIGHT;
+                    moveRight(circle);
+                    break;
+                case RIGHT:
+                    circle->direction = BOTTOM;
+                    moveBottom(circle);
+                    break;
+                case BOTTOM:
+                    circle->direction = LEFT;
+                    moveLeft(circle);
+                    break;
+                }
+                circle->squareMove = 5;
+            }
+            else
+            {
+                switch (circle->direction)
+                {
+                case LEFT:
+                    moveLeft(circle);
+                    break;
+                case TOP:
+                    moveTop(circle);
+                    break;
+                case RIGHT:
+                    moveRight(circle);
+                    break;
+                case BOTTOM:
+                    moveBottom(circle);
+                    break;
+                }
+                --circle->squareMove;
+            }
             break;
         }
     }
@@ -297,7 +383,7 @@ void moveHeadCircle(Circle *circle)
         }
     }
 
-    printf("%d,%d,%d,%d\n", circle->location.left, circle->location.top, circle->location.right, circle->location.bottom);
+    // printf("%d,%d,%d,%d\n", circle->location.left, circle->location.top, circle->location.right, circle->location.bottom);
 }
 
 void moveLeft(Circle *circle)
@@ -329,7 +415,17 @@ void moveBottom(Circle *circle)
         OffsetRect(&circle->location, 0, SQUARE_SIZE);
 }
 
-void intersectCircle(Circle *, Circle *);
+void intersectCircle(Circle *circle, Circle *otherCircle, int idx, int otherIdx)
+{
+    RECT rcTemp;
+    if (IntersectRect(&rcTemp, &circle->location, &otherCircle->location) != 0)
+    {
+        otherCircle->followFlag = TRUE;
+        otherCircle->followCircleIdx = idx;
+
+        circle->nextCircleIdx = otherIdx;
+    }
+}
 
 // NOTE tailCircle
 // 따라가는 연산 -> 앞의 원이 있던 좌표를 그대로 물려받아서 출력
@@ -361,3 +457,9 @@ void intersectCircle(Circle *, Circle *);
 // 그리기를 굳이 불리하지 않고 이동과 동시에 레스터 연산 이용해서 바로 그려주기?
 // 아니면 그냥 이동을 전부 끝낸 다음에 한 번에 다시 그려주기?
 // -> 이건 근데 버퍼를 넣지 않는 이상 깜빡거리는건 그대로라서 그냥 아래로 구현하는게 편할듯?
+
+// NOTE move & intersect
+// 각 원들 이동을 해줄 때 followFlag가 true인 상태에서의 연산은
+// 만약 해당 원이 따라가는 원의 idx가 나중에 나오면 즉, idx < followIdx 면 followCircle의 location을 받아서 적용하고
+// 만약 해당 원이 따라가는 원의 idx가 앞에 나왔다면 즉, idx > followIdx 면 prevLocatoin을 적용
+// 이렇게 하면 꼬리원의 움직을에 대해 팔로우 idx에 따라 부를 필요없이 그냥 0 부터 count 까지 부르면됨
