@@ -49,20 +49,27 @@ typedef struct _LIST
     NODE *link;
 } LIST;
 
+typedef struct _OBJECT
+{
+    RECT location[50];
+    int count;
+} OBJECT;
+
 void drawGrid(HDC, RECT, int);
 void drawCircle(HDC, CIRCLE);
 
-void listInit(LIST *);
+void listInit(LIST *, BOOL);
 void addCircle(LIST *, CIRCLE);
 
 void freeList(LIST *);
 
-void moveList(LIST *, LIST *);
+void moveList(LIST *, LIST *, OBJECT *, LIST *);
+
 // circle move set
-void moveHeadCircle(CIRCLE *);
+void moveHeadCircle(LIST *);
 void moveTailCircle(CIRCLE *);
 void moveFollow(CIRCLE *, RECT);
-void intersectCheck(LIST *, LIST *);
+void intersectCheck(NODE *, NODE *);
 
 void intersectMove(NODE *, LIST *);
 
@@ -70,6 +77,9 @@ void moveLeft(CIRCLE *);
 void moveTop(CIRCLE *);
 void moveRight(CIRCLE *);
 void moveBottom(CIRCLE *);
+
+void drawObject(HDC, RECT);
+void intersectObject(CIRCLE *, OBJECT *, BOOL);
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -132,6 +142,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     static const int moveTailTime = 100;
     static const int createTime = 1000;
 
+    static int jumpState;
+    static int speedUpState;
+    static BOOL speedUpFlag;
+
+    static OBJECT object;
+
+    int mx, my;
+    int cx, cy;
+    int x, y;
+    NODE *pos;
+
     switch (iMessage)
     {
     case WM_CREATE:
@@ -160,25 +181,94 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         addCircle(&headList, head);
 
         SetTimer(hWnd, TIME_CREATE, createTime, NULL);
+        moveHeadTime = 100;
+
+        jumpState = 0;
+        speedUpFlag = FALSE;
+        speedUpState = -1;
 
         break;
 
     case WM_TIMER:
         switch (wParam)
         {
-        case 1: // all circle move
-            // printf("WM_TIMER case 1\n");
-            moveList(&headList, &tailList);
+        case TIME_HEAD_MOVE: // all circle move
+            if (!jumpState)
+                moveList(&headList, &tailList, &object, &headList);
+            else
+            {
+                headList.link->circle.prevLocation = headList.link->circle.location;
+                if (jumpState == 3)
+                {
+                    if (headList.link->circle.isMoveRow)
+                    {
+                        moveTop(&headList.link->circle);
+                    }
+                    else
+                    {
+                        moveRight(&headList.link->circle);
+                    }
+                }
+                else if (jumpState == 2)
+                {
+                    if (headList.link->circle.isMoveRow)
+                    {
+                        if ((headList.link->circle.direction & LEFT) == LEFT)
+                        {
+                            moveLeft(&headList.link->circle);
+                        }
+                        else
+                        {
+                            moveRight(&headList.link->circle);
+                        }
+                    }
+                    else
+                    {
+                        if ((headList.link->circle.direction & TOP) == TOP)
+                        {
+                            moveTop(&headList.link->circle);
+                        }
+                        else
+                        {
+                            moveBottom(&headList.link->circle);
+                        }
+                    }
+                }
+                else if (jumpState == 1)
+                {
+                    if (headList.link->circle.isMoveRow)
+                    {
+                        moveBottom(&headList.link->circle);
+                    }
+                    else
+                    {
+                        moveLeft(&headList.link->circle);
+                    }
+                }
+                intersectMove(headList.link, &tailList);
+                --jumpState;
+            }
+
+            if (speedUpFlag)
+            {
+                if (speedUpState == 0)
+                {
+                    KillTimer(hWnd, TIME_HEAD_MOVE);
+                    moveHeadTime += 50;
+                    SetTimer(hWnd, TIME_HEAD_MOVE, moveHeadTime, NULL);
+                    speedUpFlag = FALSE;
+                }
+                --speedUpState;
+            }
+
             break;
 
-        case 2:
-            moveList(&tailList, &tailList);
+        case TIME_TAIL_MOVE:
+            moveList(&tailList, &tailList, &object, &headList);
             break;
 
-        case 3: // add tail circle
-            // printf("WM_TIMER case 2\n");
-
-            printf("%d\n", id);
+        case TIME_CREATE: // add tail circle
+            // printf("%d\n", id);
             if (id >= 50)
                 break;
 
@@ -248,31 +338,71 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             break;
 
         case VK_ADD:
+            KillTimer(hWnd, TIME_HEAD_MOVE, moveHeadTime, NULL);
             moveHeadTime -= 10;
             SetTimer(hWnd, TIME_HEAD_MOVE, moveHeadTime, NULL);
             break;
         case VK_SUBTRACT:
+            KillTimer(hWnd, TIME_HEAD_MOVE, moveHeadTime, NULL);
             moveHeadTime += 10;
             SetTimer(hWnd, TIME_HEAD_MOVE, moveHeadTime, NULL);
             break;
 
         case 0x53: // S
-            moveHeadTime = 100;
             SetTimer(hWnd, TIME_HEAD_MOVE, moveHeadTime, NULL);
             SetTimer(hWnd, TIME_TAIL_MOVE, moveTailTime, NULL);
             break;
+
         case 0x4A: // J
+            jumpState = 3;
             break;
-        case 0x54: // T - // TODO make function T
+
+        case 0x54: // T
             KillTimer(hWnd, TIME_HEAD_MOVE);
-            moveTop(&headList.link->circle);
+            if (headList.link->circle.isMoveRow)
+            {
+                if ((headList.link->circle.direction & LEFT) == LEFT)
+                {
+                    moveBottom(&headList.link->circle);
+                    intersectMove(headList.link, &tailList);
+                    InvalidateRect(hWnd, NULL, TRUE);
+                    moveRight(&headList.link->circle);
+                    headList.link->circle.direction &= (TOP | BOTTOM);
+                    headList.link->circle.direction |= RIGHT;
+                }
+                else
+                {
+                    moveTop(&headList.link->circle);
+                    intersectMove(headList.link, &tailList);
+                    InvalidateRect(hWnd, NULL, TRUE);
+                    moveLeft(&headList.link->circle);
+                    headList.link->circle.direction &= (TOP | BOTTOM);
+                    headList.link->circle.direction |= LEFT;
+                }
+            }
+            else
+            {
+                if ((headList.link->circle.direction & TOP) == TOP)
+                {
+                    moveLeft(&headList.link->circle);
+                    intersectMove(headList.link, &tailList);
+                    InvalidateRect(hWnd, NULL, TRUE);
+                    moveBottom(&headList.link->circle);
+                    headList.link->circle.direction &= (LEFT | RIGHT);
+                    headList.link->circle.direction |= BOTTOM;
+                }
+                else
+                {
+                    moveRight(&headList.link->circle);
+                    intersectMove(headList.link, &tailList);
+                    InvalidateRect(hWnd, NULL, TRUE);
+                    moveTop(&headList.link->circle);
+                    headList.link->circle.direction &= (LEFT | RIGHT);
+                    headList.link->circle.direction |= TOP;
+                }
+            }
             intersectMove(headList.link, &tailList);
             InvalidateRect(hWnd, NULL, TRUE);
-            moveLeft(&headList.link->circle);
-            intersectMove(headList.link, &tailList);
-            InvalidateRect(hWnd, NULL, TRUE);
-            headList.link->circle.direction &= (TOP | BOTTOM);
-            headList.link->circle.direction |= LEFT;
             SetTimer(hWnd, TIME_HEAD_MOVE, moveHeadTime, NULL);
             break;
 
@@ -287,10 +417,126 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         }
         break;
 
+        // TODO make lclick
+        // NOTE lclick
+        // 머리원 선택 - 속도업 카운트 만들어서 5주고, 속도 올린다음 timer에서 하나씩 줄여서 0 되면 원래 속도로 복귀
+        // 빈공간 선택 - 좌표는 알았으니까 둘이 비교해서 짧은 쪽으로 방향 주고 먼 쪽은 벽 부딪일 때 회전 방향으로
+        // 꼬리원 선택 - 일단 선택된 원부터 전부 isFollowing false로 해주고
+        //              false 해줌과 동시에 following 주소를 NULL로 만들어줘야함
     case WM_LBUTTONDOWN:
+        mx = LOWORD(lParam);
+        my = HIWORD(lParam);
+
+        pos = headList.link;
+
+        POINT mouse = {mx, my};
+
+        BOOL flag = FALSE;
+
+        if (PtInRect(&headList.link->circle.location, mouse)) // 주인공 원
+        {
+            // printf("머리원 선택\n");
+            speedUpState = 5;
+            speedUpFlag = TRUE;
+            KillTimer(hWnd, TIME_HEAD_MOVE);
+            moveHeadTime -= 50;
+            SetTimer(hWnd, TIME_HEAD_MOVE, moveHeadTime, NULL);
+            flag = TRUE;
+        }
+        else if (pos->follower != NULL)
+        {
+            pos = pos->follower;
+            if (PtInRect(&pos->circle.location, mouse))
+            {
+                headList.link->follower = NULL;
+                if (pos->follower == NULL) // 꼬리원이 하나 밖에 없는 경우
+                {
+                    pos->circle.isFollowing = FALSE;
+                }
+                else
+                {
+                    while (pos->follower != NULL)
+                    {
+                        NODE *delFollow = pos->follower;
+                        pos->follower = delFollow->follower;
+                        delFollow->circle.isFollowing = FALSE;
+                        delFollow->follower = NULL;
+                    }
+                    pos->circle.isFollowing = FALSE;
+                }
+            }
+            else
+                while (pos->follower != NULL)
+                {
+                    if (PtInRect(&pos->follower->circle.location, mouse))
+                    {
+                        NODE *delFollow = pos->follower;
+                        pos->follower = NULL;
+                        pos = delFollow;
+                        while (pos->follower != NULL)
+                        {
+                            delFollow = pos->follower;
+                            pos->follower = delFollow->follower;
+                            delFollow->circle.isFollowing = FALSE;
+                            delFollow->follower = NULL;
+                        }
+                        pos->circle.isFollowing = FALSE;
+                        break;
+                    }
+                    pos = pos->follower;
+                }
+            flag = TRUE;
+        }
+        if (flag) // 빈공간
+        {
+            printf("빈공간 선택\n");
+            cx = headList.link->circle.location.left + 10;
+            cy = headList.link->circle.location.top + 10;
+
+            x = cx - mx;
+            y = cy - my;
+
+            // printf("x : %d, y : %d\n", x, y);
+
+            if (abs(x) < abs(y)) // x 축이 더 가까움 -> x 쪽으로 이동
+            {
+                headList.link->circle.isMoveRow = TRUE;
+                if (x > 0) // x 가 양수 -> 왼쪽으로 이동
+                {
+                    headList.link->circle.direction &= (TOP | BOTTOM);
+                    headList.link->circle.direction |= LEFT;
+                }
+                else
+                {
+                    headList.link->circle.direction &= (TOP | BOTTOM);
+                    headList.link->circle.direction |= RIGHT;
+                }
+            }
+            else // y 쪽으로 이동
+            {
+                headList.link->circle.isMoveRow = FALSE;
+                if (y > 0)
+                {
+                    headList.link->circle.direction &= (LEFT | RIGHT);
+                    headList.link->circle.direction |= TOP;
+                }
+                else
+                {
+                    headList.link->circle.direction &= (LEFT | RIGHT);
+                    headList.link->circle.direction |= BOTTOM;
+                }
+            }
+        }
         break;
 
     case WM_RBUTTONDOWN:
+        mx = (LOWORD(lParam) / 20) * 20;
+        my = (HIWORD(lParam) / 20) * 20;
+
+        RECT rcTemp = {mx, my, mx + 20, my + 20};
+        object.location[object.count++] = rcTemp;
+
+        InvalidateRect(hWnd, NULL, TRUE);
         break;
 
     case WM_PAINT:
@@ -299,11 +545,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         drawGrid(hdc, grid, SQUARE_COUNT);
 
         drawCircle(hdc, headList.link->circle);
-        NODE *pos = tailList.link;
+        pos = tailList.link;
         while (pos != NULL)
         {
             drawCircle(hdc, pos->circle);
             pos = pos->next;
+        }
+        for (int i = 0; i < object.count; ++i)
+        {
+            drawObject(hdc, object.location[i]);
         }
 
         EndPaint(hWnd, &ps);
@@ -326,7 +576,7 @@ void drawGrid(HDC hdc, RECT grid, int size)
     HPEN hPen = CreatePen(PS_SOLID, 1, BLACK_BRUSH);
     float square = (grid.right - grid.left) / size;
     FrameRect(hdc, &grid, hPen);
-    for (int i = 1; i < size + 0.5; ++i)
+    for (int i = 1; i < size; ++i)
     {
         MoveToEx(hdc, grid.left + square * i, grid.top, NULL);
         LineTo(hdc, grid.left + square * i, grid.bottom);
@@ -381,17 +631,18 @@ void addCircle(LIST *list, CIRCLE circle)
     }
 }
 
-void moveList(LIST *list, LIST *check)
+void moveList(LIST *list, LIST *check, OBJECT *object, LIST *head)
 {
     // printf("moveList\n");
     if (list->isHeadCircle)
     {
         moveHeadCircle(list);
+        intersectObject(&list->link->circle, object, list->isHeadCircle);
         intersectCheck(list->link, check->link);
         if (list->link->follower != NULL)
         {
             NODE *posFollow = list->link;
-            while (posFollow->follower != NULL)
+            while (posFollow->follower != NULL && posFollow->follower->circle.isFollowing)
             {
                 moveFollow(posFollow->follower, posFollow->circle.prevLocation);
                 posFollow = posFollow->follower;
@@ -409,8 +660,10 @@ void moveList(LIST *list, LIST *check)
             if (!pos->circle.isFollowing)
             {
                 moveTailCircle(&pos->circle);
+                intersectObject(&pos->circle, object, list->isHeadCircle);
                 intersectCheck(pos, check->link);
-                if (pos->follower != NULL)
+                intersectCheck(head->link, check->link);
+                if (pos->follower != NULL && pos->follower->circle.isFollowing)
                 {
                     NODE *posFollow = pos;
                     while (posFollow->follower != NULL)
@@ -642,4 +895,48 @@ void freeList(LIST *list)
         list->link = delNode->next;
         free(delNode);
     }
+}
+
+void drawObject(HDC hdc, RECT object)
+{
+    HBRUSH hBrush = CreateSolidBrush(RGB(200, 20, 20));
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+    Rectangle(hdc, object.left, object.top, object.right, object.bottom);
+    SelectObject(hdc, oldBrush);
+    DeleteObject(hBrush);
+}
+
+void intersectObject(CIRCLE *circle, OBJECT *object, BOOL isHead)
+{
+    RECT rcTemp;
+    for (int i = 0; i < object->count; ++i)
+        if (IntersectRect(&rcTemp, &circle->location, &object->location[i]))
+        {
+            circle->location = circle->prevLocation;
+            if (isHead)
+            {
+                if (circle->isMoveRow)
+                    circle->isMoveRow = FALSE;
+                else
+                    circle->isMoveRow = TRUE;
+            }
+            else
+            {
+                switch (circle->direction)
+                {
+                case LEFT:
+                    circle->direction = BOTTOM;
+                    break;
+                case TOP:
+                    circle->direction = LEFT;
+                    break;
+                case RIGHT:
+                    circle->direction = TOP;
+                    break;
+                case BOTTOM:
+                    circle->direction = RIGHT;
+                    break;
+                }
+            }
+        }
 }
