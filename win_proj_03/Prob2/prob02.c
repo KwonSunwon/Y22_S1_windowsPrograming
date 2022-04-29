@@ -8,6 +8,11 @@
 #define BALL_MOVE_TIME 1
 #define BRICK_MOVE_TIME 2
 
+#define LEFT_UP 0
+#define RIGHT_UP 1
+#define LEFT_DOWN 2
+#define RIGHT_DOWN 3
+
 typedef struct _BAR
 {
     BOOL selection;
@@ -19,6 +24,10 @@ typedef struct _BRICK
     RECT location;
     COLORREF color;
     BOOL isCrash;
+    BOOL isDelete;
+    int direction;
+    int right;
+    int left;
 } Brick;
 
 typedef struct _BALL
@@ -27,13 +36,24 @@ typedef struct _BALL
     int direction;
 } Ball;
 
+// 그리기 함수
 void drawBricks(HDC, Brick *);
-void drawBall(HDC hdc, Ball ball);
+void drawBall(HDC, Ball *);
+void drawBar(HDC, Bar *);
 
+void barInit(Bar *);
+void brickInit(Brick *);
+
+// 공을 시작지로 되돌려 놓음
+// 아래 쪽으로 빠졌을 때 복귀
 void ballInit(Ball *, Bar);
-void ballMove(Ball *);
-int ballCrashWall(Ball *ball);
-int ballCrashBrick(Ball *, Brick *);
+
+void ballMove(Ball *); // 공 이동
+void bricksMove(Brick *);
+
+int ballCrashWall(Ball *);           // 벽(화면)과 출동 확인, 아래쪽으로 떨어질 경우 TRUE return
+int ballCrashBrick(Ball *, Brick *); // 벽돌과 충돌 확인
+void ballCrashBar(Ball *, Bar *);
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -82,47 +102,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     HPEN hPen, oldPen;
     HBRUSH hBrush, oldBrush;
 
+    static RECT clientSize;
+    GetClientRect(hWnd, &clientSize);
+
     static Bar bar;
     static int ballMoveSpeed;
+    static int bricksMoveSpeed;
 
     static Brick bricks[30];
-
     static Ball ball;
+
+    static BOOL gamePause;
 
     int mx, my;
     POINT mouse;
 
-    BOOL gamePause;
-
     switch (iMessage)
     {
     case WM_CREATE:
-        RECT barLocation = {350, 500, 450, 520};
-        bar.location = barLocation;
-        bar.selection = FALSE;
 
-        int idx = 0;
-        for (int i = 0; i < 3; ++i)
-        {
-            for (int j = 0; j < 10; ++j)
-            {
-                bricks[idx].isCrash = FALSE;
-                bricks[idx].color = RGB(100, 100, 100);
-                bricks[idx].location.left = 80 + j * 60;
-                bricks[idx].location.top = 40 + i * 20;
-                bricks[idx].location.right = bricks[idx].location.left + 60;
-                bricks[idx].location.bottom = bricks[idx].location.top + 20;
-                ++idx;
-            }
-        }
-
+        barInit(&bar);
+        brickInit(bricks);
         ballInit(&ball, bar);
 
         gamePause = FALSE;
+        ballMoveSpeed = 20;
+        bricksMoveSpeed = 500;
 
-        ballMoveSpeed = 30;
-
-        SetTimer(hWnd, BRICK_MOVE_TIME, 1000, NULL);
         break;
 
     case WM_TIMER:
@@ -133,40 +139,81 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (ballCrashWall(&ball))
                 ballInit(&ball, bar);
             ballCrashBrick(&ball, bricks);
-            printf("%d\n", ball.direction);
-            InvalidateRect(hWnd, NULL, FALSE);
+            ballCrashBar(&ball, &bar);
+
+            // printf("현재 방향 %d\n", ball.direction);
+            break;
+
+        case BRICK_MOVE_TIME:
+            bricksMove(bricks);
             break;
         }
+        InvalidateRect(hWnd, NULL, FALSE);
         break;
 
     case WM_KEYDOWN:
         switch (wParam)
         {
-        case 0x53: // S
-            ballMoveSpeed = 30;
+        // S : 공 튀기기 시작
+        case 0x53:
+            ballMoveSpeed = 20;
             SetTimer(hWnd, BALL_MOVE_TIME, ballMoveSpeed, NULL);
+            SetTimer(hWnd, BRICK_MOVE_TIME, bricksMoveSpeed, NULL);
             break;
 
-        case 0x50: // P
+        //일시정지 시 화면에 색이 변한 벽돌 개수와 사라진 벽돌 개수 출력
+        // P : 일시정지/시작
+        case 0x50:
+            if (gamePause)
+            {
+                gamePause = FALSE;
+                SetTimer(hWnd, BALL_MOVE_TIME, ballMoveSpeed, NULL);
+                SetTimer(hWnd, BRICK_MOVE_TIME, bricksMoveSpeed, NULL);
+            }
+            else
+            {
+                gamePause = TRUE;
+                KillTimer(hWnd, BALL_MOVE_TIME);
+                KillTimer(hWnd, BRICK_MOVE_TIME);
+            }
             break;
 
+        // 공 속도 증가
         case VK_ADD:
+            if (ballMoveSpeed == 0)
+                break;
             KillTimer(hWnd, BALL_MOVE_TIME);
-            ballMoveSpeed -= 5;
+            ballMoveSpeed -= 2;
             SetTimer(hWnd, BALL_MOVE_TIME, ballMoveSpeed, NULL);
             break;
 
+        // 공 속도 감소
         case VK_SUBTRACT:
             KillTimer(hWnd, BALL_MOVE_TIME);
-            ballMoveSpeed += 5;
+            ballMoveSpeed += 2;
             SetTimer(hWnd, BALL_MOVE_TIME, ballMoveSpeed, NULL);
             break;
 
-        case 0x4E: // N
+        // N : 게임 리셋
+        case 0x4E:
+            KillTimer(hWnd, BALL_MOVE_TIME);
+            KillTimer(hWnd, BRICK_MOVE_TIME);
+
+            barInit(&bar);
+            brickInit(bricks);
+            ballInit(&ball, bar);
+
+            gamePause = FALSE;
+            ballMoveSpeed = 20;
+            SetTimer(hWnd, BRICK_MOVE_TIME, bricksMoveSpeed, NULL);
             break;
 
-        case 0x51: // Q
-            break;
+        // Q : 프로그램 종료
+        case 0x51:
+            KillTimer(hWnd, BALL_MOVE_TIME);
+            KillTimer(hWnd, BRICK_MOVE_TIME);
+            PostQuitMessage(0);
+            return 0;
         }
 
     case WM_LBUTTONDOWN:
@@ -181,41 +228,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             bar.selection = TRUE;
         }
         break;
-
     case WM_MOUSEMOVE:
-        if (bar.selection)
+        // bar 가 선택 된 상태, 게임이 정지되지 않은 상태
+        if (bar.selection && !gamePause)
         {
-            hdc = GetDC(hWnd);
-            SetROP2(hdc, R2_XORPEN);
-            SelectObject(hdc, (HPEN)GetStockObject(WHITE_PEN));
-            SelectObject(hdc, (HBRUSH)GetStockObject(WHITE_BRUSH));
-
             mx = LOWORD(lParam);
-
-            Rectangle(hdc, bar.location.left, bar.location.top, bar.location.right, bar.location.bottom);
 
             bar.location.left = mx - 50;
             bar.location.right = mx + 50;
 
-            Rectangle(hdc, bar.location.left, bar.location.top, bar.location.right, bar.location.bottom);
-
-            drawBricks(hdc, bricks);
-
-            ReleaseDC(hWnd, hdc);
+            InvalidateRect(hWnd, NULL, FALSE);
         }
         break;
-
     case WM_LBUTTONUP:
         bar.selection = FALSE;
         break;
 
     case WM_PAINT:
     {
+        // 더블버퍼링 정의
         static HDC hdc, MemDC, tmpDC;
         static HBITMAP BackBit, oldBackBit;
         static RECT bufferRT;
+
         hdc = BeginPaint(hWnd, &ps);
 
+        // 더블버퍼링
         GetClientRect(hWnd, &bufferRT);
         MemDC = CreateCompatibleDC(hdc);
         BackBit = CreateCompatibleBitmap(hdc, bufferRT.right, bufferRT.bottom);
@@ -225,17 +263,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         hdc = MemDC;
         MemDC = tmpDC;
 
+        // 그리기
         hBrush = CreateSolidBrush(BLACK_BRUSH);
         oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
 
-        Rectangle(hdc, bar.location.left, bar.location.top, bar.location.right, bar.location.bottom);
+        drawBar(hdc, &bar);
 
         SelectObject(hdc, oldBrush);
         DeleteObject(hBrush);
 
         drawBricks(hdc, bricks);
-        drawBall(hdc, ball);
+        drawBall(hdc, &ball);
 
+        // 더블버퍼링
         tmpDC = hdc;
         hdc = MemDC;
         MemDC = tmpDC;
@@ -249,6 +289,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     }
 
     case WM_DESTROY:
+        KillTimer(hWnd, BALL_MOVE_TIME);
+        KillTimer(hWnd, BRICK_MOVE_TIME);
         PostQuitMessage(0);
         return 0;
     }
@@ -258,54 +300,82 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 void drawBricks(HDC hdc, Brick *bricks)
 {
     HBRUSH hBrush, oldBrush;
+    HPEN hPen, oldPen;
+
+    hPen = CreatePen(PS_NULL, 1, WHITE_PEN);
+    oldPen = (HPEN)SelectObject(hdc, hPen);
+
     for (int i = 0; i < 30; ++i)
     {
+        if (bricks[i].isDelete)
+            continue;
         hBrush = CreateSolidBrush(bricks[i].color);
-        oldBrush = SelectObject(hdc, hBrush);
+        oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
         Rectangle(hdc, bricks[i].location.left, bricks[i].location.top, bricks[i].location.right, bricks[i].location.bottom);
         SelectObject(hdc, oldBrush);
         DeleteObject(hBrush);
-        // printf("%d, %d ,%d, %d\n", bricks[i].location.left, bricks[i].location.top, bricks[i].location.right, bricks[i].location.bottom);
     }
+
+    SelectObject(hdc, oldPen);
+    DeleteObject(hPen);
 }
 
-void drawBall(HDC hdc, Ball ball)
+void drawBall(HDC hdc, Ball *ball)
 {
     HBRUSH hBrush, oldBrush;
-    hBrush = CreateSolidBrush(BLACK_BRUSH);
-    oldBrush = SelectObject(hdc, hBrush);
-    Ellipse(hdc, ball.location.left, ball.location.top, ball.location.right, ball.location.bottom);
+    HPEN hPen, oldPen;
+
+    hBrush = CreateSolidBrush(RGB(50, 100, 50));
+    oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+
+    hPen = CreatePen(PS_SOLID, 1, RGB(50, 100, 50));
+    oldPen = (HPEN)SelectObject(hdc, hPen);
+
+    Ellipse(hdc, ball->location.left, ball->location.top, ball->location.right, ball->location.bottom);
+
+    SelectObject(hdc, oldBrush);
+    SelectObject(hdc, oldPen);
+    DeleteObject(hBrush);
+    DeleteObject(hPen);
+}
+
+void drawBar(HDC hdc, Bar *bar)
+{
+    HBRUSH hBrush, oldBrush;
+    hBrush = CreateSolidBrush(RGB(50, 100, 50));
+    oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+
+    Rectangle(hdc, bar->location.left, bar->location.top, bar->location.right, bar->location.bottom);
+
     SelectObject(hdc, oldBrush);
     DeleteObject(hBrush);
-
-    // printf("ball : %d, %d ,%d, %d\n", ball.location.left, ball.location.top, ball.location.right, ball.location.bottom);
 }
 
 void ballMove(Ball *ball)
 {
     switch (ball->direction)
     {
-    case 0: // 왼쪽 위
-        ball->location.left -= 5;
-        ball->location.top -= 5;
+    case LEFT_UP: // 왼쪽 위
+        ball->location.left -= 3;
+        ball->location.top -= 3;
         ball->location.right = ball->location.left + 20;
         ball->location.bottom = ball->location.top + 20;
         break;
-    case 1: // 오른쪽 위
-        ball->location.left += 5;
-        ball->location.top -= 5;
+    case RIGHT_UP: // 오른쪽 위
+        ball->location.left += 3;
+        ball->location.top -= 3;
         ball->location.right = ball->location.left + 20;
         ball->location.bottom = ball->location.top + 20;
         break;
-    case 2: // 왼쪽 아래
-        ball->location.left -= 5;
-        ball->location.top += 5;
+    case RIGHT_DOWN: // 왼쪽 아래
+        ball->location.left += 3;
+        ball->location.top += 3;
         ball->location.right = ball->location.left + 20;
         ball->location.bottom = ball->location.top + 20;
         break;
-    case 3: // 오른쪽 아래
-        ball->location.left += 5;
-        ball->location.top += 5;
+    case LEFT_DOWN: // 오른쪽 아래
+        ball->location.left -= 3;
+        ball->location.top += 3;
         ball->location.right = ball->location.left + 20;
         ball->location.bottom = ball->location.top + 20;
         break;
@@ -316,21 +386,21 @@ int ballCrashWall(Ball *ball)
 {
     if (ball->location.left <= 0 || ball->location.right >= 800)
     {
-        if (ball->direction == 0)
-            ball->direction = 1;
-        else if (ball->direction == 1)
-            ball->direction = 0;
-        else if (ball->direction == 2)
-            ball->direction = 3;
-        else if (ball->direction == 3)
-            ball->direction = 2;
+        if (ball->direction == LEFT_UP)
+            ball->direction = RIGHT_UP;
+        else if (ball->direction == RIGHT_UP)
+            ball->direction = LEFT_UP;
+        else if (ball->direction == RIGHT_DOWN)
+            ball->direction = LEFT_DOWN;
+        else if (ball->direction == LEFT_DOWN)
+            ball->direction = RIGHT_DOWN;
     }
     else if (ball->location.top <= 0)
     {
-        if (ball->direction == 0)
-            ball->direction = 2;
-        else if (ball->direction == 1)
-            ball->direction = 3;
+        if (ball->direction == LEFT_UP)
+            ball->direction = LEFT_DOWN;
+        else if (ball->direction == RIGHT_UP)
+            ball->direction = RIGHT_DOWN;
     }
     else if (ball->location.bottom >= 600)
     {
@@ -346,7 +416,7 @@ void ballInit(Ball *ball, Bar bar)
     ball->location.right = ball->location.left + 20;
     ball->location.bottom = bar.location.top;
 
-    ball->direction = 0;
+    ball->direction = LEFT_UP;
 }
 
 int ballCrashBrick(Ball *ball, Brick *bricks)
@@ -355,35 +425,115 @@ int ballCrashBrick(Ball *ball, Brick *bricks)
     for (int i = 0; i < 30; ++i)
         if (IntersectRect(&rcTemp, &ball->location, &bricks[i].location) && !bricks[i].isCrash)
         {
+            POINT brickCenter = {
+                (bricks[i].location.left + bricks[i].location.right) / 2,
+                (bricks[i].location.top + bricks[i].location.bottom) / 2,
+            };
+            POINT ballCenter = {
+                (ball->location.left + ball->location.right) / 2,
+                (ball->location.top + ball->location.bottom) / 2,
+            };
+
             bricks[i].color = RGB(rand() % 255, rand() % 255, rand() % 255);
             bricks[i].isCrash = TRUE;
-            if (ball->direction == 0)
+
+            if (ballCenter.x <= brickCenter.x)
             {
-                if (ball->location.top <= bricks->location.bottom)
-                    ball->direction = 3;
-                else
-                    ball->direction = 1;
+                if (ballCenter.y <= brickCenter.y)
+                    ball->direction = LEFT_UP;
+                else if (ballCenter.y > brickCenter.y)
+                    ball->direction = LEFT_DOWN;
             }
-            else if (ball->direction == 1)
+            else if (ballCenter.x > brickCenter.x)
             {
-                if (ball->location.top <= bricks->location.bottom)
-                    ball->direction = 2;
-                else
-                    ball->direction = 0;
+                if (ballCenter.y <= brickCenter.y)
+                    ball->direction = RIGHT_UP;
+                else if (ballCenter.y > brickCenter.y)
+                    ball->direction = RIGHT_DOWN;
             }
-            else if (ball->direction == 2)
-            {
-                if (ball->location.bottom >= bricks->location.top)
-                    ball->direction = 0;
-                else
-                    ball->direction = 3;
-            }
-            else if (ball->direction == 3)
-            {
-                if (ball->location.bottom >= bricks->location.top)
-                    ball->direction = 1;
-                else
-                    ball->direction = 2;
-            }
+
+            // printf("벽돌 중앙 : (%d, %d),  공 중앙 : (%d, %d)\n", brickCenter.x, brickCenter.y, ballCenter.x, ballCenter.y);
+            // printf("바뀐 방향 %d\n", ball->direction);
         }
 }
+
+void ballCrashBar(Ball *ball, Bar *bar)
+{
+    RECT rcTemp;
+    if (IntersectRect(&rcTemp, &ball->location, &bar->location))
+    {
+        int ballCenter = (ball->location.left + ball->location.right) / 2;
+        int barCenter = (bar->location.left + bar->location.right) / 2;
+
+        if (ballCenter <= barCenter)
+            ball->direction = LEFT_UP;
+        else if (ballCenter > barCenter)
+            ball->direction = RIGHT_UP;
+    }
+}
+
+void brickInit(Brick *bricks)
+{
+    int idx = 0;
+    for (int i = 0; i < 3; ++i)
+    {
+        for (int j = 0; j < 10; ++j)
+        {
+            bricks[idx].isCrash = FALSE;
+            bricks[idx].isDelete = FALSE;
+            bricks[idx].color = RGB(100, 100, 100);
+            bricks[idx].location.left = 80 + j * 60;
+            bricks[idx].location.top = 40 + i * 20;
+            bricks[idx].location.right = bricks[idx].location.left + 60;
+            bricks[idx].location.bottom = bricks[idx].location.top + 20;
+            ++idx;
+        }
+    }
+    bricks[0].direction = 1;
+    bricks[0].left = 80;
+    bricks[0].right = 680;
+}
+
+void barInit(Bar *bar)
+{
+    RECT barLocation = {350, 500, 450, 520};
+    bar->location = barLocation;
+    bar->selection = FALSE;
+}
+
+void bricksMove(Brick *bricks)
+{
+    if (bricks[0].left <= 50)
+        bricks[0].direction = 1;
+    else if (bricks[0].right >= 750)
+        bricks[0].direction = 0;
+
+    if (bricks[0].direction == 1)
+    {
+        for (int i = 0; i < 30; ++i)
+        {
+            bricks[i].location.left += 10;
+            bricks[i].location.right += 10;
+        }
+        bricks[0].left += 10;
+        bricks[0].right += 10;
+    }
+    else
+    {
+        for (int i = 0; i < 30; ++i)
+        {
+            bricks[i].location.left -= 10;
+            bricks[i].location.right -= 10;
+        }
+        bricks[0].left -= 10;
+        bricks[0].right -= 10;
+    }
+}
+
+// TODO
+// 부딫힌 벽돌이 시간에 따라 작아지다가 사라지는 함수
+// delete();
+// 일시정지 누르면 색이 변한 벽돌 개수와 사라지 벽돌 개수 화면에 출력
+// bricks.isCrash 랑 bricks.isDelete 확인해서 출력하면 될듯
+// S : 공 튀기기 시작 누르기 전엔 다른 함수 작동 막기 막대 이동은 가능
+// 게임 시작전 막대 이동하면 그 위치에 공이 계속 따라가게 만들기

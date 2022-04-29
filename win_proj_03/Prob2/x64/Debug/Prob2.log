@@ -1,6 +1,8 @@
 ﻿  prob02.c
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob2\prob02.c(74,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob2\prob02.c(82,10): warning C4101: 'hPen' :참조되지 않은 지역 변수입니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob2\prob02.c(82,16): warning C4101: 'oldPen' :참조되지 않은 지역 변수입니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob2\prob02.c(389): warning C4716: 'ballCrashBrick': 값을 반환해야 합니다.
-  Prob2.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\x64\Debug\Prob2.exe
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(1,1): warning C4828: 파일에 0x3b75 오프셋에서 시작하는 문자가 포함되어 있습니다. 이 문자는 현재 원본 문자 집합에서 잘못된 문자입니다(코드 페이지 949).
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(94,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(99,9): warning C4101: 'hdc' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(102,10): warning C4101: 'hPen' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(102,16): warning C4101: 'oldPen' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(458): warning C4716: 'ballCrashBrick': 값을 반환해야 합니다.
+  Prob2.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\x64\Debug\Prob2.exe
