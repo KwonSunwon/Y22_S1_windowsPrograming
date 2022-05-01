@@ -16,7 +16,8 @@ typedef struct _Shape
 } Shape;
 
 void drawGrid(HDC, RECT, int, int);
-void drawShape(HDC, Shape *, int);
+void drawShape(HDC, Shape *, int, BOOL);
+void drawIntersectShape(HDC, Shape *, int);
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -63,7 +64,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     HDC hdc;
 
     // Grid
-    static RECT grid = {30, 30, 780, 780};
+    // static RECT grid = {30, 30, 780, 780};
+    static RECT grid;
     static int line;
 
     // Shape
@@ -77,12 +79,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
     static RECT newShapeDraw;
 
-    int mx, my;
+    static RECT moveShape;
+    static POINT move;
+
+    long mx, my;
     POINT mouse;
+    RECT rcTemp;
 
     switch (iMessage)
     {
     case WM_CREATE:
+        GetClientRect(hWnd, &rcTemp);
+        grid.left = rcTemp.left + 30;
+        grid.top = rcTemp.top + 30;
+        grid.right = grid.left + 750;
+        grid.bottom = grid.top + 750;
+
         line = 1;
         border = TRUE;
         lClick = FALSE;
@@ -106,6 +118,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             // printf("%d, %d, %d, %d\n", newShapeDraw.left, newShapeDraw.top, newShapeDraw.right, newShapeDraw.bottom);
         }
         break;
+
     // 도형 이동 시작
     case WM_RBUTTONDOWN:
         mx = LOWORD(lParam);
@@ -119,6 +132,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             {
                 rClick = TRUE;
                 idx = i;
+                newShapeDraw = shape[i].location;
+                moveShape.left = mx - newShapeDraw.left;
+                moveShape.top = my - newShapeDraw.top;
+                moveShape.right = newShapeDraw.right - mx;
+                moveShape.bottom = newShapeDraw.bottom - my;
+
                 break;
             }
         }
@@ -144,6 +163,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         }
         else if (rClick)
         {
+            newShapeDraw.left = mx - moveShape.left;
+            newShapeDraw.top = my - moveShape.top;
+            newShapeDraw.right = mx + moveShape.right;
+            newShapeDraw.bottom = my + moveShape.bottom;
+
+            shape[idx].location = newShapeDraw;
+
+            InvalidateRect(hWnd, NULL, FALSE);
         }
         ReleaseDC(hWnd, hdc);
         break;
@@ -151,40 +178,48 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     // 도형 그리기 완료
     case WM_LBUTTONUP:
         lClick = FALSE;
-        newShapeDraw.right = newShapeDraw.right / 30 * 30;
-        newShapeDraw.bottom = newShapeDraw.bottom / 30 * 30;
+        newShapeDraw.right = newShapeDraw.right / 30 * 30 + 30;
+        newShapeDraw.bottom = newShapeDraw.bottom / 30 * 30 + 30;
         shape[count].location = newShapeDraw;
         shape[count++].color = selectColor;
-        InvalidateRect(hWnd, NULL, TRUE);
+        InvalidateRect(hWnd, NULL, FALSE);
         break;
+
     // 도형 이동 완료
     case WM_RBUTTONUP:
         rClick = FALSE;
-        InvalidateRect(hWnd, NULL, TRUE);
+
+        newShapeDraw.left = newShapeDraw.left / 30 * 30;
+        newShapeDraw.top = newShapeDraw.top / 30 * 30;
+        newShapeDraw.right = newShapeDraw.right / 30 * 30;
+        newShapeDraw.bottom = newShapeDraw.bottom / 30 * 30;
+
+        shape[idx].location = newShapeDraw;
+        InvalidateRect(hWnd, NULL, FALSE);
         break;
 
-    case WM_MENUCOMMAND:
+    case WM_COMMAND:
         switch (wParam)
         {
         // 내부 grid 실선, 점선 변경 1. 실선 2. 점선
         case ID_GRID_SOLID:
             line = 1;
-            InvalidateRect(hWnd, NULL, TRUE);
+            InvalidateRect(hWnd, NULL, FALSE);
             break;
         case ID_GRID_DOTTED:
             line = 2;
-            InvalidateRect(hWnd, NULL, TRUE);
+            InvalidateRect(hWnd, NULL, FALSE);
             break;
 
         // 색상 변경
         case ID_COLOR_RED:
-            selectColor = RGB(255, 50, 50);
+            selectColor = RGB(255, 0, 0);
             break;
         case ID_COLOR_GREEN:
-            selectColor = RGB(50, 255, 50);
+            selectColor = RGB(0, 255, 0);
             break;
         case ID_COLOR_BLUE:
-            selectColor = RGB(50, 50, 255);
+            selectColor = RGB(0, 0, 255);
             break;
         case ID_COLOR_CYAN:
             selectColor = RGB(0, 255, 255);
@@ -199,20 +234,47 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         // 도형 테두리
         case ID_BORDER_ON:
             border = TRUE;
+            InvalidateRect(hWnd, NULL, FALSE);
             break;
         case ID_BORDER_OFF:
             border = FALSE;
+            InvalidateRect(hWnd, NULL, FALSE);
             break;
         }
         break;
 
     case WM_PAINT:
+        // 더블버퍼링 정의
+        static HDC MemDC, tmpDC;
+        static HBITMAP BackBit, oldBackBit;
+        static RECT bufferRT;
+
         hdc = BeginPaint(hWnd, &ps);
 
-        drawGrid(hdc, grid, 30, line);
-        drawShape(hdc, shape, count);
-        printf("%d, %d, %d, %d\n", newShapeDraw.left, newShapeDraw.top, newShapeDraw.right, newShapeDraw.bottom);
+        // 더블버퍼링
+        GetClientRect(hWnd, &bufferRT);
+        MemDC = CreateCompatibleDC(hdc);
+        BackBit = CreateCompatibleBitmap(hdc, bufferRT.right, bufferRT.bottom);
+        oldBackBit = (HBITMAP)SelectObject(MemDC, BackBit);
+        PatBlt(MemDC, 0, 0, bufferRT.right, bufferRT.bottom, WHITENESS);
+        tmpDC = hdc;
+        hdc = MemDC;
+        MemDC = tmpDC;
 
+        // 그리기
+        drawGrid(hdc, grid, 25, line);
+        drawShape(hdc, shape, count, border);
+        drawIntersectShape(hdc, shape, count);
+
+        // 더블버퍼링
+        tmpDC = hdc;
+        hdc = MemDC;
+        MemDC = tmpDC;
+        GetClientRect(hWnd, &bufferRT);
+        BitBlt(hdc, 0, 0, bufferRT.right, bufferRT.bottom, MemDC, 0, 0, SRCCOPY);
+        SelectObject(MemDC, oldBackBit);
+        DeleteObject(BackBit);
+        DeleteDC(MemDC);
         EndPaint(hWnd, &ps);
         break;
 
@@ -247,9 +309,18 @@ void drawGrid(HDC hdc, RECT grid, int size, int line)
     DeleteObject(hPen);
 }
 
-void drawShape(HDC hdc, Shape *shape, int count)
+void drawShape(HDC hdc, Shape *shape, int count, BOOL border)
 {
     HBRUSH hBrush, oldBrush;
+    HPEN hPen, oldPen;
+
+    if (border)
+        hPen = CreatePen(PS_SOLID, 3, BLACK_PEN);
+    else
+        hPen = CreatePen(PS_NULL, 0, NULL);
+
+    oldPen = (HPEN)SelectObject(hdc, hPen);
+
     for (int i = 0; i < count; ++i)
     {
         hBrush = CreateSolidBrush(shape[i].color);
@@ -261,4 +332,36 @@ void drawShape(HDC hdc, Shape *shape, int count)
         SelectObject(hdc, oldBrush);
         DeleteObject(hBrush);
     }
+
+    SelectObject(hdc, oldPen);
+    DeleteObject(hPen);
+}
+
+void drawIntersectShape(HDC hdc, Shape *shape, int count)
+{
+    HBRUSH hBrush, oldBrush;
+    HPEN hPen, oldPen;
+
+    Shape interShape;
+
+    hPen = CreatePen(PS_NULL, 0, NULL);
+    oldPen = (HPEN)SelectObject(hdc, hPen);
+
+    for (int i = 0; i < count; ++i)
+        for (int j = 0; j < count; ++j)
+            if (i != j && IntersectRect(&interShape.location, &shape[i].location, &shape[j].location))
+            {
+                interShape.color = shape[i].color + shape[j].color;
+                hBrush = CreateSolidBrush(interShape.color);
+                oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+
+                RECT rect = interShape.location;
+                Rectangle(hdc, rect.left, rect.top, rect.right, rect.bottom);
+
+                SelectObject(hdc, oldBrush);
+                DeleteObject(hBrush);
+            }
+
+    SelectObject(hdc, oldPen);
+    DeleteObject(hPen);
 }
