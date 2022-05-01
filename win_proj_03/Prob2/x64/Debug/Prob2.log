@@ -1,9 +1,0 @@
-﻿  prob02.c
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(1,1): warning C4828: 파일에 0x4582 오프셋에서 시작하는 문자가 포함되어 있습니다. 이 문자는 현재 원본 문자 집합에서 잘못된 문자입니다(코드 페이지 949).
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(96,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(320,78): warning C4047: '함수': 'UINT'의 간접 참조 수준이 'void *'과(와) 다릅니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(320,74): warning C4024: 'DrawTextW': 형식 및 실제 매개 변수 5의 형식이 서로 다릅니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(104,10): warning C4101: 'hPen' :참조되지 않은 지역 변수입니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(104,16): warning C4101: 'oldPen' :참조되지 않은 지역 변수입니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob2\prob02.c(595): warning C4716: 'ballCrashBrick': 값을 반환해야 합니다.
-  Prob2.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\x64\Debug\Prob2.exe
