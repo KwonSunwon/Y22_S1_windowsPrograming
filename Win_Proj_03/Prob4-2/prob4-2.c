@@ -257,24 +257,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         BackBit = CreateCompatibleBitmap(hdc, bufferRT.right, bufferRT.bottom);
         oldBackBit = (HBITMAP)SelectObject(MemDC, BackBit);
         PatBlt(MemDC, 0, 0, bufferRT.right, bufferRT.bottom, WHITENESS);
-        tmpDC = hdc;
-        hdc = MemDC;
-        MemDC = tmpDC;
+        // tmpDC = hdc;
+        // hdc = MemDC;
+        // MemDC = tmpDC;
 
         // 그리기
-        drawGrid(hdc, grid, 25, line);
-        drawShape(hdc, shape, count, border);
-        drawIntersectShape(hdc, shape, count);
+        drawGrid(MemDC, grid, 25, line);
+        drawShape(MemDC, shape, count, border);
+        drawIntersectShape(MemDC, shape, count);
 
         // 더블버퍼링
-        tmpDC = hdc;
-        hdc = MemDC;
-        MemDC = tmpDC;
+        // tmpDC = hdc;
+        // hdc = MemDC;
+        // MemDC = tmpDC;
         GetClientRect(hWnd, &bufferRT);
         BitBlt(hdc, 0, 0, bufferRT.right, bufferRT.bottom, MemDC, 0, 0, SRCCOPY);
         SelectObject(MemDC, oldBackBit);
         DeleteObject(BackBit);
         DeleteDC(MemDC);
+
         EndPaint(hWnd, &ps);
         break;
 
