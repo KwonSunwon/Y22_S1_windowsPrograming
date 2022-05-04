@@ -16,12 +16,20 @@
 #define GREEN RGB(0, 220, 0)
 #define CYAN RGB(0, 220, 220)
 
+static int popCount;
+
 typedef struct _Block
 {
     RECT location;
     COLORREF color;
     BOOL isExist;
 } Block;
+
+typedef struct _Queue
+{
+    POINT pt[100];
+    int rear;
+} Queue;
 
 void drawGrid(HDC, RECT, int, int);
 void drawBlock(HDC, Block);
@@ -30,9 +38,10 @@ void drawBack(HDC, Block[][6]);
 BOOL checkDown(Block *, int *, Block[][6], RECT);
 
 BOOL checkPop(Block[][6]);
-void checkDrop(Block[][6], Block *);
+void checkDrop(Block[][6]);
 
 BOOL bfs(int, int, Block[][6], int[][6]);
+void popPossible(int, int, Block[][6], BOOL[][6], Queue *);
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -210,7 +219,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                     {
                         select = 0;
                         isExist = FALSE;
-                        checkPop(backBlock);
+                        while (checkPop(backBlock))
+                        {
+                            checkDrop(backBlock);
+                        }
                     }
                 }
                 else if (select == 2 || select == 3)
@@ -221,7 +233,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                     {
                         select = 0;
                         isExist = FALSE;
-                        checkPop(backBlock);
+                        while (checkPop(backBlock))
+                        {
+                            checkDrop(backBlock);
+                        }
                     }
                 }
             }
@@ -280,7 +295,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 {
                     select = 0;
                     isExist = FALSE;
-                    checkPop(backBlock);
+                    while (checkPop(backBlock))
+                    {
+                        checkDrop(backBlock);
+                    }
                 }
             }
             else if (select == 2 || select == 3)
@@ -291,7 +309,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 {
                     select = 0;
                     isExist = FALSE;
-                    checkPop(backBlock);
+                    while (checkPop(backBlock))
+                    {
+                        checkDrop(backBlock);
+                    }
                 }
             }
             InvalidateRect(hWnd, NULL, FALSE);
@@ -547,20 +568,102 @@ void drawBack(HDC hdc, Block back[][6])
 
 BOOL checkPop(Block back[][6])
 {
-    BOOL isPop;
+    BOOL isPop = FALSE;
 
-    int visit[12][6];
-    memset(visit, 0, sizeof(visit));
+    Queue q;
 
     for (int i = 0; i < 12; ++i)
         for (int j = 0; j < 6; ++j)
+        {
+            q.rear = -1;
+            popCount = 1;
+            BOOL visit[12][6] = {FALSE};
+
             if (back[i][j].isExist)
-                isPop = bfs(i, j, back, visit);
+            {
+                q.pt[++q.rear] = (POINT){i, j};
+                popPossible(i, j, back, visit, &q);
+                printf("%d\n", popCount);
+            }
+
+            if (popCount >= 3)
+            {
+                printf("Á¦°Å\n");
+                for (int k = 0; k < popCount; ++k)
+                    back[q.pt[k].x][q.pt[k].y].isExist = FALSE;
+                isPop = TRUE;
+            }
+        }
 
     return isPop;
 }
-void checkDrop(Block back[][6], Block *drop)
+
+void popPossible(int x, int y, Block back[][6], BOOL visit[][6], Queue *q)
 {
+    COLORREF color = back[x][y].color;
+    visit[x][y] = TRUE;
+    if (y - 1 > 0)
+        if (back[x][y - 1].isExist && !visit[x][y - 1])
+            if (color == back[x][y - 1].color)
+            {
+                popCount++;
+                q->pt[++q->rear] = (POINT){x, y - 1};
+                popPossible(x, y - 1, back, visit, q);
+            }
+    if (y + 1 < 6)
+        if (back[x][y + 1].isExist && !visit[x][y + 1])
+            if (color == back[x][y + 1].color)
+            {
+                popCount++;
+                q->pt[++q->rear] = (POINT){x, y + 1};
+
+                popPossible(x, y + 1, back, visit, q);
+            }
+    if (x - 1 > 0)
+        if (back[x - 1][y].isExist && !visit[x - 1][y])
+            if (color == back[x - 1][y].color)
+            {
+                popCount++;
+                q->pt[++q->rear] = (POINT){x - 1, y};
+
+                popPossible(x - 1, y, back, visit, q);
+            }
+    if (x + 1 < 12)
+        if (back[x + 1][y].isExist && !visit[x + 1][y])
+            if (color == back[x + 1][y].color)
+            {
+                popCount++;
+                q->pt[++q->rear] = (POINT){x + 1, y};
+                popPossible(x + 1, y, back, visit, q);
+            }
+}
+
+void checkDrop(Block back[][6])
+{
+    for (int i = 1; i < 12; ++i)
+        for (int j = 0; j < 6; ++j)
+        {
+            int k = 0;
+            while (1)
+            {
+                if (back[i - k][j].isExist)
+                {
+                    if (!back[i - (k + 1)][j].isExist)
+                    {
+                        back[i - (k + 1)][j] = back[i - k][j];
+                        back[i - k][j].isExist = FALSE;
+                    }
+                    else
+                        break;
+                }
+                else
+                    break;
+
+                if (i - k < 0)
+                    break;
+                k++;
+            }
+        }
 }
 
 BOOL bfs(int x, int y, Block back[][6], int visit[][6])

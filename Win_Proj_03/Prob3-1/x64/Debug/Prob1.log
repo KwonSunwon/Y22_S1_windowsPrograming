@@ -1,26 +1,26 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: 중간 디렉터리(x64\Debug\)에 다른 프로젝트(Prob1.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
   prob01-menu.c
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(123,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(167,19): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(354,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(359,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(619,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(620,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(621,42): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(631,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(632,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(633,42): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(643,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(644,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(645,42): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(767,31): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(770,33): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(771,31): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(772,43): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(773,42): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(766,45): warning C4244: '초기화 중': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(853,47): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(877,55): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-1\prob01-menu.c(1060,43): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
-  LINK : C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\x64\Debug\Prob3-1(4-1).exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
-  Prob1.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\x64\Debug\Prob3-1(4-1).exe
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(123,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(167,19): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(354,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(359,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(619,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(620,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(621,42): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(631,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(632,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(633,42): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(643,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(644,45): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(645,42): warning C4020: 'KillTimer': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(767,31): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(770,33): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(771,31): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(772,43): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(773,42): warning C4244: '함수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(766,45): warning C4244: '초기화 중': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(853,47): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(877,55): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-1\prob01-menu.c(1060,43): warning C4133: '함수': '_NODE *'과(와) 'CIRCLE *' 사이의 형식이 호환되지 않습니다.
+  LINK : C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\x64\Debug\Prob3-1(4-1).exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+  Prob1.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\x64\Debug\Prob3-1(4-1).exe

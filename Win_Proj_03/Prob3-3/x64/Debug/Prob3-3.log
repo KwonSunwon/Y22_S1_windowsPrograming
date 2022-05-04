@@ -1,6 +1,6 @@
 ﻿  Prob3-3.c
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-3\Prob3-3.c(73,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-3\Prob3-3.c(362,64): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-3\Prob3-3.c(370,53): warning C4020: 'LineTo': 실제 매개 변수가 너무 많습니다.
-C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\Prob3-3\Prob3-3.c(375,55): warning C4020: 'LineTo': 실제 매개 변수가 너무 많습니다.
-  Prob3-3.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_03\x64\Debug\Prob3-3.exe
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-3\Prob3-3.c(82,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-3\Prob3-3.c(383,64): warning C4133: '함수': 'HPEN'과(와) 'HBRUSH' 사이의 형식이 호환되지 않습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-3\Prob3-3.c(391,53): warning C4020: 'LineTo': 실제 매개 변수가 너무 많습니다.
+C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\Prob3-3\Prob3-3.c(396,55): warning C4020: 'LineTo': 실제 매개 변수가 너무 많습니다.
+  Prob3-3.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\win_proj_03\x64\Debug\Prob3-3.exe

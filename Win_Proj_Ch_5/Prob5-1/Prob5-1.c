@@ -111,6 +111,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         else if (imageType.isSplit9)
         {
         }
+        InvalidateRect(hWnd, NULL, FALSE);
         break;
 
     case WM_KEYDOWN:
@@ -235,6 +236,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 StretchBlt(mdc, 0, 0, drawRT.right, drawRT.bottom, bitdc, 0, 0, bx, by, dword);
             else
                 BitBlt(mdc, 0, 0, bx, by, bitdc, 0, 0, dword);
+        }
+
+        if (select)
+        {
+            FrameRect(mdc, &selectRT, (HPEN)CreatePen(PS_SOLID, 5, RGB(255,0,0)));
         }
 
         BitBlt(hdc, 0, 0, winSizeRT.right, winSizeRT.bottom, mdc, 0, 0, SRCCOPY);

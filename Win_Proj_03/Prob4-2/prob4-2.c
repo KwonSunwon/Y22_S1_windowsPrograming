@@ -62,6 +62,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
     PAINTSTRUCT ps;
     HDC hdc;
+    // 더블버퍼링 정의
+    static HDC MemDC, tmpDC;
+    static HBITMAP BackBit, oldBackBit;
+    static RECT bufferRT;
 
     // Grid
     // static RECT grid = {30, 30, 780, 780};
@@ -244,11 +248,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         break;
 
     case WM_PAINT:
-        // 더블버퍼링 정의
-        static HDC MemDC, tmpDC;
-        static HBITMAP BackBit, oldBackBit;
-        static RECT bufferRT;
-
         hdc = BeginPaint(hWnd, &ps);
 
         // 더블버퍼링
