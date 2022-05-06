@@ -5,13 +5,20 @@
 #include <Windows.h>
 #include <tchar.h>
 
-typedef struct _ImageType
+typedef struct ImageType
 {
     BOOL isFullsize;
     BOOL isInversion;
     BOOL isSplit4;
     BOOL isSplit9;
 } ImageType;
+
+typedef struct Selector
+{
+    RECT selectRT;
+    int zoom;
+    int move;
+} Selector;
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -64,7 +71,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     static BITMAP bit;
     static ImageType imageType;
 
-    static BOOL select;
+    static Selector selector[3][3];
+    static POINT select;
     static RECT selectRT;
 
     RECT drawRT;
@@ -88,28 +96,47 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         imageType.isSplit4 = FALSE;
         imageType.isSplit9 = FALSE;
 
-        select = FALSE;
+        // selector √ ±‚»≠
+        GetClientRect(hWnd, &winSizeRT);
+        for (int i = 0; i < 3; ++i)
+            for (int j = 0; j < 3; ++j)
+            {
+                selector[i][j].move = 200;
+                selector[i][j].zoom = 0;
+                selector[i][j].selectRT = winSizeRT;
+            }
+
+        select = (POINT){0, 0};
 
         break;
 
     case WM_LBUTTONDOWN:
-        select = TRUE;
         mx = LOWORD(lParam);
         my = HIWORD(lParam);
 
         GetClientRect(hWnd, &winSizeRT);
-        drawRT.right = winSizeRT.right / 2;
-        drawRT.bottom = winSizeRT.bottom / 2;
 
         if (imageType.isSplit4)
         {
+            drawRT.right = winSizeRT.right / 2;
+            drawRT.bottom = winSizeRT.bottom / 2;
             selectRT.left = (mx / (drawRT.right)) * drawRT.right;
             selectRT.top = (my / (drawRT.bottom)) * drawRT.bottom;
             selectRT.right = selectRT.left + drawRT.right;
             selectRT.bottom = selectRT.top + drawRT.bottom;
+            selector[mx / (drawRT.right)][my / (drawRT.bottom)].selectRT = selectRT;
+            select = (POINT){mx / (drawRT.right), my / (drawRT.bottom)};
         }
         else if (imageType.isSplit9)
         {
+            drawRT.right = winSizeRT.right / 3;
+            drawRT.bottom = winSizeRT.bottom / 3;
+            selectRT.left = (mx / (drawRT.right)) * drawRT.right;
+            selectRT.top = (my / (drawRT.bottom)) * drawRT.bottom;
+            selectRT.right = selectRT.left + drawRT.right;
+            selectRT.bottom = selectRT.top + drawRT.bottom;
+            selector[mx / (drawRT.right)][my / (drawRT.bottom)].selectRT = selectRT;
+            select = (POINT){mx / (drawRT.right), my / (drawRT.bottom)};
         }
         InvalidateRect(hWnd, NULL, FALSE);
         break;
@@ -205,7 +232,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                         dword = SRCCOPY;
                     else
                         dword = NOTSRCCOPY;
-                    StretchBlt(mdc, drawRT.right * i, drawRT.bottom * j, drawRT.right, drawRT.bottom, bitdc, 0, 0, bx, by, dword);
+                    if (select.x == i && select.y == j)
+                    {
+                        // StretchBlt(mdc, drawRT.right * i, drawRT.bottom * j, drawRT.right, drawRT.bottom, bitdc, 0, 0, bx - selector[i][j].zoom, by - selector[i][j].zoom, dword);
+                        StretchBlt(mdc, drawRT.right * i, drawRT.bottom * j,
+                                   drawRT.right - selector[i][j].move, drawRT.bottom,
+                                   bitdc, selector[i][j].move, 0, bx - selector[i][j].move, by, dword);
+                        StretchBlt(mdc, drawRT.right * i + (drawRT.right - selector[i][j].move), drawRT.bottom * j,
+                                   selector[i][j].move, drawRT.bottom,
+                                   bitdc, 0, 0, selector[i][j].move, by, dword);
+                    }
+                    else
+                        StretchBlt(mdc, drawRT.right * i, drawRT.bottom * j, drawRT.right, drawRT.bottom, bitdc, 0, 0, bx, by, dword);
                 }
         }
         else if (imageType.isSplit9)
@@ -238,10 +276,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 BitBlt(mdc, 0, 0, bx, by, bitdc, 0, 0, dword);
         }
 
-        if (select)
-        {
-            FrameRect(mdc, &selectRT, (HPEN)CreatePen(PS_SOLID, 5, RGB(255,0,0)));
-        }
+        FrameRect(mdc, &selectRT, (HPEN)CreatePen(PS_SOLID, 5, RGB(255, 0, 0)));
 
         BitBlt(hdc, 0, 0, winSizeRT.right, winSizeRT.bottom, mdc, 0, 0, SRCCOPY);
 
