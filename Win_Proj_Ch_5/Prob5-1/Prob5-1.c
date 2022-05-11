@@ -382,8 +382,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 SelectObject(bufferDc, (HBITMAP)bufferBitmap);
                 PatBlt(bufferDc, 0, 0, drawRT.right * 2, drawRT.bottom, WHITENESS);
 
-                BitBlt(bufferDc, 0, 0, drawRT.right, drawRT.bottom, bitdc, 0, 0, dword);
-                BitBlt(bufferDc, drawRT.right, 0, drawRT.right, drawRT.bottom, bitdc, 0, 0, dword);
+                // BitBlt(bufferDc, 0, 0, drawRT.right, drawRT.bottom, bitdc, 0, 0, dword);
+                // BitBlt(bufferDc, drawRT.right, 0, drawRT.right, drawRT.bottom, bitdc, 0, 0, dword);
 
                 StretchBlt(bufferDc, 0, 0, bx + selector[0][0].zoom, by + selector[0][0].zoom, bitdc, 0, 0, bx, by, dword);
                 StretchBlt(bufferDc, drawRT.right, 0, bx + selector[0][0].zoom, by + selector[0][0].zoom, bitdc, 0, 0, bx, by, dword);
