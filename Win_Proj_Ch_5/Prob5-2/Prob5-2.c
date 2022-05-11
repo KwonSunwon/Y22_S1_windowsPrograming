@@ -8,7 +8,9 @@
 
 #include "resource.h"
 
-void image_divide(BITMAP, int, RECT[][5], POINT *);
+#define TIME_TILE_MOVE 1
+
+void image_divide(BITMAP, int, RECT[][5], POINT *, BOOL *);
 void shuffle(POINT *, int);
 
 HINSTANCE g_hInst;
@@ -67,16 +69,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     static BOOL isFullImage;
     static BOOL isInversion;
 
-    static BOOL pieceClick;
-
     static int divideBy;
     static RECT divideImageRT[5][5];
 
     static POINT imagePT[25];
 
+    static POINT firstPT;
+    static POINT lastPT;
+    static BOOL lbClick;
+
+    static POINT movingTile;
+    static BOOL isMoving;
+    static int remainMove;
+
     int mx, my;
     double width, height;
     DWORD dword;
+
+    static BOOL divide3[3][3];
+    static BOOL divide4[4][4];
+    static BOOL divide5[5][5];
 
     switch (iMessage)
     {
@@ -91,12 +103,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         isFullImage = FALSE;
         isInversion = FALSE;
 
-        pieceClick = FALSE;
+        lbClick = FALSE;
 
         divideBy = 3;
 
-        image_divide(imageInfo[0], divideBy, divideImageRT, imagePT);
+        image_divide(imageInfo[0], divideBy, divideImageRT, imagePT, (BOOL *)divide3);
 
+        break;
+
+    case WM_TIMER:
+        switch (lParam)
+        {
+        case TIME_TILE_MOVE:
+            break;
+        }
+        InvalidateRect(hWnd, NULL, FALSE);
         break;
 
     case WM_COMMAND:
@@ -106,7 +127,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 imageSelect = 0;
-                image_divide(imageInfo[0], divideBy, divideImageRT, imagePT);
+                switch (divideBy)
+                {
+                case 3:
+                    image_divide(imageInfo[0], divideBy, divideImageRT, imagePT, (BOOL *)divide3);
+                    break;
+                case 4:
+                    image_divide(imageInfo[0], divideBy, divideImageRT, imagePT, (BOOL *)divide4);
+                    break;
+                case 5:
+                    image_divide(imageInfo[0], divideBy, divideImageRT, imagePT, (BOOL *)divide5);
+                    break;
+                }
             }
             break;
 
@@ -114,7 +146,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 imageSelect = 1;
-                image_divide(imageInfo[1], divideBy, divideImageRT, imagePT);
+                switch (divideBy)
+                {
+                case 3:
+                    image_divide(imageInfo[1], divideBy, divideImageRT, imagePT, (BOOL *)divide3);
+                    break;
+                case 4:
+                    image_divide(imageInfo[1], divideBy, divideImageRT, imagePT, (BOOL *)divide4);
+                    break;
+                case 5:
+                    image_divide(imageInfo[1], divideBy, divideImageRT, imagePT, (BOOL *)divide5);
+                    break;
+                }
             }
             break;
 
@@ -122,7 +165,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 divideBy = 3;
-                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT);
+                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT, (BOOL *)divide3);
             }
             break;
 
@@ -130,7 +173,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 divideBy = 4;
-                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT);
+                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT, (BOOL *)divide4);
             }
             break;
 
@@ -138,7 +181,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 divideBy = 5;
-                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT);
+                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT, (BOOL *)divide5);
             }
             break;
 
@@ -189,7 +232,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 imageSelect = 0;
-                image_divide(imageInfo[0], divideBy, divideImageRT, imagePT);
+                switch (divideBy)
+                {
+                case 3:
+                    image_divide(imageInfo[0], divideBy, divideImageRT, imagePT, (BOOL *)divide3);
+                    break;
+                case 4:
+                    image_divide(imageInfo[0], divideBy, divideImageRT, imagePT, (BOOL *)divide4);
+                    break;
+                case 5:
+                    image_divide(imageInfo[0], divideBy, divideImageRT, imagePT, (BOOL *)divide5);
+                    break;
+                }
             }
             break;
 
@@ -197,7 +251,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 imageSelect = 1;
-                image_divide(imageInfo[1], divideBy, divideImageRT, imagePT);
+                switch (divideBy)
+                {
+                case 3:
+                    image_divide(imageInfo[1], divideBy, divideImageRT, imagePT, (BOOL *)divide3);
+                    break;
+                case 4:
+                    image_divide(imageInfo[1], divideBy, divideImageRT, imagePT, (BOOL *)divide4);
+                    break;
+                case 5:
+                    image_divide(imageInfo[1], divideBy, divideImageRT, imagePT, (BOOL *)divide5);
+                    break;
+                }
             }
             break;
 
@@ -205,7 +270,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 divideBy = 3;
-                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT);
+                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT, (BOOL *)divide3);
             }
             break;
 
@@ -213,7 +278,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 divideBy = 4;
-                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT);
+                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT, (BOOL *)divide4);
             }
             break;
 
@@ -221,7 +286,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (!isGameStart)
             {
                 divideBy = 5;
-                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT);
+                image_divide(imageInfo[imageSelect], divideBy, divideImageRT, imagePT, (BOOL *)divide5);
             }
             break;
         }
@@ -229,18 +294,53 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         break;
 
     case WM_LBUTTONDOWN:
+        lbClick = TRUE;
         mx = LOWORD(lParam);
         my = HIWORD(lParam);
-
+        firstPT = (POINT){mx, my};
         break;
 
     case WM_MOUSEMOVE:
-        mx = LOWORD(lParam);
-        my = HIWORD(lParam);
-
+        if (lbClick)
+        {
+            mx = LOWORD(lParam);
+            my = HIWORD(lParam);
+            lastPT = (POINT){mx, my};
+            if (abs(firstPT.x - lastPT.x) > 100 || abs(firstPT.y - lastPT.y) > 100)
+            {
+                if (abs(firstPT.x - lastPT.x) > abs(firstPT.y - lastPT.y))
+                {
+                    if (firstPT.x > lastPT.x)
+                    {
+                        // 빈 공간 왼쪽에 있는 조각이 이동
+                    }
+                    else
+                    {
+                        // 빈 공간 오른쪽에 있는 조각이 이동
+                    }
+                }
+                else
+                {
+                    if (firstPT.y > lastPT.y)
+                    {
+                        // 빈 공간 아래쪽에 있는 조각이 이동
+                    }
+                    else
+                    {
+                        // 빈 공간 위쪽에 있는 조각이 이동
+                    }
+                }
+            }
+        }
         break;
 
     case WM_LBUTTONUP:
+        lbClick = FALSE;
+        if (isMoving)
+        {
+            remainMove = 50;
+            SetTimer(hWnd, TIME_TILE_MOVE, 50, NULL);
+        }
         break;
 
     case WM_PAINT:
@@ -292,6 +392,43 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 }
         }
 
+        if (divideBy == 3)
+            for (int i = 0; i < divideBy; ++i)
+            {
+                for (int j = 0; j < divideBy; ++j)
+                {
+                    if (divide3[j][i])
+                        printf("1 ");
+                    else
+                        printf("0 ");
+                }
+                printf("\n");
+            }
+        if (divideBy == 4)
+            for (int i = 0; i < divideBy; ++i)
+            {
+                for (int j = 0; j < divideBy; ++j)
+                {
+                    if (divide4[j][i])
+                        printf("1 ");
+                    else
+                        printf("0 ");
+                }
+                printf("\n");
+            }
+        if (divideBy == 5)
+            for (int i = 0; i < divideBy; ++i)
+            {
+                for (int j = 0; j < divideBy; ++j)
+                {
+                    if (divide5[j][i])
+                        printf("1 ");
+                    else
+                        printf("0 ");
+                }
+                printf("\n");
+            }
+
         SelectObject(bitdc, oldBitmap);
         DeleteDC(bitdc);
 
@@ -311,7 +448,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     return (DefWindowProc(hWnd, iMessage, wParam, lParam));
 }
 
-void image_divide(BITMAP imageInfo, int divideBy, RECT divideRT[][5], POINT *imagePT)
+void image_divide(BITMAP imageInfo, int divideBy, RECT divideRT[][5], POINT *imagePT, BOOL *divide)
 {
     double width = imageInfo.bmWidth / divideBy;
     double height = imageInfo.bmHeight / divideBy;
@@ -333,6 +470,17 @@ void image_divide(BITMAP imageInfo, int divideBy, RECT divideRT[][5], POINT *ima
         }
 
     shuffle(imagePT, divideBy * divideBy);
+
+    idx = 0;
+    for (int i = 0; i < divideBy; ++i)
+        for (int j = 0; j < divideBy; ++j)
+        {
+            if (imagePT[idx].x == divideBy - 1 && imagePT[idx].y == divideBy - 1)
+                *(divide + i * divideBy + j) = TRUE;
+            else
+                *(divide + i * divideBy + j) = FALSE;
+            ++idx;
+        }
 }
 
 void shuffle(POINT *arr, int num)
