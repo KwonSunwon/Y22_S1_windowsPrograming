@@ -95,6 +95,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     double width, height;
     DWORD dword;
 
+    static int tmp1, tmp2;
+
     switch (iMessage)
     {
     case WM_CREATE:
@@ -122,6 +124,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             remainMove -= 10;
             if (remainMove <= 0)
             {
+                POINT tmpPT = imagePT[tmp1];
+                imagePT[tmp1] = imagePT[tmp2];
+                imagePT[tmp2] = tmpPT;
                 isMoving = FALSE;
                 KillTimer(hWnd, TIME_TILE_MOVE);
             }
@@ -323,7 +328,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 // printf("%d%d %d%d %d%d\n", imagePT[0].x, imagePT[0].y, imagePT[1].x, imagePT[1].y, imagePT[2].x, imagePT[2].y);
                 // printf("%d%d %d%d %d%d\n", imagePT[3].x, imagePT[3].y, imagePT[4].x, imagePT[4].y, imagePT[5].x, imagePT[5].y);
                 // printf("%d%d %d%d %d%d\n", imagePT[6].x, imagePT[6].y, imagePT[7].x, imagePT[7].y, imagePT[8].x, imagePT[8].y);
-                int tmp1, tmp2;
+
                 int idx = 0;
                 for (int i = 0; i < divideBy; ++i)
                     for (int j = 0; j < divideBy; ++j)
@@ -338,16 +343,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                         }
                         idx++;
                     }
-                POINT tmpPT = imagePT[tmp1];
-                imagePT[tmp1] = imagePT[tmp2];
-                imagePT[tmp2] = tmpPT;
-                // printf("%d%d %d%d %d%d\n", imagePT[0].x, imagePT[0].y, imagePT[1].x, imagePT[1].y, imagePT[2].x, imagePT[2].y);
-                // printf("%d%d %d%d %d%d\n", imagePT[3].x, imagePT[3].y, imagePT[4].x, imagePT[4].y, imagePT[5].x, imagePT[5].y);
-                // printf("%d%d %d%d %d%d\n", imagePT[6].x, imagePT[6].y, imagePT[7].x, imagePT[7].y, imagePT[8].x, imagePT[8].y);
+
+                movingTile = imagePT[tmp1];
+
                 remainMove = divideImageRT[0][0].right;
+
                 isMoving = TRUE;
 
-                printf("%d\n", divideImageRT[0][0].right);
                 SetTimer(hWnd, TIME_TILE_MOVE, 30, NULL);
             }
             isMoveEnough = FALSE;
@@ -389,7 +391,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                     if (pt.x == (divideBy - 1) && pt.y == (divideBy - 1))
                         continue;
 
-                    if (movingTile.x == i && movingTile.y == j && isMoving)
+                    if (movingTile.x == pt.x && movingTile.y == pt.y && isMoving)
                     {
                         switch (direction)
                         {
@@ -426,7 +428,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             for (int i = 0; i < divideBy; ++i)
                 for (int j = 0; j < divideBy; ++j)
                 {
-                    StretchBlt(mdc, width * j, height * i, width, height,
+                    StretchBlt(mdc, width * i, height * j, width, height,
                                bitdc, divideImageRT[i][j].left, divideImageRT[i][j].top,
                                divideImageRT[i][j].right, divideImageRT[i][j].bottom, dword);
                 }

@@ -1,16 +1,35 @@
 ﻿  Prob5-2.c
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(52,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(379,43): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(379,55): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(379,60): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(379,67): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(389,43): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(389,55): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(389,60): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(389,67): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(462,41): warning C4244: '=': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(463,41): warning C4244: '=': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(466,36): warning C4244: '=': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(467,37): warning C4244: '=': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(488,15): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Prob5-2.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\Win_Proj_Ch_5\x64\Debug\Prob5-2.exe
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(57,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(325,49): warning C4047: '함수': 'BOOL *'의 간접 참조 수준이 'BOOL [5][5]'과(와) 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(325,43): warning C4024: 'search_move_tile': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(399,55): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(399,86): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(399,91): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(399,98): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(404,55): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(404,86): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(404,91): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(404,98): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(409,51): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(409,67): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(409,92): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(409,99): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(414,51): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(414,67): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(414,92): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(414,99): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(421,47): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(421,59): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(421,64): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(421,71): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(431,43): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(431,55): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(431,60): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(431,67): warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(482,41): warning C4244: '=': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(483,41): warning C4244: '=': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(486,36): warning C4244: '=': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(487,37): warning C4244: '=': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(514,15): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\Prob5-2\Prob5-2.c(526,29): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
+  Prob5-2.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\Win_Proj_Ch_5\x64\Debug\Prob5-2.exe
