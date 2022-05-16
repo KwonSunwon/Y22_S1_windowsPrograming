@@ -5,6 +5,8 @@
 #include <Windows.h>
 #include <tchar.h>
 
+#include "player.h"
+
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Inversus";
 LPCTSTR lpszWindowName = L"Inversus";
@@ -49,9 +51,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     PAINTSTRUCT ps;
     HDC hdc;
 
+    Player player;
+
     switch (iMessage)
     {
     case WM_CREATE:
+        player.object_draw();
         break;
 
     case WM_PAINT:

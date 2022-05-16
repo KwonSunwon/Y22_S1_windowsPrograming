@@ -138,7 +138,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         switch (wParam)
         {
         case TIME_MAGINFIER_MOVE:
-            GetWindowRect(hWnd, &tempRT);
+            GetClientRect(hWnd, &tempRT);
             maginfier_move(&maginfier, &direction, tempRT);
             InvalidateRect(hWnd, NULL, FALSE);
             break;
@@ -172,7 +172,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             if (isDuplicated)
             {
                 duplicate.active = TRUE;
-                GetWindowRect(hWnd, &tempRT);
+                GetClientRect(hWnd, &tempRT);
                 duplicate.location.x = rand() % 500 + 50;
                 duplicate.location.y = rand() % 400 + 50;
             }
@@ -487,26 +487,6 @@ void maginfier_init(Maginfier *_maginfier)
 
 void maginfier_move(Maginfier *_maginfier, int *_direction, RECT _winRT)
 {
-    switch (*_direction)
-    {
-    case LEFT_UP:
-        _maginfier->location.x -= 3;
-        _maginfier->location.y -= 3;
-        break;
-    case RIGHT_UP:
-        _maginfier->location.x += 3;
-        _maginfier->location.y -= 3;
-        break;
-    case LEFT_DOWN:
-        _maginfier->location.x -= 3;
-        _maginfier->location.y += 3;
-        break;
-    case RIGHT_DOWN:
-        _maginfier->location.x += 3;
-        _maginfier->location.y += 3;
-        break;
-    }
-
     if (_maginfier->location.x <= 0)
     {
         if (*_direction == LEFT_UP)
@@ -537,4 +517,25 @@ void maginfier_move(Maginfier *_maginfier, int *_direction, RECT _winRT)
         else
             *_direction = RIGHT_UP;
     }
+    switch (*_direction)
+    {
+    case LEFT_UP:
+        _maginfier->location.x -= 3;
+        _maginfier->location.y -= 3;
+        break;
+    case RIGHT_UP:
+        _maginfier->location.x += 3;
+        _maginfier->location.y -= 3;
+        break;
+    case LEFT_DOWN:
+        _maginfier->location.x -= 3;
+        _maginfier->location.y += 3;
+        break;
+    case RIGHT_DOWN:
+        _maginfier->location.x += 3;
+        _maginfier->location.y += 3;
+        break;
+    }
+
+    
 }
