@@ -3,8 +3,10 @@
 class Player : public Object
 {
 public:
-    void player_move(int)
-    {
-        object_move_left();
-    }
+    Player();
+    void player_move(int);
+};
+
+class Bullet : public Player
+{
 };

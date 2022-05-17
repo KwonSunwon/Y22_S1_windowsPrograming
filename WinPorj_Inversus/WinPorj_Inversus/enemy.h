@@ -1,5 +1,6 @@
+#include "object.h"
+
 class Enemy
 {
-    private:
-    
+private:
 };

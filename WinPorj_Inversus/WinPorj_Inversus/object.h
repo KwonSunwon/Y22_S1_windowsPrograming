@@ -1,4 +1,7 @@
+#pragma once
+
 #include <Windows.h>
+#include <iostream>
 
 class Object
 {
@@ -7,6 +10,7 @@ protected:
     RECT shape;
     BOOL isLive;
     COLORREF color;
+    int speed;
 
 public:
     void object_move_left();

@@ -1,11 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
-#include <iostream>
 
-#include <Windows.h>
-#include <tchar.h>
-
-#include "player.h"
+#include "gameheader.h"
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Inversus";
@@ -49,19 +45,66 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
     PAINTSTRUCT ps;
-    HDC hdc;
+    HDC hdc, mdc;
+    HBITMAP backBit;
+    RECT bufferRT;
 
-    Player player;
+    Map map;
 
     switch (iMessage)
     {
     case WM_CREATE:
-        player.object_draw();
+
         break;
 
     case WM_PAINT:
         hdc = BeginPaint(hWnd, &ps);
+        GetClientRect(hWnd, &bufferRT);
+        mdc = CreateCompatibleDC(hdc);
+        backBit = CreateCompatibleBitmap(hdc, bufferRT.right, bufferRT.bottom);
+        SelectObject(mdc, (HBITMAP)backBit);
+        PatBlt(mdc, 0, 0, bufferRT.right, bufferRT.bottom, WHITENESS);
 
+        map.map_change(1);
+        std::cout << "그리기 전\n";
+        map.map_draw(mdc);
+        std::cout << "맵 그리기\n";
+        // HBRUSH hBrush, oldBrush;
+        // HPEN hPen, oldPen;
+
+        // for (int i = 0; i < 20; ++i)
+        //     for (int j = 0; j < 15; ++j)
+        //     {
+        //         if (Normal_Mode[j][i] == 0)
+        //         {
+        //             hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+        //             oldPen = (HPEN)SelectObject(mdc, hPen);
+        //             hBrush = CreateSolidBrush(RGB(255, 255, 255));
+        //             oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
+        //             Rectangle(mdc, 40 * j, 25 * i, 40 * (j + 1), 25 * (i + 1));
+        //             SelectObject(mdc, oldBrush);
+        //             DeleteObject(hBrush);
+        //             SelectObject(mdc, oldPen);
+        //             DeleteObject(hPen);
+        //         }
+        //         else if (Normal_Mode[j][i] == 1)
+        //         {
+        //             hPen = CreatePen(PS_SOLID, 1, RGB(255, 255, 255));
+        //             oldPen = (HPEN)SelectObject(mdc, hPen);
+        //             hBrush = CreateSolidBrush(RGB(0, 0, 0));
+        //             oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
+        //             Rectangle(mdc, 40 * j, 25 * i, 40 * (j + 1), 25 * (i + 1));
+        //             SelectObject(mdc, oldBrush);
+        //             DeleteObject(hBrush);
+        //             SelectObject(mdc, oldPen);
+        //             DeleteObject(hPen);
+        //         }
+        //     }
+
+        GetClientRect(hWnd, &bufferRT);
+        BitBlt(hdc, 0, 0, bufferRT.right, bufferRT.bottom, mdc, 0, 0, SRCCOPY);
+        DeleteObject(backBit);
+        DeleteDC(mdc);
         EndPaint(hWnd, &ps);
         break;
 
