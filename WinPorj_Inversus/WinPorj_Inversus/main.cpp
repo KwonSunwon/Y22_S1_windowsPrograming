@@ -1,7 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 
-#include "gameheader.h"
+#include "stdafx.h"
+
+#include "enemy.h"
+#include "player.h"
+#include "Map.h"
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Inversus";
@@ -49,12 +53,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     HBITMAP backBit;
     RECT bufferRT;
 
-    Map map;
+    static  Map map;
+    static Player player;
+
+    static int level;
 
     switch (iMessage)
     {
     case WM_CREATE:
-
+        level = map.get_level();
+        player.init(level);
         break;
 
     case WM_PAINT:
@@ -65,8 +73,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         SelectObject(mdc, (HBITMAP)backBit);
         PatBlt(mdc, 0, 0, bufferRT.right, bufferRT.bottom, WHITENESS);
 
-        map.change(2);
         map.draw(mdc, 50);
+        player.draw(mdc);
 
         GetClientRect(hWnd, &bufferRT);
         BitBlt(hdc, 0, 0, bufferRT.right, bufferRT.bottom, mdc, 0, 0, SRCCOPY);

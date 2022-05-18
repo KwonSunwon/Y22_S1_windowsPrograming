@@ -78,4 +78,5 @@ public:
     void change(int);
     void draw(HDC, int);
     int object(int, int);
+    int get_level();
 } Map;

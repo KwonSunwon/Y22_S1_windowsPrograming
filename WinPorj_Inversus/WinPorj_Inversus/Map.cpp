@@ -57,49 +57,48 @@ void Map::draw(HDC mdc, int point)
     HBRUSH hBrush, oldBrush;
     HPEN hPen, oldPen;
 
+    hPen = CreatePen(PS_SOLID, 1, RGB(175, 175, 175));
+    oldPen = (HPEN)SelectObject(mdc, hPen);
+
     for (int i = 0; i < row; ++i)
         for (int j = 0; j < col; ++j)
         {
             if (_map[i][j] == 0)
             {
-                hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-                oldPen = (HPEN)SelectObject(mdc, hPen);
                 hBrush = CreateSolidBrush(RGB(255, 255, 255));
                 oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
                 Rectangle(mdc, point + size * j, point + size * i, point + size * (j + 1), point + size * (i + 1));
                 SelectObject(mdc, oldBrush);
                 DeleteObject(hBrush);
-                SelectObject(mdc, oldPen);
-                DeleteObject(hPen);
             }
             else if (_map[i][j] == 1)
             {
-                hPen = CreatePen(PS_SOLID, 1, RGB(255, 255, 255));
-                oldPen = (HPEN)SelectObject(mdc, hPen);
                 hBrush = CreateSolidBrush(RGB(0, 0, 0));
                 oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
                 Rectangle(mdc, point + size * j, point + size * i, point + size * (j + 1), point + size * (i + 1));
                 SelectObject(mdc, oldBrush);
                 DeleteObject(hBrush);
-                SelectObject(mdc, oldPen);
-                DeleteObject(hPen);
             }
             else if (_map[i][j] == 2)
             {
-                hPen = CreatePen(PS_SOLID, 1, RGB(255, 255, 255));
-                oldPen = (HPEN)SelectObject(mdc, hPen);
                 hBrush = CreateSolidBrush(RGB(180, 0, 0));
                 oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
                 Rectangle(mdc, point + size * j, point + size * i, point + size * (j + 1), point + size * (i + 1));
                 SelectObject(mdc, oldBrush);
                 DeleteObject(hBrush);
-                SelectObject(mdc, oldPen);
-                DeleteObject(hPen);
             }
         }
+
+    SelectObject(mdc, oldPen);
+    DeleteObject(hPen);
 }
 
 int Map::object(int row, int col)
 {
     return _map[row][col];
+}
+
+int Map::get_level()
+{
+    return level;
 }

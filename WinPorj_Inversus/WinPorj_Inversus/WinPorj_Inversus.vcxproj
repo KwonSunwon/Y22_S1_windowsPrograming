@@ -142,14 +142,14 @@
     <ClCompile Include="enemy.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="object.h" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gameheader.h" />
-    <ClInclude Include="header.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

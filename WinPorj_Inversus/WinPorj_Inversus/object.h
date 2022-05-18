@@ -10,7 +10,8 @@
 class Object
 {
 protected:
-    RECT location;
+    POINT position;
+    RECT shape;
     int direction;
     BOOL isLive;
     COLORREF color;
@@ -21,5 +22,5 @@ public:
     void move_right();
     void move_up();
     void move_down();
-    void draw();
+    RECT pos_shape();
 };
