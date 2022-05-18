@@ -1,21 +1,25 @@
 #pragma once
 
-#include <Windows.h>
-#include <iostream>
+#include "stdafx.h"
+
+#define LEFT 100
+#define RIGHT 101
+#define UP 102
+#define DOWN 103
 
 class Object
 {
 protected:
-    POINT location;
-    RECT shape;
+    RECT location;
+    int direction;
     BOOL isLive;
     COLORREF color;
     int speed;
 
 public:
-    void object_move_left();
-    void object_move_right();
-    void object_move_up();
-    void object_move_down();
-    void object_draw();
+    void move_left();
+    void move_right();
+    void move_up();
+    void move_down();
+    void draw();
 };

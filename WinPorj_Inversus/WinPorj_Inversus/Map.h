@@ -1,9 +1,19 @@
 #pragma once
 
-#include <Windows.h>
-#include <iostream>
+#include "stdafx.h"
 
-const int Easy_Mode[15][16] = {
+#define ROW 15
+#define E_COL 16
+#define N_COL 20
+#define MAP_SIZE 30;
+
+#define EASY 0
+#define NORMAL 1
+#define HARD 2
+
+using namespace std;
+
+const int Easy_Mode[ROW][E_COL] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -21,7 +31,7 @@ const int Easy_Mode[15][16] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
 
-const int Normal_Mode[15][20] = {
+const int Normal_Mode[ROW][N_COL] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -39,7 +49,7 @@ const int Normal_Mode[15][20] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
 
-const int Hard_Mode[15][20] = {
+const int Hard_Mode[ROW][N_COL] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -60,12 +70,12 @@ const int Hard_Mode[15][20] = {
 typedef class Map
 {
 private:
-    int gameMode;
-    int **map;
+    int level;
+    vector<vector<int>> _map;
 
 public:
-    // Map();
-    ~Map();
-    void map_change(int);
-    void map_draw(HDC);
+    Map();
+    void change(int);
+    void draw(HDC, int);
+    int object(int, int);
 } Map;
