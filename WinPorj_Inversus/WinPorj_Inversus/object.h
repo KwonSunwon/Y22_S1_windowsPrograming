@@ -2,17 +2,11 @@
 
 #include "stdafx.h"
 
-#define LEFT 100
-#define RIGHT 101
-#define UP 102
-#define DOWN 103
-
 class Object
 {
 protected:
     POINT position;
     RECT shape;
-    int direction;
     BOOL isLive;
     COLORREF color;
     int speed;
@@ -22,5 +16,10 @@ public:
     void move_right();
     void move_up();
     void move_down();
-    RECT pos_shape();
+
+    RECT get_pos_rect();
+    int get_speed();
+
+    POINT get_position();
+    POINT get_point();
 };

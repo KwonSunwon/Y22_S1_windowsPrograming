@@ -1,6 +1,6 @@
 {
-    "cSpell.words": [
-        "Inversus",
-        "respawn"
-    ]
+  "cSpell.words": ["Inversus", "respawn"],
+  "files.associations": {
+    "cmath": "cpp"
+  }
 }

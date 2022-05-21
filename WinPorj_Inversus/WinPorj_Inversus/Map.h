@@ -2,15 +2,6 @@
 
 #include "stdafx.h"
 
-#define ROW 15
-#define E_COL 16
-#define N_COL 20
-#define MAP_SIZE 30;
-
-#define EASY 0
-#define NORMAL 1
-#define HARD 2
-
 using namespace std;
 
 const int Easy_Mode[ROW][E_COL] = {
@@ -72,11 +63,20 @@ typedef class Map
 private:
     int level;
     vector<vector<int>> _map;
+    RECT mapSize;
 
 public:
     Map();
     void change(int);
-    void draw(HDC, int);
-    int object(int, int);
+    RECT map_size();
+    void draw(HDC);
+
+    void tile_change_black(POINT);
+    void tile_change_white(POINT);
+
     int get_level();
+    RECT get_map_size();
+
+    int get_object(POINT);
+    RECT get_tile_rect(POINT);
 } Map;

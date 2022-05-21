@@ -1,4 +1,14 @@
-﻿  player.cpp
+﻿  Map.cpp
+  main.cpp
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\WinPorj_Inversus\main.cpp(49,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\WinPorj_Inversus\main.cpp(68,10): warning C4101: 'tempPlayerRT' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\WinPorj_Inversus\main.cpp(65,11): warning C4101: 'tempPT' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\WinPorj_Inversus\main.cpp(67,10): warning C4101: 'tempMapRT' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\WinPorj_Inversus\main.cpp(66,9): warning C4101: 'tempObj' :참조되지 않은 지역 변수입니다.
+C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\WinPorj_Inversus\main.cpp(64,10): warning C4101: 'tempRT' :참조되지 않은 지역 변수입니다.
+  object.cpp
+  object.h
+  코드를 생성하고 있습니다...
 x64\Debug\object.obj : warning LNK4042: 개체가 두 번 이상 지정되었습니다. 나머지는 무시됩니다.
 x64\Debug\player.obj : warning LNK4042: 개체가 두 번 이상 지정되었습니다. 나머지는 무시됩니다.
   WinPorj_Inversus.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\x64\Debug\WinPorj_Inversus.exe

@@ -7,6 +7,9 @@
 #include "player.h"
 #include "Map.h"
 
+POINT position_to_point(POINT);
+BOOL intersect_check(Player, Map, int);
+
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Inversus";
 LPCTSTR lpszWindowName = L"Inversus";
@@ -53,16 +56,64 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     HBITMAP backBit;
     RECT bufferRT;
 
-    static  Map map;
+    static Map map;
     static Player player;
 
     static int level;
+
+    RECT tempRT;
+    POINT tempPT;
+    int tempObj;
+    RECT tempMapRT;
+    RECT tempPlayerRT;
 
     switch (iMessage)
     {
     case WM_CREATE:
         level = map.get_level();
         player.init(level);
+        SetTimer(hWnd, BULLET_RENDER, 40, NULL);
+        break;
+
+    case WM_TIMER:
+        switch (wParam)
+        {
+        case BULLET_RENDER:
+            InvalidateRect(hWnd, NULL, FALSE);
+            break;
+        }
+        break;
+
+    case WM_KEYDOWN:
+        switch (wParam)
+        {
+        case 0x41: // a
+            if (!intersect_check(player, map, LEFT))
+                player.move(LEFT, map.get_map_size());
+            break;
+        case 0x44: // d
+            if (!intersect_check(player, map, RIGHT))
+                player.move(RIGHT, map.get_map_size());
+            break;
+        case 0x57: // w
+            if (!intersect_check(player, map, UP))
+                player.move(UP, map.get_map_size());
+            break;
+        case 0x53: // s
+            if (!intersect_check(player, map, DOWN))
+                player.move(DOWN, map.get_map_size());
+            break;
+
+        case VK_LEFT:
+            break;
+        case VK_RIGHT:
+            break;
+        case VK_UP:
+            break;
+        case VK_DOWN:
+            break;
+        }
+
         break;
 
     case WM_PAINT:
@@ -73,7 +124,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         SelectObject(mdc, (HBITMAP)backBit);
         PatBlt(mdc, 0, 0, bufferRT.right, bufferRT.bottom, WHITENESS);
 
-        map.draw(mdc, 50);
+        map.draw(mdc);
         player.draw(mdc);
 
         GetClientRect(hWnd, &bufferRT);
@@ -88,4 +139,79 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         return 0;
     }
     return (DefWindowProc(hWnd, iMessage, wParam, lParam));
+}
+
+POINT position_to_point(POINT _position)
+{
+    POINT temp = {
+        (_position.x - MAP_LOCATION) / MAP_SIZE,
+        (_position.y - MAP_LOCATION) / MAP_SIZE,
+    };
+    std::cout << temp.x << ", " << temp.y << "\n";
+    return temp;
+}
+
+BOOL intersect_check(Player player, Map map, int direction)
+{
+    BOOL isIntersect = FALSE;
+
+    POINT playerPos = player.get_position();
+    POINT playerPt;
+    RECT playerRt = player.get_pos_rect();
+    RECT mapRt;
+    RECT rcTemp;
+
+    switch (direction)
+    {
+    case LEFT:
+        playerPos.x -= (PLAYER_SIZE + 10);
+        playerPt = position_to_point(playerPos);
+        playerPt.y -= 1;
+        for (int i = 0; i < 3; ++i)
+        {
+            mapRt = map.get_tile_rect(playerPt);
+            if (IntersectRect(&rcTemp, &playerRt, &mapRt) && map.get_object(playerPt) != 0)
+                isIntersect = TRUE;
+            playerPt.y++;
+        }
+        break;
+    case RIGHT:
+        playerPos.x += (PLAYER_SIZE + 10);
+        playerPt = position_to_point(playerPos);
+        playerPt.y -= 1;
+        for (int i = 0; i < 3; ++i)
+        {
+            mapRt = map.get_tile_rect(playerPt);
+            if (IntersectRect(&rcTemp, &playerRt, &mapRt) && map.get_object(playerPt) != 0)
+                isIntersect = TRUE;
+            playerPt.y++;
+        }
+        break;
+    case UP:
+        playerPos.y -= (PLAYER_SIZE + 10);
+        playerPt = position_to_point(playerPos);
+        playerPt.x -= 1;
+        for (int i = 0; i < 3; ++i)
+        {
+            mapRt = map.get_tile_rect(playerPt);
+            if (IntersectRect(&rcTemp, &playerRt, &mapRt) && map.get_object(playerPt) != 0)
+                isIntersect = TRUE;
+            playerPt.x++;
+        }
+        break;
+    case DOWN:
+        playerPos.y += (PLAYER_SIZE + 10);
+        playerPt = position_to_point(playerPos);
+        playerPt.x -= 1;
+        for (int i = 0; i < 3; ++i)
+        {
+            mapRt = map.get_tile_rect(playerPt);
+            if (IntersectRect(&rcTemp, &playerRt, &mapRt) && map.get_object(playerPt) != 0)
+                isIntersect = TRUE;
+            playerPt.x++;
+        }
+        break;
+    }
+
+    return isIntersect;
 }
