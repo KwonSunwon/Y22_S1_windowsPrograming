@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <time.h>
 
 // Map
 #define ROW 15
@@ -29,9 +30,29 @@
 // Player
 #define MAX_BULLET 6
 #define RESPAWN_TIME 500
-#define SPEED 50
+#define SPEED 2
 #define PLAYER_SIZE 13
 #define BULLET_SIZE 2
+#define BULLET_RELOAD_TIME 3000
+
+// Bullet
+#define BULLET_SPEED 5
+#define MAX_BULLET_DRAW 12
+
+// Enemy
+#define ENEMY_SPAWN_TIME 2000
+#define ENEMY_SPEED 3
 
 // TIME
+#define BULLET_RELOAD 999
 #define BULLET_RENDER 1000
+#define BULLET_MOVE 1001
+#define ENEMY_MOVE 1002
+#define PLAYER_RESPAWN 1003
+#define ENEMY_SPAWN 1004
+
+typedef struct BulletInfo
+{
+    POINT _position;
+    int _direction;
+} BulletInfo;

@@ -11,6 +11,7 @@ Player::Player()
 
     respawn = 0;
     bulletCount = MAX_BULLET;
+    specialBulletCount = 0;
     bulletAngle = 0;
 
     RECT tempBulletRT = {-BULLET_SIZE, -BULLET_SIZE, BULLET_SIZE, BULLET_SIZE};
@@ -36,44 +37,54 @@ void Player::init(int level)
     }
 
     isLive = TRUE;
-    bulletCount = MAX_BULLET;
 }
 
 void Player::draw(HDC mdc)
 {
-    HBRUSH hBrush, oldBrush;
+    HBRUSH hBrush, h2Brush, oldBrush;
     HPEN hPen, oldPen;
 
-    // Player
-    hBrush = CreateSolidBrush(RGB(20, 20, 20));
-    hPen = CreatePen(PS_SOLID, 1, RGB(150, 150, 150));
-    oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
-    oldPen = (HPEN)SelectObject(mdc, hPen);
-    RECT drawRT = get_pos_rect();
-    RoundRect(mdc, drawRT.left, drawRT.top, drawRT.right, drawRT.bottom, 5, 5);
-    SelectObject(mdc, oldBrush);
-    SelectObject(mdc, oldPen);
-    DeleteObject(hBrush);
-    DeleteObject(hPen);
-
-    // Bullet circle
-    hBrush = CreateSolidBrush(RGB(200, 200, 200));
-    hPen = CreatePen(PS_SOLID, 1, RGB(200, 200, 200));
-    oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
-    oldPen = (HPEN)SelectObject(mdc, hPen);
-    int tempAngle;
-    bulletAngle = (bulletAngle + 5) % 360;
-    tempAngle = bulletAngle;
-    for (int i = 0; i < bulletCount; ++i)
+    if (isLive)
     {
-        drawRT = pos_bullet(tempAngle);
-        Ellipse(mdc, drawRT.left, drawRT.top, drawRT.right, drawRT.bottom);
-        tempAngle = (tempAngle + 60) % 360;
+        // Player
+        hBrush = CreateSolidBrush(RGB(20, 20, 20));
+        hPen = CreatePen(PS_SOLID, 1, RGB(150, 150, 150));
+        oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
+        oldPen = (HPEN)SelectObject(mdc, hPen);
+        RECT drawRT = get_pos_rect();
+        RoundRect(mdc, drawRT.left, drawRT.top, drawRT.right, drawRT.bottom, 5, 5);
+        SelectObject(mdc, oldBrush);
+        SelectObject(mdc, oldPen);
+        DeleteObject(hBrush);
+        DeleteObject(hPen);
+
+        // Bullet circle
+        hBrush = CreateSolidBrush(RGB(200, 200, 200));
+        h2Brush = CreateSolidBrush(RGB(0, 100, 200));
+        hPen = CreatePen(PS_SOLID, 1, RGB(200, 200, 200));
+        oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
+        oldPen = (HPEN)SelectObject(mdc, hPen);
+        int tempAngle;
+        tempAngle = bulletAngle;
+        for (int i = 0; i < bulletCount; ++i)
+        {
+            drawRT = pos_bullet(tempAngle);
+            Ellipse(mdc, drawRT.left, drawRT.top, drawRT.right, drawRT.bottom);
+            tempAngle = (tempAngle + 60) % 360;
+        }
+        oldBrush = (HBRUSH)SelectObject(mdc, h2Brush);
+        for (int i = 0; i < specialBulletCount; ++i)
+        {
+            drawRT = pos_bullet(tempAngle);
+            Ellipse(mdc, drawRT.left, drawRT.top, drawRT.right, drawRT.bottom);
+            tempAngle = (tempAngle + 60) % 360;
+        }
+        SelectObject(mdc, oldBrush);
+        SelectObject(mdc, oldPen);
+        DeleteObject(hBrush);
+        DeleteObject(h2Brush);
+        DeleteObject(hPen);
     }
-    SelectObject(mdc, oldBrush);
-    SelectObject(mdc, oldPen);
-    DeleteObject(hBrush);
-    DeleteObject(hPen);
 }
 
 RECT Player::pos_bullet(int _angle)
@@ -85,6 +96,11 @@ RECT Player::pos_bullet(int _angle)
         bulletRT.bottom + position.y + 8 * sin(_angle * M_PI / 180),
     };
     return temp;
+}
+
+void Player::in_bullet_rotate()
+{
+    bulletAngle = (bulletAngle + 5) % 360;
 }
 
 void Player::move(int _direction, RECT _mapSize)
@@ -116,4 +132,22 @@ void Player::move(int _direction, RECT _mapSize)
             move_down();
         break;
     }
+}
+
+BulletInfo Player::shoot(int _direction)
+{
+    BulletInfo info = {{-1, -1}, -1};
+    if (bulletCount)
+    {
+        --bulletCount;
+        info._position = position;
+        info._direction = _direction;
+    }
+    return info;
+}
+
+void Player::bullet_reload()
+{
+    if (bulletCount < MAX_BULLET)
+        ++bulletCount;
 }

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bullet.cpp" />
     <ClCompile Include="enemy.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="player.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bullet.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

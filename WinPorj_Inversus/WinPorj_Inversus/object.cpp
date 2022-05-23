@@ -14,19 +14,19 @@ int Object::get_speed()
 
 void Object::move_left()
 {
-    position.x -= 3;
+    position.x -= speed;
 }
 void Object::move_right()
 {
-    position.x += 3;
+    position.x += speed;
 }
 void Object::move_up()
 {
-    position.y -= 3;
+    position.y -= speed;
 }
 void Object::move_down()
 {
-    position.y += 3;
+    position.y += speed;
 }
 
 POINT Object::get_position()
@@ -40,6 +40,15 @@ POINT Object::get_point()
         (position.x - MAP_LOCATION) / MAP_SIZE,
         (position.y - MAP_LOCATION) / MAP_SIZE,
     };
-    std::cout << temp.x << ", " << temp.y << "\n";
     return temp;
+}
+
+BOOL Object::get_is_live()
+{
+    return isLive;
+}
+
+void Object::dead()
+{
+    isLive = FALSE;
 }

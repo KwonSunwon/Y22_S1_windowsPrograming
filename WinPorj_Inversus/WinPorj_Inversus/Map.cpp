@@ -128,11 +128,11 @@ RECT Map::map_size()
 
 void Map::tile_change_black(POINT pt)
 {
-    _map[pt.x][pt.y] = BLACK;
+    _map[pt.y][pt.x] = BLACK;
 }
 void Map::tile_change_white(POINT pt)
 {
-    _map[pt.x][pt.y] = WHITE;
+    _map[pt.y][pt.x] = WHITE;
 }
 
 RECT Map::get_map_size()
