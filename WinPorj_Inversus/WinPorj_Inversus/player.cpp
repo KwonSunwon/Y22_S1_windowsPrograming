@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+    isOverPower = FALSE;
     RECT tempRT = {-PLAYER_SIZE, -PLAYER_SIZE, PLAYER_SIZE, PLAYER_SIZE};
     shape = tempRT;
     position.x = 0;
@@ -150,4 +151,9 @@ void Player::bullet_reload()
 {
     if (bulletCount < MAX_BULLET)
         ++bulletCount;
+}
+
+void Player::over_power_on()
+{
+    isOverPower = TRUE;
 }

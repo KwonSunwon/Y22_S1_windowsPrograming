@@ -8,6 +8,7 @@ private:
     int respawn;
     int bulletAngle;
     RECT bulletRT;
+    BOOL isOverPower;
 
 public:
     Player();
@@ -19,4 +20,5 @@ public:
     void bullet_reload();
 
     BulletInfo shoot(int);
+    void over_power_on();
 };

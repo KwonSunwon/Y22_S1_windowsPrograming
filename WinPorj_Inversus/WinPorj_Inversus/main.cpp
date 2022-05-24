@@ -141,16 +141,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 break;
 
             case VK_LEFT:
-                bullet_shoot(&player, bullet, bulletIdx++, LEFT);
+                bullet_shoot(&player, bullet, bulletIdx, LEFT);
                 break;
             case VK_RIGHT:
-                bullet_shoot(&player, bullet, bulletIdx++, RIGHT);
+                bullet_shoot(&player, bullet, bulletIdx, RIGHT);
                 break;
             case VK_UP:
-                bullet_shoot(&player, bullet, bulletIdx++, UP);
+                bullet_shoot(&player, bullet, bulletIdx, UP);
                 break;
             case VK_DOWN:
-                bullet_shoot(&player, bullet, bulletIdx++, DOWN);
+                bullet_shoot(&player, bullet, bulletIdx, DOWN);
                 break;
             }
         else
@@ -174,7 +174,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 SetTimer(hWnd, BULLET_RELOAD, BULLET_RELOAD_TIME, NULL);
                 break;
             }
-        if (bulletIdx == MAX_BULLET_DRAW + 1)
+        if (bulletIdx++ == MAX_BULLET_DRAW + 1)
             bulletIdx = 0;
         InvalidateRect(hWnd, NULL, FALSE);
         break;
@@ -287,7 +287,8 @@ void bullet_shoot(Player *_player, Bullet _bullet[], int _idx, int _direction)
 {
     BulletInfo info;
     info = _player->shoot(_direction);
-    _bullet[_idx].make_bullet(info);
+    if (info._direction != -1)
+        _bullet[_idx].make_bullet(info);
 }
 
 BOOL intersect_bullet_to_map(Bullet *_bullet, Map *_map)

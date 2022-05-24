@@ -41,8 +41,18 @@ void Enemy::draw(HDC mdc)
     }
 }
 
-void move_to_player(POINT _playerPos)
+void Enemy::move_to_player(POINT _playerPos)
 {
     // TODO
     // 여기서부터 시작, Enemy class 아직 테스트 안함
+    int moveX, moveY;
+    POINT movePos = {_playerPos.x - position.x, _playerPos.y - position.y};
+    if (abs(movePos.x) > abs(movePos.y))
+    {
+        moveX = abs(movePos.x) / abs(movePos.y);
+    }
+    else
+    {
+        moveY = abs(movePos.y) / abs(movePos.x);
+    }
 }
