@@ -13,8 +13,11 @@ private:
 public:
     Player();
     void init(int);
+    void init(POINT);
+
     void move(int, RECT);
     void draw(HDC);
+
     void in_bullet_rotate();
     RECT pos_bullet(int);
     void bullet_reload();

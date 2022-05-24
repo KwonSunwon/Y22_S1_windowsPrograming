@@ -51,4 +51,44 @@ BOOL Object::get_is_live()
 void Object::dead()
 {
     isLive = FALSE;
+    deadEffect = TRUE;
+    deadEffectCount = 30;
+}
+
+void Object::dead_effect(HDC mdc)
+{
+    if (deadEffect)
+    {
+        HBRUSH hBrush, oldBrush;
+
+        hBrush = CreateSolidBrush(RGB(20, 90, 100));
+        oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
+
+        RECT draw;
+        RECT circle = {0, 0, 20, 20};
+        int x, y, size;
+        OffsetRect(&circle, position.x, position.y);
+
+        draw = circle;
+        x = (rand() % 30);
+        y = (rand() % 30);
+        size = rand() % 30;
+        InflateRect(&draw, size, size);
+        OffsetRect(&draw, x, y);
+        Ellipse(mdc, draw.left, draw.top, draw.right, draw.bottom);
+
+        draw = circle;
+        x = -(rand() % 30);
+        y = -(rand() % 30);
+        size = rand() % 30;
+        InflateRect(&draw, size, size);
+        OffsetRect(&draw, x, y);
+        Ellipse(mdc, draw.left, draw.top, draw.right, draw.bottom);
+
+        SelectObject(mdc, oldBrush);
+        DeleteObject(hBrush);
+
+        if (deadEffectCount-- == 0)
+            deadEffect = FALSE;
+    }
 }

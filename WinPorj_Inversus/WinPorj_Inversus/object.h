@@ -9,6 +9,9 @@ protected:
     RECT shape;
     BOOL isLive;
     int speed;
+    BOOL deadEffect;
+    int deadEffectCount;
+    int type;
 
 public:
     void move_left();
@@ -17,6 +20,7 @@ public:
     void move_down();
 
     void dead();
+    void dead_effect(HDC);
 
     RECT get_pos_rect();
     int get_speed();

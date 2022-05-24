@@ -2,6 +2,8 @@
 
 Player::Player()
 {
+    type = PLAYER;
+
     isOverPower = FALSE;
     RECT tempRT = {-PLAYER_SIZE, -PLAYER_SIZE, PLAYER_SIZE, PLAYER_SIZE};
     shape = tempRT;
@@ -9,6 +11,7 @@ Player::Player()
     position.y = 0;
     isLive = FALSE;
     speed = SPEED;
+    deadEffect = FALSE;
 
     respawn = 0;
     bulletCount = MAX_BULLET;
@@ -41,6 +44,16 @@ void Player::init(int level)
     }
 
     isLive = TRUE;
+}
+
+void Player::init(POINT pt)
+{
+    position.x = MAP_LOCATION + MAP_SIZE * pt.x + PLAYER_SIZE;
+    position.y = MAP_LOCATION + MAP_SIZE * pt.y + PLAYER_SIZE;
+
+    isLive = TRUE;
+    bulletCount = MAX_BULLET;
+    specialBulletCount = 0;
 }
 
 void Player::draw(HDC mdc)

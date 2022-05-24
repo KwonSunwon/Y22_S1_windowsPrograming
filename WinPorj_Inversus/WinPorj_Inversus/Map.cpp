@@ -53,7 +53,7 @@ void Map::draw(HDC mdc)
     for (int i = 0; i < row; ++i)
         for (int j = 0; j < col; ++j)
         {
-            if (_map[i][j] == 0)
+            if (_map[i][j] == WHITE)
             {
                 hBrush = CreateSolidBrush(RGB(255, 255, 255));
                 oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
@@ -61,7 +61,7 @@ void Map::draw(HDC mdc)
                 SelectObject(mdc, oldBrush);
                 DeleteObject(hBrush);
             }
-            else if (_map[i][j] == 1)
+            else if (_map[i][j] == BLACK)
             {
                 hBrush = CreateSolidBrush(RGB(0, 0, 0));
                 oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
@@ -69,7 +69,7 @@ void Map::draw(HDC mdc)
                 SelectObject(mdc, oldBrush);
                 DeleteObject(hBrush);
             }
-            else if (_map[i][j] == 2)
+            else if (_map[i][j] == RED)
             {
                 hBrush = CreateSolidBrush(RGB(180, 0, 0));
                 oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
@@ -84,7 +84,6 @@ void Map::draw(HDC mdc)
 
 int Map::get_object(POINT pt)
 {
-    cout << _map[pt.y][pt.x] << "\n";
     return _map[pt.y][pt.x];
 }
 
@@ -99,10 +98,10 @@ RECT Map::map_size()
     int col = get_col();
 
     RECT temp;
-    temp.left = MAP_LOCATION;
-    temp.right = MAP_LOCATION + MAP_SIZE * col;
-    temp.top = MAP_LOCATION;
-    temp.bottom = MAP_LOCATION + MAP_SIZE * row;
+    temp.left = MAP_LOCATION + MAP_SIZE;
+    temp.right = MAP_LOCATION + MAP_SIZE * (col - 1);
+    temp.top = MAP_LOCATION + MAP_SIZE;
+    temp.bottom = MAP_LOCATION + MAP_SIZE * (row - 1);
 
     return temp;
 }

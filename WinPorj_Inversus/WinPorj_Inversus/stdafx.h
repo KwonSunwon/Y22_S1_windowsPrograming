@@ -9,11 +9,11 @@
 #include <time.h>
 
 // Map
-#define ROW 15
-#define E_COL 16
-#define N_COL 20
+#define ROW 17
+#define E_COL 18
+#define N_COL 22
 #define MAP_SIZE 30
-#define MAP_LOCATION 50
+#define MAP_LOCATION 30
 #define EASY 0
 #define NORMAL 1
 #define HARD 2
@@ -27,10 +27,13 @@
 #define RIGHT 101
 #define UP 102
 #define DOWN 103
+#define BULLET 100000
+#define PLAYER 200000
+#define ENEMY 300000
 
 // Player
 #define MAX_BULLET 6
-#define RESPAWN_TIME 500
+#define RESPAWN_TIME 1000
 #define SPEED 4
 #define PLAYER_SIZE 13
 #define BULLET_SIZE 2
@@ -43,9 +46,9 @@
 #define BULLET_MOVE_TIME 10
 
 // Enemy
-#define ENEMY_SPAWN_TIME 2000
+#define ENEMY_SPAWN_TIME 100
 #define ENEMY_SPEED 2
-#define MAX_ENEMY 50
+#define MAX_ENEMY 20
 #define ENEMY_MOVE_TIME 50
 
 // TIME

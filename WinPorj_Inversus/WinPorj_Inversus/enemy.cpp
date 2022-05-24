@@ -2,7 +2,9 @@
 
 Enemy::Enemy()
 {
+    type = ENEMY;
     isLive = FALSE;
+    deadEffect = FALSE;
 }
 
 void Enemy::enemy_spawn(RECT _mapSize)
@@ -16,11 +18,12 @@ void Enemy::enemy_spawn(RECT _mapSize)
     shape = rcTemp;
     isLive = TRUE;
     speed = ENEMY_SPEED;
+    deadEffect = FALSE;
 
     srand(time(NULL));
     POINT pos = {
-        rand() % (_mapSize.right - _mapSize.left + 1) + _mapSize.left,
-        rand() % (_mapSize.bottom - _mapSize.top + 1) + _mapSize.top,
+        rand() % (_mapSize.right - _mapSize.left) + _mapSize.left,
+        rand() % (_mapSize.bottom - _mapSize.top) + _mapSize.top,
     };
     position = pos;
 }

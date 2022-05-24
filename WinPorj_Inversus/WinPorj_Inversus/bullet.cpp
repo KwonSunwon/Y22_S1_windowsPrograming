@@ -4,6 +4,7 @@
 
 void Bullet::make_bullet(BulletInfo info)
 {
+    type = BULLET;
     direction = info._direction;
     position = info._position;
     speed = BULLET_SPEED;
