@@ -19,21 +19,24 @@ Player::Player()
     bulletRT = tempBulletRT;
 }
 
+// TODO
+// 맵 모양 바꾸면 거기에 맞춰서 시작 위치 조정해 줄것
+// 매개변수로 row, col 받던지 map 받아서 처리 해야할듯?
 void Player::init(int level)
 {
     switch (level)
     {
     case 0:
-        position.x = MAP_LOCATION + MAP_SIZE * 8;
-        position.y = MAP_LOCATION + MAP_SIZE * 8;
+        position.x = MAP_LOCATION + MAP_SIZE * (ROW / 2);
+        position.y = MAP_LOCATION + MAP_SIZE * (ROW / 2);
         break;
     case 1:
         position.x = MAP_LOCATION + MAP_SIZE * 10;
-        position.y = MAP_LOCATION + MAP_SIZE * 8 - 15;
+        position.y = MAP_LOCATION + MAP_SIZE * (ROW / 2) - 15;
         break;
     case 2:
         position.x = MAP_LOCATION + MAP_SIZE * 10;
-        position.y = MAP_LOCATION + MAP_SIZE * 8 - 15;
+        position.y = MAP_LOCATION + MAP_SIZE * (ROW / 2) - 15;
         break;
     }
 

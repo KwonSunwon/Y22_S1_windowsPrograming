@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />

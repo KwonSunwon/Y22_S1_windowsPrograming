@@ -17,7 +17,7 @@ void Map::change(int _level)
     level = _level;
 
     _map.resize(0);
-    _map.resize(15);
+    _map.resize(ROW);
 
     switch (level)
     {
@@ -43,18 +43,8 @@ void Map::change(int _level)
 void Map::draw(HDC mdc)
 {
     int size = MAP_SIZE;
-    int row = ROW;
-    int col;
-    switch (level)
-    {
-    case 0:
-        col = E_COL;
-        break;
-    case 1:
-    case 2:
-        col = N_COL;
-        break;
-    }
+    int row = get_row();
+    int col = get_col();
 
     HBRUSH hBrush, oldBrush;
     HPEN hPen, oldPen;
@@ -105,18 +95,9 @@ int Map::get_level()
 
 RECT Map::map_size()
 {
-    int row = ROW;
-    int col;
-    switch (level)
-    {
-    case 0:
-        col = E_COL;
-        break;
-    case 1:
-    case 2:
-        col = N_COL;
-        break;
-    }
+    int row = get_row();
+    int col = get_col();
+
     RECT temp;
     temp.left = MAP_LOCATION;
     temp.right = MAP_LOCATION + MAP_SIZE * col;
@@ -149,4 +130,23 @@ RECT Map::get_tile_rect(POINT pt)
         MAP_LOCATION + (pt.y + 1) * MAP_SIZE,
     };
     return temp;
+}
+
+int Map::get_col()
+{
+    switch (level)
+    {
+    case 0:
+        return E_COL;
+        break;
+    case 1:
+    case 2:
+        return N_COL;
+        break;
+    }
+}
+
+int Map::get_row()
+{
+    return ROW;
 }

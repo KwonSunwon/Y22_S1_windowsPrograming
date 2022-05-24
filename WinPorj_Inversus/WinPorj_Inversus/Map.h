@@ -80,4 +80,7 @@ public:
 
     int get_object(POINT);
     RECT get_tile_rect(POINT);
+
+    int get_row();
+    int get_col();
 } Map;

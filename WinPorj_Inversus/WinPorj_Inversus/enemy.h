@@ -4,7 +4,9 @@ class Enemy : public Object
 {
 private:
 public:
+    Enemy();
     void enemy_spawn(RECT);
-    void move_to_player(POINT);
+    void move(POINT);
     void draw(HDC);
+    void hatch_draw(HDC, RECT);
 };

@@ -11,10 +11,14 @@
 POINT position_to_point(POINT);
 
 void bullet_shoot(Player *, Bullet[], int, int);
+
 BOOL intersect_player_to_map(Player, Map, int);
 BOOL intersect_bullet_to_map(Bullet *, Map *);
+BOOL intersect_enemy_to_map(Enemy *, Map *);
+
+BOOL intersect_enemy_to_player(Player *, Enemy *);
+
 BOOL intersect_bullet_to_enemy(Bullet *, Enemy *);
-BOOL intersect_player_to_enemy(Player *, Enemy *);
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Inversus";
@@ -69,16 +73,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
     static int level;
 
-    static Bullet bullet[12];
+    static Bullet bullet[MAX_BULLET_DRAW];
     static int bulletIdx;
 
-    BulletInfo info;
+    static Enemy enemy[MAX_ENEMY];
+    static int enemyIdx;
 
+    BulletInfo info;
     RECT tempRT;
     POINT tempPT;
+    POINT tempPT2;
     int tempObj;
     RECT tempMapRT;
     RECT tempPlayerRT;
+    int col, row;
 
     switch (iMessage)
     {
@@ -101,11 +109,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 {
                     bullet[i].move();
                     intersect_bullet_to_map(&bullet[i], &map);
+                    // intersect_bullet_to_enemy(&bullet[i], enemy);
                 }
             }
             break;
         case BULLET_RELOAD:
             player.bullet_reload();
+            break;
+        case ENEMY_SPAWN:
+            tempMapRT = map.get_map_size();
+            for (int i = 0; i < MAX_ENEMY; ++i)
+            {
+                if (!enemy[i].get_is_live())
+                {
+                    enemy[i].enemy_spawn(tempMapRT);
+                    break;
+                }
+            }
+            break;
+        case ENEMY_MOVE:
+            tempPT = player.get_position();
+            for (int i = 0; i < MAX_ENEMY; ++i)
+            {
+                if (enemy[i].get_is_live())
+                {
+                    enemy[i].move(tempPT);
+                    // intersect_enemy_to_map(&enemy[i], &map);
+                    // intersect_enemy_to_player(&player, &enemy[i]);
+                }
+            }
             break;
         }
         InvalidateRect(hWnd, NULL, FALSE);
@@ -141,16 +173,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
                 break;
 
             case VK_LEFT:
-                bullet_shoot(&player, bullet, bulletIdx, LEFT);
+                bullet_shoot(&player, bullet, bulletIdx++, LEFT);
                 break;
             case VK_RIGHT:
-                bullet_shoot(&player, bullet, bulletIdx, RIGHT);
+                bullet_shoot(&player, bullet, bulletIdx++, RIGHT);
                 break;
             case VK_UP:
-                bullet_shoot(&player, bullet, bulletIdx, UP);
+                bullet_shoot(&player, bullet, bulletIdx++, UP);
                 break;
             case VK_DOWN:
-                bullet_shoot(&player, bullet, bulletIdx, DOWN);
+                bullet_shoot(&player, bullet, bulletIdx++, DOWN);
                 break;
             }
         else
@@ -169,12 +201,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
             case VK_RETURN: // 게임 시작
                 isGameStart = TRUE;
                 player.init(map.get_level());
-                SetTimer(hWnd, BULLET_RENDER, 40, NULL);
-                SetTimer(hWnd, BULLET_MOVE, 10, NULL);
+                SetTimer(hWnd, BULLET_RENDER, BULLET_RENDER_TIME, NULL);
+                SetTimer(hWnd, BULLET_MOVE, BULLET_MOVE_TIME, NULL);
                 SetTimer(hWnd, BULLET_RELOAD, BULLET_RELOAD_TIME, NULL);
+                SetTimer(hWnd, ENEMY_SPAWN, ENEMY_SPAWN_TIME, NULL);
+                SetTimer(hWnd, ENEMY_MOVE, ENEMY_MOVE_TIME, NULL);
                 break;
             }
-        if (bulletIdx++ == MAX_BULLET_DRAW + 1)
+        if (bulletIdx == MAX_BULLET_DRAW)
             bulletIdx = 0;
         InvalidateRect(hWnd, NULL, FALSE);
         break;
@@ -187,9 +221,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         SelectObject(mdc, (HBITMAP)backBit);
         PatBlt(mdc, 0, 0, bufferRT.right, bufferRT.bottom, WHITENESS);
 
+        row = map.get_row();
+        col = map.get_col();
+
         map.draw(mdc);
         player.draw(mdc);
-        for (int i = 0; i < 12; ++i)
+        for (int i = 0; i < MAX_ENEMY; ++i)
+            if (enemy[i].get_is_live())
+            {
+                //enemy[i].draw(mdc);
+                tempPT = enemy[i].get_point();
+                --tempPT.x;
+                --tempPT.y;
+                for (int k = 0; k < 3; ++k)
+                    for (int j = 0; j < 3; ++j)
+                    {
+                        tempPT2 = {tempPT.x + k, tempPT.y + j};
+                        if (tempPT2.x < 0 || tempPT2.x >= col || tempPT2.y < 0 || tempPT2.y >= row)
+                            continue;
+                        //enemy[i].hatch_draw(mdc, map.get_tile_rect(tempPT2));
+                    }
+            }
+        for (int i = 0; i < MAX_BULLET_DRAW; ++i)
             if (bullet[i].get_is_live())
                 bullet[i].draw(mdc);
 
@@ -228,6 +281,9 @@ BOOL intersect_player_to_map(Player player, Map map, int direction)
 
     RECT mapSize = map.get_map_size();
 
+    int row = map.get_row();
+    int col = map.get_col();
+
     switch (direction)
     {
     case LEFT:
@@ -236,6 +292,11 @@ BOOL intersect_player_to_map(Player player, Map map, int direction)
         playerPt.y -= 1;
         for (int i = 0; i < 3; ++i)
         {
+            if (playerPt.x < 0 || playerPt.x >= col || playerPt.y < 0 || playerPt.y >= row)
+            {
+                isIntersect = TRUE;
+                continue;
+            }
             mapRt = map.get_tile_rect(playerPt);
             if ((IntersectRect(&rcTemp, &playerRt, &mapRt) && map.get_object(playerPt) != WHITE) || playerPos.x < mapSize.left)
                 isIntersect = TRUE;
@@ -248,6 +309,11 @@ BOOL intersect_player_to_map(Player player, Map map, int direction)
         playerPt.y -= 1;
         for (int i = 0; i < 3; ++i)
         {
+            if (playerPt.x < 0 || playerPt.x >= col || playerPt.y < 0 || playerPt.y >= row)
+            {
+                isIntersect = TRUE;
+                continue;
+            }
             mapRt = map.get_tile_rect(playerPt);
             if ((IntersectRect(&rcTemp, &playerRt, &mapRt) && map.get_object(playerPt) != WHITE) || playerPos.x > mapSize.right)
                 isIntersect = TRUE;
@@ -260,6 +326,11 @@ BOOL intersect_player_to_map(Player player, Map map, int direction)
         playerPt.x -= 1;
         for (int i = 0; i < 3; ++i)
         {
+            if (playerPt.x < 0 || playerPt.x >= col || playerPt.y < 0 || playerPt.y >= row)
+            {
+                isIntersect = TRUE;
+                continue;
+            }
             mapRt = map.get_tile_rect(playerPt);
             if ((IntersectRect(&rcTemp, &playerRt, &mapRt) && map.get_object(playerPt) != WHITE) || playerPos.y < mapSize.top)
                 isIntersect = TRUE;
@@ -272,6 +343,11 @@ BOOL intersect_player_to_map(Player player, Map map, int direction)
         playerPt.x -= 1;
         for (int i = 0; i < 3; ++i)
         {
+            if (playerPt.x < 0 || playerPt.x >= col || playerPt.y < 0 || playerPt.y >= row)
+            {
+                isIntersect = TRUE;
+                continue;
+            }
             mapRt = map.get_tile_rect(playerPt);
             if ((IntersectRect(&rcTemp, &playerRt, &mapRt) && map.get_object(playerPt) != WHITE) || playerPos.y > mapSize.bottom)
                 isIntersect = TRUE;

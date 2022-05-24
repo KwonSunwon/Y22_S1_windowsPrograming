@@ -1,5 +1,10 @@
 #include "enemy.h"
 
+Enemy::Enemy()
+{
+    isLive = FALSE;
+}
+
 void Enemy::enemy_spawn(RECT _mapSize)
 {
     RECT rcTemp = {
@@ -22,13 +27,12 @@ void Enemy::enemy_spawn(RECT _mapSize)
 
 void Enemy::draw(HDC mdc)
 {
-    HBRUSH hBrush, h2Brush, oldBrush;
-    HPEN hPen, oldPen;
-
     if (isLive)
     {
-        // Player
-        hBrush = CreateSolidBrush(RGB(20, 80, 150));
+        HBRUSH hBrush, h2Brush, oldBrush;
+        HPEN hPen, oldPen;
+
+        hBrush = CreateSolidBrush(RGB(20, 90, 100));
         hPen = CreatePen(PS_SOLID, 1, RGB(150, 150, 150));
         oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
         oldPen = (HPEN)SelectObject(mdc, hPen);
@@ -41,18 +45,72 @@ void Enemy::draw(HDC mdc)
     }
 }
 
-void Enemy::move_to_player(POINT _playerPos)
+void Enemy::hatch_draw(HDC mdc, RECT tile)
 {
-    // TODO
-    // 여기서부터 시작, Enemy class 아직 테스트 안함
+    if (isLive)
+    {
+        HBRUSH hBrush;
+        HPEN hPen, oldPen;
+        int height, width;
+
+        height = (tile.bottom - tile.top) / 4;
+        width = (tile.right - tile.left) / 4;
+
+        hBrush = CreateSolidBrush(RGB(0, 70, 80));
+        FrameRect(mdc, &tile, hBrush);
+        hPen = CreatePen(PS_SOLID, 1, RGB(20, 90, 100));
+        oldPen = (HPEN)SelectObject(mdc, hPen);
+
+        for (int i = 0; i < 4; ++i)
+        {
+            MoveToEx(mdc, tile.left, tile.bottom - height * (i + 1), NULL);
+            LineTo(mdc, tile.left + width * (i + 1), tile.bottom);
+        }
+        MoveToEx(mdc, tile.left, tile.top, NULL);
+        LineTo(mdc, tile.right, tile.bottom);
+        for (int i = 0; i < 4; ++i)
+        {
+            MoveToEx(mdc, tile.left + width * (i + 1), tile.top, NULL);
+            LineTo(mdc, tile.right, tile.bottom - height * (i + 1));
+        }
+
+        SelectObject(mdc, oldPen);
+        DeleteObject(hPen);
+        DeleteObject(hBrush);
+    }
+}
+
+void Enemy::move(POINT _playerPos)
+{
     int moveX, moveY;
     POINT movePos = {_playerPos.x - position.x, _playerPos.y - position.y};
-    if (abs(movePos.x) > abs(movePos.y))
+    if (abs(movePos.x) >= abs(movePos.y) * 2)
     {
-        moveX = abs(movePos.x) / abs(movePos.y);
+        if (movePos.x < 0)
+            for (int i = 0; i < 2; ++i)
+                move_left();
+        else if (movePos.x > 0)
+            for (int i = 0; i < 2; ++i)
+                move_right();
+    }
+    else if (abs(movePos.x) * 2 <= abs(movePos.y))
+    {
+        if (movePos.y < 0)
+            for (int i = 0; i < 2; ++i)
+                move_up();
+        else if (movePos.y > 0)
+            for (int i = 0; i < 2; ++i)
+                move_down();
     }
     else
     {
-        moveY = abs(movePos.y) / abs(movePos.x);
+        if (movePos.x < 0)
+            move_left();
+        else
+            move_right();
+        if (movePos.y < 0)
+            move_up();
+        else
+            move_down();
     }
 }
