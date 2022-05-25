@@ -24,21 +24,24 @@
 
 // Object
 #define LEFT 100
-#define RIGHT 101
-#define UP 102
-#define DOWN 103
+#define RIGHT 200
+#define UP 300
+#define DOWN 400
 #define BULLET 100000
+#define SPECIAL 100001
 #define PLAYER 200000
 #define ENEMY 300000
+#define OBJECT_MOVE_TIME 50
 
 // Player
 #define MAX_BULLET 6
 #define RESPAWN_TIME 1000
-#define SPEED 4
+#define SPEED 1
 #define PLAYER_SIZE 13
 #define BULLET_SIZE 2
 #define BULLET_RELOAD_TIME 3000
 #define BULLET_RENDER_TIME 40
+#define PLAYER_HEART 3
 
 // Bullet
 #define BULLET_SPEED 5
@@ -49,14 +52,13 @@
 #define ENEMY_SPAWN_TIME 100
 #define ENEMY_SPEED 2
 #define MAX_ENEMY 20
-#define ENEMY_MOVE_TIME 50
 
 // TIME
 #define BULLET_RELOAD 999
 #define BULLET_RENDER 1000
 #define BULLET_MOVE 1001
 
-#define ENEMY_MOVE 1002
+#define OBJECT_MOVE 1002
 #define ENEMY_SPAWN 1004
 
 #define PLAYER_RESPAWN 1003
@@ -65,4 +67,5 @@ typedef struct BulletInfo
 {
     POINT _position;
     int _direction;
+    int _type;
 } BulletInfo;

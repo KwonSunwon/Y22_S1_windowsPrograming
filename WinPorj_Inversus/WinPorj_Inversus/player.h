@@ -8,6 +8,7 @@ private:
     int respawn;
     int bulletAngle;
     RECT bulletRT;
+    int heart;
     BOOL isOverPower;
 
 public:
@@ -24,4 +25,9 @@ public:
 
     BulletInfo shoot(int);
     void over_power_on();
+
+    void heart_down();
+    int get_heart();
+
+    void pickup_special_bullet();
 };

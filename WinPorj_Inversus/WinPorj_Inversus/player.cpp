@@ -43,6 +43,7 @@ void Player::init(int level)
         break;
     }
 
+    heart = PLAYER_HEART;
     isLive = TRUE;
 }
 
@@ -153,23 +154,52 @@ void Player::move(int _direction, RECT _mapSize)
 
 BulletInfo Player::shoot(int _direction)
 {
-    BulletInfo info = {{-1, -1}, -1};
-    if (bulletCount)
+    BulletInfo info = {{-1, -1}, -1, -1};
+    if (specialBulletCount != 0)
+    {
+        --specialBulletCount;
+        info._position = position;
+        info._direction = _direction;
+        info._type = SPECIAL;
+    }
+    else if (bulletCount != 0)
     {
         --bulletCount;
         info._position = position;
         info._direction = _direction;
+        info._type = BULLET;
     }
     return info;
 }
 
 void Player::bullet_reload()
 {
-    if (bulletCount < MAX_BULLET)
+    if (bulletCount + specialBulletCount < MAX_BULLET)
         ++bulletCount;
 }
 
 void Player::over_power_on()
 {
     isOverPower = TRUE;
+}
+
+void Player::heart_down()
+{
+    --heart;
+}
+
+int Player::get_heart()
+{
+    return heart;
+}
+
+void Player::pickup_special_bullet()
+{
+    if (bulletCount == MAX_BULLET)
+    {
+        bulletCount--;
+        specialBulletCount++;
+    }
+    else if (specialBulletCount != MAX_BULLET)
+        specialBulletCount++;
 }

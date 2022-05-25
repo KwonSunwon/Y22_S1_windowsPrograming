@@ -82,8 +82,13 @@ void Map::draw(HDC mdc)
     DeleteObject(hPen);
 }
 
+// 플레이어 리스폰 여기서 오류 발생하는듯?
 int Map::get_object(POINT pt)
 {
+    int row = get_row();
+    int col = get_col();
+    if (pt.x < 0 || pt.x >= col || pt.y < 0 || pt.y >= row)
+        return -1;
     return _map[pt.y][pt.x];
 }
 

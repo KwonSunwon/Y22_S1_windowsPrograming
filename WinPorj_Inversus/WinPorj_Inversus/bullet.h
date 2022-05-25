@@ -14,4 +14,6 @@ public:
     void make_special_bullet(BulletInfo);
     void move();
     void draw(HDC);
+    int get_type();
+    BOOL get_is_shoot();
 } Bullet;

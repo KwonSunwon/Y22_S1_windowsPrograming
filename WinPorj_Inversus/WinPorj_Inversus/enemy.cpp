@@ -117,3 +117,11 @@ void Enemy::move(POINT _playerPos)
             move_down();
     }
 }
+
+BulletInfo Enemy::drop_bullet()
+{
+    BulletInfo info;
+    info._position = position;
+    info._type = SPECIAL;
+    return info;
+}

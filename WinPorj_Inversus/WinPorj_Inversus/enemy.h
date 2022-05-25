@@ -9,4 +9,5 @@ public:
     void move(POINT);
     void draw(HDC);
     void hatch_draw(HDC, RECT);
+    BulletInfo drop_bullet();
 };
