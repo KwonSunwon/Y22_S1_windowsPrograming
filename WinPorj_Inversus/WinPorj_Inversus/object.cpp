@@ -50,9 +50,12 @@ BOOL Object::get_is_live()
 
 void Object::dead()
 {
-    isLive = FALSE;
-    deadEffect = TRUE;
-    deadEffectCount = 30;
+    if (isLive)
+    {
+        isLive = FALSE;
+        deadEffect = TRUE;
+        deadEffectCount = 30;
+    }
 }
 
 void Object::dead_effect(HDC mdc)

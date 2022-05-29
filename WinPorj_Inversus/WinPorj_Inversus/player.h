@@ -29,5 +29,10 @@ public:
     void heart_down();
     int get_heart();
 
+    int get_bullet_count();
+
     void pickup_special_bullet();
+
+    void over_power_mode();
+    BOOL get_is_over_power();
 };

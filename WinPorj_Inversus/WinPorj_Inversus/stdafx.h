@@ -63,6 +63,9 @@
 
 #define PLAYER_RESPAWN 1003
 
+#define COMBO_TIMER 10005
+#define COMBO_REDUCE 5000
+
 typedef struct BulletInfo
 {
     POINT _position;

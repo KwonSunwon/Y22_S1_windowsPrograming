@@ -39,8 +39,10 @@ void Enemy::draw(HDC mdc)
         hPen = CreatePen(PS_SOLID, 1, RGB(150, 150, 150));
         oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
         oldPen = (HPEN)SelectObject(mdc, hPen);
+
         RECT drawRT = get_pos_rect();
         RoundRect(mdc, drawRT.left, drawRT.top, drawRT.right, drawRT.bottom, 5, 5);
+
         SelectObject(mdc, oldBrush);
         SelectObject(mdc, oldPen);
         DeleteObject(hBrush);

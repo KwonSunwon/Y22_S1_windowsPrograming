@@ -43,6 +43,10 @@ void Player::init(int level)
         break;
     }
 
+    specialBulletCount = 0;
+    bulletCount = 6;
+    heart = 3;
+
     heart = PLAYER_HEART;
     isLive = TRUE;
 }
@@ -202,4 +206,19 @@ void Player::pickup_special_bullet()
     }
     else if (specialBulletCount != MAX_BULLET)
         specialBulletCount++;
+}
+
+int Player::get_bullet_count()
+{
+    return bulletCount + specialBulletCount;
+}
+
+void Player::over_power_mode()
+{
+    isOverPower = ~isOverPower;
+}
+
+BOOL Player::get_is_over_power()
+{
+    return isOverPower;
 }

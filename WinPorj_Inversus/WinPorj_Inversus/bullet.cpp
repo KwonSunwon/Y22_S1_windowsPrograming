@@ -64,9 +64,11 @@ void Bullet::draw(HDC mdc)
                 {
                     hPen = CreatePen(PS_SOLID, BULLET_SIZE * 3, shadow);
                     oldPen = (HPEN)SelectObject(mdc, hPen);
+
                     MoveToEx(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2), NULL);
                     OffsetRect(&drawRT, 1, 0);
                     LineTo(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2));
+
                     SelectObject(mdc, oldPen);
                     DeleteObject(hPen);
                     shadow += RGB(15, 15, 15);
@@ -77,9 +79,11 @@ void Bullet::draw(HDC mdc)
                 {
                     hPen = CreatePen(PS_SOLID, BULLET_SIZE * 3, shadow);
                     oldPen = (HPEN)SelectObject(mdc, hPen);
+
                     MoveToEx(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2), NULL);
                     OffsetRect(&drawRT, -1, 0);
                     LineTo(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2));
+
                     SelectObject(mdc, oldPen);
                     DeleteObject(hPen);
                     shadow += RGB(15, 15, 15);
@@ -90,9 +94,11 @@ void Bullet::draw(HDC mdc)
                 {
                     hPen = CreatePen(PS_SOLID, BULLET_SIZE * 3, shadow);
                     oldPen = (HPEN)SelectObject(mdc, hPen);
+
                     MoveToEx(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2), NULL);
                     OffsetRect(&drawRT, 0, 1);
                     LineTo(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2));
+
                     SelectObject(mdc, oldPen);
                     DeleteObject(hPen);
                     shadow += RGB(15, 15, 15);
@@ -103,9 +109,11 @@ void Bullet::draw(HDC mdc)
                 {
                     hPen = CreatePen(PS_SOLID, BULLET_SIZE * 3, shadow);
                     oldPen = (HPEN)SelectObject(mdc, hPen);
+
                     MoveToEx(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2), NULL);
                     OffsetRect(&drawRT, 0, -1);
                     LineTo(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2));
+
                     SelectObject(mdc, oldPen);
                     DeleteObject(hPen);
                     shadow += RGB(15, 15, 15);
@@ -116,11 +124,12 @@ void Bullet::draw(HDC mdc)
 
         hBrush = CreateSolidBrush(RGB(0, 100, 200));
         oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
+
         Ellipse(mdc, drawRT.left, drawRT.top, drawRT.right, drawRT.bottom);
+
         SelectObject(mdc, oldBrush);
         DeleteObject(hBrush);
     }
-
     if (type == BULLET)
     {
         switch (direction)
@@ -130,9 +139,11 @@ void Bullet::draw(HDC mdc)
             {
                 hPen = CreatePen(PS_SOLID, BULLET_SIZE * 3, shadow);
                 oldPen = (HPEN)SelectObject(mdc, hPen);
+
                 MoveToEx(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2), NULL);
                 OffsetRect(&drawRT, 1, 0);
                 LineTo(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2));
+
                 SelectObject(mdc, oldPen);
                 DeleteObject(hPen);
                 shadow += RGB(15, 15, 15);
@@ -143,9 +154,11 @@ void Bullet::draw(HDC mdc)
             {
                 hPen = CreatePen(PS_SOLID, BULLET_SIZE * 3, shadow);
                 oldPen = (HPEN)SelectObject(mdc, hPen);
+
                 MoveToEx(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2), NULL);
                 OffsetRect(&drawRT, -1, 0);
                 LineTo(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2));
+
                 SelectObject(mdc, oldPen);
                 DeleteObject(hPen);
                 shadow += RGB(15, 15, 15);
@@ -156,9 +169,11 @@ void Bullet::draw(HDC mdc)
             {
                 hPen = CreatePen(PS_SOLID, BULLET_SIZE * 3, shadow);
                 oldPen = (HPEN)SelectObject(mdc, hPen);
+
                 MoveToEx(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2), NULL);
                 OffsetRect(&drawRT, 0, 1);
                 LineTo(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2));
+
                 SelectObject(mdc, oldPen);
                 DeleteObject(hPen);
                 shadow += RGB(15, 15, 15);
@@ -169,9 +184,11 @@ void Bullet::draw(HDC mdc)
             {
                 hPen = CreatePen(PS_SOLID, BULLET_SIZE * 3, shadow);
                 oldPen = (HPEN)SelectObject(mdc, hPen);
+
                 MoveToEx(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2), NULL);
                 OffsetRect(&drawRT, 0, -1);
                 LineTo(mdc, ((drawRT.left + drawRT.right) / 2), ((drawRT.top + drawRT.bottom) / 2));
+
                 SelectObject(mdc, oldPen);
                 DeleteObject(hPen);
                 shadow += RGB(15, 15, 15);
@@ -181,8 +198,10 @@ void Bullet::draw(HDC mdc)
 
         hBrush = CreateSolidBrush(RGB(0, 0, 0));
         oldBrush = (HBRUSH)SelectObject(mdc, hBrush);
+
         drawRT = get_pos_rect();
         Ellipse(mdc, drawRT.left, drawRT.top, drawRT.right, drawRT.bottom);
+
         SelectObject(mdc, oldBrush);
         DeleteObject(hBrush);
     }

@@ -142,7 +142,7 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy.h" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="권순원.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object.h" />
