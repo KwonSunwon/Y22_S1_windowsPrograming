@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  bullet.cpp
   enemy.cpp
 C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\WinPorj_Inversus\enemy.cpp(23,15): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -30,3 +31,6 @@ x64\Debug\enemy.obj : warning LNK4042: 개체가 두 번 이상 지정되었습�
 x64\Debug\object.obj : warning LNK4042: 개체가 두 번 이상 지정되었습니다. 나머지는 무시됩니다.
 x64\Debug\player.obj : warning LNK4042: 개체가 두 번 이상 지정되었습니다. 나머지는 무시됩니다.
   WinPorj_Inversus.vcxproj -> C:\Users\kso00\OneDrive\바탕 화면\학교\윈플\windowsPrograming\WinPorj_Inversus\x64\Debug\WinPorj_Inversus.exe
+=======
+﻿  WinPorj_Inversus.vcxproj -> C:\Users\kso00\Desktop\22년 1학기\윈플\windowsPrograming\WinPorj_Inversus\x64\Debug\WinPorj_Inversus.exe
+>>>>>>> 4d32f7310eadf0c1f6261f066482eaeaa92682a1
