@@ -65,10 +65,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         break;
 
     case WM_COMMAND:
+        switch (wParam)
+        {
+        case BM_GETCHECK:
+            if (wParam == BST_CHECKED)
+                printf("%d", lParam);
+            break;
+
+        default:
+            break;
+        }
         break;
 
     case BM_GETCHECK:
-        printf("%d", wParam);
+        printf("%d", 2);
         break;
 
     case WM_PAINT:
@@ -97,6 +107,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 BOOL CALLBACK DialogProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
+    HWND hWnd = GetParent(hDlg);
     HWND hRadio[4];
     static int shapeRadio;
 
@@ -119,7 +130,7 @@ BOOL CALLBACK DialogProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
         case IDC_SIN:
             shapeRadio = 0;
             CheckRadioButton(hDlg, IDC_SIN, IDC_DOUBLE, IDC_SIN);
-            SendMessage(hDlg, BM_GETCHECK, BST_CHECKED, 0);
+            SendMessage(hWnd, WM_COMMAND, BM_GETCHECK, 0);
             break;
 
         case IDC_ZIGZAG:
